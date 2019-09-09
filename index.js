@@ -22,8 +22,15 @@ const client = new tmi.client(opts);
 
 client.config = require("./config.json");
 
-//client.commands = [];
-//client.autoresponses = [];
+
+const commandOrder = ["ping", "template"]; // Order, in which the commands will be tested
+const responseOrder = ["nidhogg", "erick"]; // Order, in which the autoresponses will be tested
+client.unconditionalResponses = ["erick, nidhogg"]; // Autoresponses, which will trigger no matter what other things are also triggered by the message
+client.surroundingCharacters = [" ",",","\*", "'", "\@", "?", "!", "s "]; // Characters, which may also indicate the beginning or ending of a name
+client.erickExplicitMisspellings = ["eric", "erik"];
+client.nidhoggExplicitMisspellings = ["nid hog", "nighog"];
+client.useGeneralMisspellings = true;
+
 
 const init = async () => {
 	// Load commands
@@ -44,7 +51,6 @@ const init = async () => {
 		)
 	});
 	// Sort commands
-	commandOrder = ["ping", "template"] // Order, in which the commands will be tested
 	client.commands = new Map();
 	console.log("Sorting commands...");
 	commandOrder.forEach(function(element) {
@@ -74,7 +80,6 @@ const init = async () => {
 		)
 	});
 	// Sort responses
-	responseOrder = ["erick", "template"] // Order, in which the autoresponses will be tested
 	client.responses = new Map();
 	console.log("Sorting responses...");
 	responseOrder.forEach(function(element) {

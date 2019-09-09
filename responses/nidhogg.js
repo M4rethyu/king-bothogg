@@ -1,5 +1,5 @@
 exports.run = async (client, channel, userstate, content) => {
-	client.say(channel, "@" + userstate["display-name"] + " Erick's name is spelled \"E-R-I-C-K\"");
+	client.say(channel, "@" + userstate["display-name"] + " Erick's name is spelled \"N-I-D-H-O-G-G\"");
 	return;
 };
 
@@ -20,8 +20,8 @@ exports.condition = (client, channel, userstate, content) => {
 	console.log(words);
 	
 	for (const i in words) {
-		if (client.erickExplicitMisspellings.includes(words[i])) return true;
-		if (client.useGeneralMisspellings && levenshtein(words[i],"erick") == 1) return true;
+		if (client.nidhoggExplicitMisspellings.includes(words[i])) return true;
+		if (client.useGeneralMisspellings && levenshtein(words[i],"nidhogg") == 1) return true;
 	}
 	return false;
 };

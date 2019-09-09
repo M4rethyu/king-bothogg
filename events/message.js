@@ -18,9 +18,10 @@ module.exports = async (client, channel, userstate, message, self) => {
 	var tmp = client.commands
 	console.log(tmp);
 	
+	const unconditionalResponses = client.unconditionalResponses
 	
-	
-	if (prefix) {
+	var triggeredCommand = false;
+	if (prefix) { // only check commands, if the prefix was used
 		console.log("message included prefix. testing for matching command...")
 		for (const entry of client.commands.entries()) {
 			const name = entry[0];
@@ -29,23 +30,37 @@ module.exports = async (client, channel, userstate, message, self) => {
 			if (functions.condition(client, channel, userstate, command, args, content)) {
 				console.log("'", name, "' condition was fulfilled. executing...");
 				functions.run(client, channel, userstate, command, args, content);
+				triggeredCommand = true;
 				break;
 			}
 		}
 	}
 	
-	return;
-	/*
-	if (prefix) {
-		console.log(client.commands);
-		console.log(client.commands.get("ping"));
-		console.log(client.commands.get("ping").condition(client, channel, userstate, command, args, content));
-		client.commands.get("ping").run(client, channel, userstate, command, args, content);
-	} else {
-		console.log(client.responses);
-		console.log(client.responses.get("erick"));
-		console.log(client.responses.get("erick").condition(client, channel, userstate, content));
-		client.responses.get("erick").run(client, channel, userstate, content);
+	if (!triggeredCommand) { // only check through hierarchy, if no command has been used
+		console.log("testing for matching hierarchy response...")
+		for (const entry of client.responses.entries()) {
+			const name = entry[0];
+			const functions = entry[1];
+			console.log("testing '", name, "' response");
+			if (!(client.unconditionalResponses.includes(name)) && functions.condition(client, channel, userstate, content)) {
+				console.log("'", name, "' condition was fulfilled. executing...");
+				functions.run(client, channel, userstate, content);
+				break;
+			}
+		}
 	}
-	*/
+	
+	// execute all unconditional responses
+	console.log("testing for matching unconditional response...")
+	for (const entry of client.responses.entries()) {
+		const name = entry[0];
+		const functions = entry[1];
+		console.log("testing '", name, "' response");
+		if ((client.unconditionalResponses.includes(name)) && functions.condition(client, channel, userstate, content)) {
+			console.log("'", name, "' condition was fulfilled. executing...");
+			functions.run(client, channel, userstate, content);
+		}
+	}
+	
+	return;
 }
