@@ -4,11 +4,12 @@
   "description": "A simple app chatbot example. Using the command !echo will simply repeat the message.",
   "main": "bot.js",
   "scripts": {
-    "start": "node bot.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "express": "^4.16.4",
-    "tmi.js": "^1.4.2"
+    "tmi.js": "^1.4.2",
+    "dotenv": "^6.1.0"
   },
   "engines": {
     "node": "8.x"
