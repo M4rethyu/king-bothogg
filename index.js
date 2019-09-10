@@ -24,13 +24,16 @@ client.config = require("./config.json");
 
 
 const commandOrder = ["ping", "template"]; // Order, in which the commands will be tested
-const responseOrder = ["nidhogg", "erick"]; // Order, in which the autoresponses will be tested
-client.unconditionalResponses = ["erick, nidhogg"]; // Autoresponses, which will trigger no matter what other things are also triggered by the message
-client.surroundingCharacters = [" ",",","\*", "'", "\@", "?", "!", "s "]; // Characters, which may also indicate the beginning or ending of a name
-client.erickExplicitMisspellings = ["eric", "erik"];
-client.nidhoggExplicitMisspellings = ["nid hog", "nighog"];
-client.useGeneralMisspellings = true;
+const responseOrder = ["erick", "nidhogg"]; // Order, in which the autoresponses will be tested
+client.unconditionalResponses = ["erick", "nidhogg"]; // Autoresponses, which will trigger no matter what other things are also triggered by the message
 
+client.spelling = {}; // Initiate spelling Object
+client.spelling.surrounding = [" ",",","\*", "'", "\@", "?", "!", "s "]; // Characters, which may also indicate the beginning or ending of a name (possibly useless with new change)
+client.spelling.erickTrue = ["eric", "erik"];
+client.spelling.erickFalse = ["rick"];
+client.spelling.nidhoggTrue = ["nid hog", "nighog"];
+client.spelling.nidhoggFalse = [];
+client.spelling.useLevenshtein = true;
 
 const init = async () => {
 	// Load commands

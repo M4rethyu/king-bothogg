@@ -61,6 +61,5 @@ module.exports = async (client, channel, userstate, message, self) => {
 			functions.run(client, channel, userstate, content);
 		}
 	}
-	
 	return;
 }
