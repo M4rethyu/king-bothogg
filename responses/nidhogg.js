@@ -1,5 +1,5 @@
 exports.run = async (client, channel, userstate, content) => {
-	client.say(channel, "@" + userstate["display-name"] + " Erick's name is spelled \"N-I-D-H-O-G-G\"");
+	client.say(channel, "@" + userstate["display-name"] + " " + client.answers.nidhogg);
 	return;
 };
 

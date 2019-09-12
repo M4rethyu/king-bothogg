@@ -1,5 +1,8 @@
 module.exports = async (client, channel, userstate, message, self) => {
 	if (self) return; // Ignore messages sent by the bot itself
+	
+	console.log(message);
+	
 	// Preparing Variables
 	var prefix;
 	var content;
@@ -14,11 +17,6 @@ module.exports = async (client, channel, userstate, message, self) => {
 		prefix = false;
 		content = message;
 	}
-	
-	var tmp = client.commands
-	console.log(tmp);
-	
-	const unconditionalResponses = client.unconditionalResponses
 	
 	var triggeredCommand = false;
 	if (prefix) { // only check commands, if the prefix was used
@@ -49,6 +47,8 @@ module.exports = async (client, channel, userstate, message, self) => {
 			}
 		}
 	}
+	
+	console.log(client.responses);
 	
 	// execute all unconditional responses
 	console.log("testing for matching unconditional response...")

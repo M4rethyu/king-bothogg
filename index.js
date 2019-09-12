@@ -25,6 +25,8 @@ client.opts.channels = client.config.channels;
 client.spelling = {}; // Initiate spelling Object
 require("./modules/functions.js")(client);
 
+client.answers = require("./modules/answers.json");
+
 const commandOrder = ["ping", "template"]; // Order, in which the commands will be tested
 const responseOrder = ["erick", "nidhogg", "runes"]; // Order, in which the autoresponses will be tested
 client.unconditionalResponses = ["erick", "nidhogg"]; // Autoresponses, which will trigger no matter what other things are also triggered by the message
@@ -83,10 +85,12 @@ const init = async () => {
 			}
 		)
 	});
+	
 	// Sort responses
 	client.responses = new Map();
 	console.log("Sorting responses...");
 	responseOrder.forEach(function(element) {
+		console.log("element is '", element, "'")
 		if (!resMap.has(element)) return; // Skip name if corresponding response doesn't exist
 		client.responses.set(element, resMap.get(element));
 		resMap.delete(element);
