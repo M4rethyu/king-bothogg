@@ -1,6 +1,7 @@
 module.exports = async (client, address, port) => {
 	// Link social media in king_nidhogg's chat every 30 minutes
-	setInterval(function(){client.linkSocialMedia("king_nidhogg");}, 45 * 60 * 1000);
+	//client.linkSocialMedia("king_nidhogg");
+	//setInterval(function(){client.linkSocialMedia("king_nidhogg");}, 45 * 60 * 1000);
 	
 	// Set global values by binding them to client
 	

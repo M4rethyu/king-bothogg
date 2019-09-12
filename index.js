@@ -40,6 +40,7 @@ client.spelling.nidhoggFalse = [];
 client.spelling.useLevenshtein = true;
 */
 const init = async () => {
+	
 	// Load commands
 	var cmdMap = new Map();
 	const cmdFiles = await readdir("./commands");
@@ -53,7 +54,8 @@ const init = async () => {
 			{
 				"run" : command.run,
 				"condition" : command.condition,
-				"config" : command.config
+				"config" : command.config,
+				"onCooldown" : false
 			}
 		)
 	});
@@ -81,7 +83,8 @@ const init = async () => {
 			{
 				"run" : response.run,
 				"condition" : response.condition,
-				"config" : response.config
+				"config" : response.config,
+				"onCooldown" : false
 			}
 		)
 	});
@@ -90,13 +93,11 @@ const init = async () => {
 	client.responses = new Map();
 	console.log("Sorting responses...");
 	responseOrder.forEach(function(element) {
-		console.log("element is '", element, "'")
 		if (!resMap.has(element)) return; // Skip name if corresponding response doesn't exist
 		client.responses.set(element, resMap.get(element));
 		resMap.delete(element);
 	});
-	console.log("Done sorting responses");
-	client.responses = new Map([...client.responses,...cmdMap]);
+	client.responses = new Map([...client.responses,...resMap]);
 	
 	// Load events
 	const evtFiles = await readdir("./events/");
@@ -110,6 +111,7 @@ const init = async () => {
 		// This line is awesome by the way. Just sayin'.
 		client.on(eventName, event.bind(null, client));
 	});
+	console.log("done loading events.")
 	
 	client.connect();
 };

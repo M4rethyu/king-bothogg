@@ -4,7 +4,7 @@ exports.run = async (client, channel, userstate, content) => {
 };
 
 exports.config = {
-	
+	"cooldown" : 30
 };
 
 exports.condition = (client, channel, userstate, content) => {

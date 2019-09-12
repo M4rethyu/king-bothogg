@@ -1,8 +1,5 @@
 module.exports = async (client, channel, userstate, message, self) => {
 	if (self) return; // Ignore messages sent by the bot itself
-	
-	console.log(message);
-	
 	// Preparing Variables
 	var prefix;
 	var content;
@@ -18,6 +15,9 @@ module.exports = async (client, channel, userstate, message, self) => {
 		content = message;
 	}
 	
+	var executedCommands = [];
+	var executedResponses = [];
+	
 	var triggeredCommand = false;
 	if (prefix) { // only check commands, if the prefix was used
 		console.log("message included prefix. testing for matching command...")
@@ -26,9 +26,11 @@ module.exports = async (client, channel, userstate, message, self) => {
 			const functions = entry[1];
 			console.log("testing '", name, "' command");
 			if (functions.condition(client, channel, userstate, command, args, content)) {
+				console.log(name, "'s cooldown state is: ", functions.onCooldown);
+				if (functions.onCooldown) continue;
 				console.log("'", name, "' condition was fulfilled. executing...");
 				functions.run(client, channel, userstate, command, args, content);
-				triggeredCommand = true;
+				executedCommands.push(name);
 				break;
 			}
 		}
@@ -41,14 +43,14 @@ module.exports = async (client, channel, userstate, message, self) => {
 			const functions = entry[1];
 			console.log("testing '", name, "' response");
 			if (!(client.unconditionalResponses.includes(name)) && functions.condition(client, channel, userstate, content)) {
+				if (functions.onCooldown) continue;
 				console.log("'", name, "' condition was fulfilled. executing...");
 				functions.run(client, channel, userstate, content);
+				executedResponses.push(name);
 				break;
 			}
 		}
 	}
-	
-	console.log(client.responses);
 	
 	// execute all unconditional responses
 	console.log("testing for matching unconditional response...")
@@ -57,9 +59,28 @@ module.exports = async (client, channel, userstate, message, self) => {
 		const functions = entry[1];
 		console.log("testing '", name, "' response");
 		if ((client.unconditionalResponses.includes(name)) && functions.condition(client, channel, userstate, content)) {
+			if (functions.onCooldown) continue;
 			console.log("'", name, "' condition was fulfilled. executing...");
 			functions.run(client, channel, userstate, content);
+			executedResponses.push(name);
 		}
 	}
+	
+	// Set cooldown for executed commands
+	executedCommands.forEach((name) => {
+		const functions = client.commands.get(name);
+		if (!(typeof functions.config.cooldown) == Number) return;
+		functions.onCooldown = true;
+		setTimeout(function(){ functions.onCooldown = false; }, functions.config.cooldown * 1000);
+	});
+	
+	// Set cooldown for executed responses
+	executedResponses.forEach((name) => {
+		const functions = client.reponses.get(name);
+		if (!(typeof functions.config.cooldown) == Number) return;
+		functions.onCooldown = true;
+		setTimeout(function(){ functions.onCooldown = false; }, functions.config.cooldown * 1000);
+	});
+	
 	return;
 }
