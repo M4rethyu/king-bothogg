@@ -1,5 +1,5 @@
 {
 	"hosted" : false,
 	"prefix" : "!",
-	"channel" : "xMarethyu"
+	"channels" : ["xmarethyu", "king_nidhogg"]
 }

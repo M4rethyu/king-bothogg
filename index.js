@@ -12,9 +12,7 @@ const opts = {
 		username: process.env.BOT_USERNAME,
 		password: process.env.OAUTH_TOKEN
 	},
-	channels: [
-		process.env.CHANNEL_NAME
-	]
+	channels: []
 };
 
 // Create a client with our options
@@ -22,24 +20,28 @@ const client = new tmi.client(opts);
 
 client.config = require("./config.json");
 
+client.opts.channels = client.config.channels;
+
+client.spelling = {}; // Initiate spelling Object
+require("./modules/functions.js")(client);
 
 const commandOrder = ["ping", "template"]; // Order, in which the commands will be tested
-const responseOrder = ["erick", "nidhogg"]; // Order, in which the autoresponses will be tested
+const responseOrder = ["erick", "nidhogg", "runes"]; // Order, in which the autoresponses will be tested
 client.unconditionalResponses = ["erick", "nidhogg"]; // Autoresponses, which will trigger no matter what other things are also triggered by the message
-
+/*
 client.spelling = {}; // Initiate spelling Object
 client.spelling.surrounding = [" ",",","\*", "'", "\@", "?", "!", "s "]; // Characters, which may also indicate the beginning or ending of a name (possibly useless with new change)
 client.spelling.erickTrue = ["eric", "erik"];
 client.spelling.erickFalse = ["rick"];
-client.spelling.nidhoggTrue = ["nid hog", "nighog"];
+client.spelling.nidhoggTrue = ["nid hog", "nighog", "niddhog"];
 client.spelling.nidhoggFalse = [];
 client.spelling.useLevenshtein = true;
-
+*/
 const init = async () => {
 	// Load commands
 	var cmdMap = new Map();
 	const cmdFiles = await readdir("./commands");
-	console.log(`Loading a total of ${cmdFiles.length} commands.`);
+	console.log(`Loading a total of ${cmdFiles.length} commands...`);
 	cmdFiles.forEach((file, i) => {
 		if (!file.endsWith(".js")) return; // only load .js files
 		const commandName = file.slice(0,-3)
@@ -63,12 +65,11 @@ const init = async () => {
 	});
 	console.log("Done sorting commands");
 	client.commands = new Map([...client.commands,...cmdMap]);
-	console.log(client.commands);
 	
 	// Load responses
 	var resMap = new Map();
 	const resFiles = await readdir("./responses");
-	console.log(`Loading a total of ${resFiles.length} responses.`);
+	console.log(`Loading a total of ${resFiles.length} responses...`);
 	resFiles.forEach((file, i) => {
 		if (!file.endsWith(".js")) return; // only load .js files
 		const responseName = file.slice(0,-3)
@@ -92,11 +93,10 @@ const init = async () => {
 	});
 	console.log("Done sorting responses");
 	client.responses = new Map([...client.responses,...cmdMap]);
-	console.log(client.responses);
 	
 	// Load events
 	const evtFiles = await readdir("./events/");
-	console.log(`Loading a total of ${evtFiles.length} events.`);
+	console.log(`Loading a total of ${evtFiles.length} events...`);
 	evtFiles.forEach(file => {
 		const eventName = file.split(".")[0];
 		console.log(`Loading Event: ${eventName}`);

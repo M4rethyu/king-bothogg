@@ -8,6 +8,9 @@ exports.config = {
 };
 
 exports.condition = (client, channel, userstate, content) => {
+	if (client.spelling.findMisspellings(content, "nidhogg")) return true;
+	return false;
+	
 	const levenshtein = require('js-levenshtein');
 	content = content.toLowerCase();
 	
