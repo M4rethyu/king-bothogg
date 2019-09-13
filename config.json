@@ -1,5 +1,7 @@
 {
 	"hosted" : false,
 	"prefix" : "!",
+	"admins" : ["xmarethyu"],
+	"mods" : ["xmarethyu", "king_nidhogg"],
 	"channels" : ["xmarethyu", "king_nidhogg"]
 }

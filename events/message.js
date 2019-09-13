@@ -1,5 +1,6 @@
 module.exports = async (client, channel, userstate, message, self) => {
 	if (self) return; // Ignore messages sent by the bot itself
+	process.stdout.write(userstate["display-name"] + ": " + message + " [ ");
 	// Preparing Variables
 	var prefix;
 	var content;
@@ -20,15 +21,14 @@ module.exports = async (client, channel, userstate, message, self) => {
 	
 	var triggeredCommand = false;
 	if (prefix) { // only check commands, if the prefix was used
-		console.log("message included prefix. testing for matching command...")
+		//console.log("message included prefix. testing for matching command...")
 		for (const entry of client.commands.entries()) {
 			const name = entry[0];
 			const functions = entry[1];
-			console.log("testing '", name, "' command");
 			if (functions.condition(client, channel, userstate, command, args, content)) {
-				console.log(name, "'s cooldown state is: ", functions.onCooldown);
 				if (functions.onCooldown) continue;
-				console.log("'", name, "' condition was fulfilled. executing...");
+				//console.log("'", name, "' condition was fulfilled. executing...");
+				process.stdout.write("!" + name + " ");
 				functions.run(client, channel, userstate, command, args, content);
 				executedCommands.push(name);
 				break;
@@ -36,15 +36,15 @@ module.exports = async (client, channel, userstate, message, self) => {
 		}
 	}
 	
-	if (!triggeredCommand) { // only check through hierarchy, if no command has been used
-		console.log("testing for matching hierarchy response...")
+	if (executedCommands.length == 0) { // only check through hierarchy, if no command has been used
+		//console.log("testing for matching hierarchy response...")
 		for (const entry of client.responses.entries()) {
 			const name = entry[0];
 			const functions = entry[1];
-			console.log("testing '", name, "' response");
 			if (!(client.unconditionalResponses.includes(name)) && functions.condition(client, channel, userstate, content)) {
 				if (functions.onCooldown) continue;
-				console.log("'", name, "' condition was fulfilled. executing...");
+				//console.log("'", name, "' condition was fulfilled. executing...");
+				process.stdout.write(name + " ");
 				functions.run(client, channel, userstate, content);
 				executedResponses.push(name);
 				break;
@@ -53,18 +53,20 @@ module.exports = async (client, channel, userstate, message, self) => {
 	}
 	
 	// execute all unconditional responses
-	console.log("testing for matching unconditional response...")
+	//console.log("testing for matching unconditional response...")
 	for (const entry of client.responses.entries()) {
 		const name = entry[0];
 		const functions = entry[1];
-		console.log("testing '", name, "' response");
 		if ((client.unconditionalResponses.includes(name)) && functions.condition(client, channel, userstate, content)) {
 			if (functions.onCooldown) continue;
-			console.log("'", name, "' condition was fulfilled. executing...");
+			//console.log("'", name, "' condition was fulfilled. executing...");
+			process.stdout.write(name + " ");
 			functions.run(client, channel, userstate, content);
 			executedResponses.push(name);
 		}
 	}
+	
+	console.log("]")
 	
 	// Set cooldown for executed commands
 	executedCommands.forEach((name) => {

@@ -8,7 +8,7 @@ exports.config = {
 };
 
 exports.condition = (client, channel, userstate, command, args, content) => {
-	if (command === "test" && process.env.CHANNEL_NAME === userstate.username) {
+	if (command === "test" && client.config.admins.includes(userstate.username)) {
 		return true;
 	}
 	return false;
