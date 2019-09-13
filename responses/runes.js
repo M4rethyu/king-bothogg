@@ -19,6 +19,10 @@ exports.condition = (client, channel, userstate, content) => {
 	// Sentence has "runes" and ends in "?"
 	var regex2 = new RegExp(sentDelim + "[^.!?;$^]*" + "runes" + "[^.!?;$^]*" + "\\?", "ig");
 	
+	console.log(regex1.test(content));
+	console.log(regex2.test(content));
+	console.log(regex1.test(content) || regex2.test(content));
+	
 	if (regex1.test(content) || regex2.test(content)) return true;
 	return false;
 };

@@ -76,7 +76,7 @@ module.exports = async (client, channel, userstate, message, self) => {
 	
 	// Set cooldown for executed responses
 	executedResponses.forEach((name) => {
-		const functions = client.reponses.get(name);
+		const functions = client.responses.get(name);
 		if (!(typeof functions.config.cooldown) == Number) return;
 		functions.onCooldown = true;
 		setTimeout(function(){ functions.onCooldown = false; }, functions.config.cooldown * 1000);
