@@ -11,7 +11,7 @@ module.exports = async (client, address, port) => {
 	client.spelling.exceptions = {};
 	client.spelling.exceptions.erick = {"wrong" : [],
 										"right" : ["rick", "ericka"] };
-	client.spelling.exceptions.nidhogg = {"wrong" : ["nid hog", "nighog", "niddhog", "nigghog", "nighod", "nigghod", "nid hod", "nig hog"],
+	client.spelling.exceptions.nidhogg = {"wrong" : ["nid hog", "nighog", "niddhog", "nigghog", "nighod", "nigghod", "nid hod", "nig hog", "nignog"],
 										  "right" : [] };
 	client.spelling.useLevenshtein = true;
 	return;
