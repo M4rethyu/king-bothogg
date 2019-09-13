@@ -2,9 +2,7 @@ module.exports = (client) => {
 	client.linkSocialMedia = (channel) =>
 	{
 		console.log("linking social media in", channel, "'s chat");
-		client.say(channel,
-			"If you're enjoying the content, make sure to keep updated at: discord.gg/ktXqPMD or engage with my youtube at: https://www.youtube.com/c/kingnidhogg"
-		)
+		client.say(channel, client.answers.social);
 	}
 	
 	client.spelling.findMisspellings = (string, word) =>
