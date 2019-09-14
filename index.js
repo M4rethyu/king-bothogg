@@ -1,7 +1,3 @@
-// temporary, get structure of .env
-console.log(process.env)
-return;
-
 const tmi = require('tmi.js');
 
 require('dotenv').config();
