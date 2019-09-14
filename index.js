@@ -27,13 +27,24 @@ async function main() {
 	require("./modules/functions.js")(client);
 
 	client.config.hosted = client.checkHosted();
-
+	
+	client.config.hosted = true;
 	if (client.config.hosted) {
-		if (!process.env.RUN) (function(){ return new Promise(resolve => setTimeout(resolve, ms)); })();
-		
 		const http = require('http');
 		const express = require('express');
-		const app = express();
+		app = express();
+		
+		if (!(process.env.RUN == "true")) {
+			app.get("/", (request, response) => { response.sendStatus(204); });
+		app.listen(process.env.PORT);
+		}
+		
+		while (!(process.env.RUN == "true")) {
+			console.log("i'm in");
+			await (function(){ return new Promise(resolve => setTimeout(resolve, 2000)); })();
+		}
+		delete app;
+		
 		app.get("/", (request, response) => { response.sendStatus(200); });
 		app.listen(process.env.PORT);
 		setInterval(() => {
