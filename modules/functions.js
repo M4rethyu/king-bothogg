@@ -5,6 +5,11 @@ module.exports = (client) => {
 		client.say(channel, client.answers.social);
 	}
 	
+	client.checkHosted = () =>
+	{
+		return (process.env.PROJECT_DOMAIN == "king-bothogg");
+	}
+	
 	client.spelling.findMisspellings = (string, word) =>
 	{
 		const levenshtein = require('js-levenshtein');

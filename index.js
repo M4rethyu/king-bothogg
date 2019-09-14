@@ -25,6 +25,19 @@ client.opts.channels = client.config.channels;
 client.spelling = {}; // Initiate spelling Object
 require("./modules/functions.js")(client);
 
+client.config.hosted = client.checkHosted();
+
+if (client.config.hosted) {
+	const http = require('http');
+	const express = require('express');
+	const app = express();
+	app.get("/", (request, response) => { response.sendStatus(200); });
+	app.listen(process.env.PORT);
+	setInterval(() => {
+		http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
+	}, 280000);
+}
+
 client.answers = require("./modules/answers.json");
 
 const commandOrder = ["ping", "template"]; // Order, in which the commands will be tested
