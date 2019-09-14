@@ -2,7 +2,7 @@
   "name": "twitch-chatbot",
   "version": "0.0.1",
   "description": "A simple app chatbot example. Using the command !echo will simply repeat the message.",
-  "main": "bot.js",
+  "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },

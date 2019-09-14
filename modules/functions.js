@@ -32,7 +32,6 @@ module.exports = (client) => {
 				if (client.spelling.exceptions[word] != undefined && !client.spelling.exceptions[word].right.includes(words[i]) && levenshtein(words[i],word) == 1) return true;
 			}
 		}
-		
 		return false;
 	}
 	
