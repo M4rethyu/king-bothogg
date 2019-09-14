@@ -29,7 +29,7 @@ function main() {
 	client.config.hosted = client.checkHosted();
 
 	if (client.config.hosted) {
-		if (!process.env.RUN) return;
+		if (!process.env.RUN) process.exit(1);
 		
 		const http = require('http');
 		const express = require('express');
