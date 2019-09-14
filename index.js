@@ -32,7 +32,7 @@ async function main() {
 	if (client.config.hosted) {
 		const http = require('http');
 		const express = require('express');
-		app = express();
+		const app = express();
 		
 		if (!(process.env.RUN == "true")) {
 			app.get("/", (request, response) => { response.sendStatus(204); });
@@ -43,7 +43,6 @@ async function main() {
 			console.log("i'm in");
 			await (function(){ return new Promise(resolve => setTimeout(resolve, 2000)); })();
 		}
-		delete app;
 		
 		app.get("/", (request, response) => { response.sendStatus(200); });
 		app.listen(process.env.PORT);
