@@ -28,7 +28,6 @@ async function main() {
 
 	client.config.hosted = client.checkHosted();
 	
-	client.config.hosted = true;
 	if (client.config.hosted) {
 		const http = require('http');
 		const express = require('express');
