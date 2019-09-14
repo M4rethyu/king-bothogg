@@ -9,7 +9,7 @@ exports.config = {
 
 exports.condition = (client, channel, userstate, command, args, content) => {
 	if (command === "test" && client.config.admins.includes(userstate.username)) {
-		return true;
+		return true; //tmp comment
 	}
 	return false;
 };
