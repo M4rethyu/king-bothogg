@@ -1,4 +1,4 @@
-function main() {
+async function main() {
 	const tmi = require('tmi.js');
 
 	require('dotenv').config();
@@ -29,7 +29,7 @@ function main() {
 	client.config.hosted = client.checkHosted();
 
 	if (client.config.hosted) {
-		if (!process.env.RUN) process.exit(1);
+		if (!process.env.RUN) (function(){ return new Promise(resolve => setTimeout(resolve, ms)); })();
 		
 		const http = require('http');
 		const express = require('express');
