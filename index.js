@@ -40,8 +40,8 @@ async function main() {
 		}
 		
 		while (!(process.env.RUN == "true")) {
-			console.log("i'm in");
-			await (function(){ return new Promise(resolve => setTimeout(resolve, 2000)); })();
+			console.log("bot is idle");
+			await (function(){ return new Promise(resolve => setTimeout(resolve, 5000)); })();
 		}
 		
 		app.get("/", (request, response) => { response.sendStatus(200); });
