@@ -1,18 +1,6 @@
 module.exports = async (client, address, port) => {
-	// Link social media in king_nidhogg's chat every 30 minutes
+	// Link social media in king_nidhogg's chat every 45 minutes
 	//client.linkSocialMedia("king_nidhogg");
 	setInterval(function(){client.twitch.linkSocialMedia("king_nidhogg");}, 45 * 60 * 1000);
-	
-	// Set global values by binding them to client
-	
-	client.spelling.wordDelimiter = /(\b|_)/
-	client.spelling.sentenceDelimiter = /(\.|!|\?|;|^|$)/
-	
-	client.spelling.exceptions = {};
-	client.spelling.exceptions.erick = {"wrong" : [],
-										"right" : ["prick", "trick", "rick", "ericka"] };
-	client.spelling.exceptions.nidhogg = {"wrong" : ["nid hog", "nighog", "niddhog", "nigghog", "nighod", "nigghod", "nid hod", "nig hog", "nignog", "nig nog"],
-										  "right" : [] };
-	client.spelling.useLevenshtein = true;
 	return;
 }

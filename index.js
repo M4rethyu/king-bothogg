@@ -1,6 +1,6 @@
 async function main() {
 	const tmi = require('tmi.js');
-
+	
 	require('dotenv').config();
 
 	const fs = require("fs");
@@ -17,17 +17,18 @@ async function main() {
 	};
 	
 	const client = {};
-	console.log(client);
+	// Load modules
 	client.config = require("./config.json"); // Configuration settings
-	client.spelling = {}; // Spelling correction
+	client.spelling = require("./modules/spelling.json"); // Spelling correction
 	client.answers = require("./modules/answers.json"); // Phrases used across the bot
-	// Create a twitch client with opts
-	client.twitch = new tmi.client(opts);
-	client.twitch.opts.channels = client.config.channels;
+	
+	// Create clients
+	client.twitch = new tmi.client(opts); // Twitch Client
+	client.twitch.opts.channels = client.config.channels; // Set channels from config file
 	
 	require("./modules/functions.js")(client); // Bind functions directly to client
 
-	client.config.hosted = client.checkHosted(); // Tests .env variables
+	client.config.hosted = client.checkHosted(); // Tests if this program is running on glitch
 	
 	if (client.config.hosted) {
 		const http = require('http');
