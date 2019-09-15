@@ -1,5 +1,5 @@
 exports.run = async (client, channel, userstate, content) => {
-	client.say(channel, "@" + userstate["display-name"] + " " + client.answers.nidhogg);
+	client.twitch.say(channel, "@" + userstate["display-name"] + " " + client.answers.nidhogg);
 	return;
 };
 

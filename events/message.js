@@ -22,7 +22,7 @@ module.exports = async (client, channel, userstate, message, self) => {
 	var triggeredCommand = false;
 	if (prefix) { // only check commands, if the prefix was used
 		//console.log("message included prefix. testing for matching command...")
-		for (const entry of client.commands.entries()) {
+		for (const entry of client.twitch.commands.entries()) {
 			const name = entry[0];
 			const functions = entry[1];
 			if (functions.condition(client, channel, userstate, command, args, content)) {
@@ -38,10 +38,10 @@ module.exports = async (client, channel, userstate, message, self) => {
 	
 	if (executedCommands.length == 0) { // only check through hierarchy, if no command has been used
 		//console.log("testing for matching hierarchy response...")
-		for (const entry of client.responses.entries()) {
+		for (const entry of client.twitch.responses.entries()) {
 			const name = entry[0];
 			const functions = entry[1];
-			if (!(client.unconditionalResponses.includes(name)) && functions.condition(client, channel, userstate, content)) {
+			if (!(client.twitch.unconditionalResponses.includes(name)) && functions.condition(client, channel, userstate, content)) {
 				if (functions.onCooldown) continue;
 				//console.log("'", name, "' condition was fulfilled. executing...");
 				process.stdout.write(name + " ");
@@ -54,10 +54,10 @@ module.exports = async (client, channel, userstate, message, self) => {
 	
 	// execute all unconditional responses
 	//console.log("testing for matching unconditional response...")
-	for (const entry of client.responses.entries()) {
+	for (const entry of client.twitch.responses.entries()) {
 		const name = entry[0];
 		const functions = entry[1];
-		if ((client.unconditionalResponses.includes(name)) && functions.condition(client, channel, userstate, content)) {
+		if ((client.twitch.unconditionalResponses.includes(name)) && functions.condition(client, channel, userstate, content)) {
 			if (functions.onCooldown) continue;
 			//console.log("'", name, "' condition was fulfilled. executing...");
 			process.stdout.write(name + " ");
@@ -70,7 +70,7 @@ module.exports = async (client, channel, userstate, message, self) => {
 	
 	// Set cooldown for executed commands
 	executedCommands.forEach((name) => {
-		const functions = client.commands.get(name);
+		const functions = client.twitch.commands.get(name);
 		if (!(typeof functions.config.cooldown) == Number) return;
 		functions.onCooldown = true;
 		setTimeout(function(){ functions.onCooldown = false; }, functions.config.cooldown * 1000);
@@ -78,7 +78,7 @@ module.exports = async (client, channel, userstate, message, self) => {
 	
 	// Set cooldown for executed responses
 	executedResponses.forEach((name) => {
-		const functions = client.responses.get(name);
+		const functions = client.twitch.responses.get(name);
 		if (!(typeof functions.config.cooldown) == Number) return;
 		functions.onCooldown = true;
 		setTimeout(function(){ functions.onCooldown = false; }, functions.config.cooldown * 1000);

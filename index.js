@@ -15,18 +15,19 @@ async function main() {
 		},
 		channels: []
 	};
+	
+	const client = {};
+	console.log(client);
+	client.config = require("./config.json"); // Configuration settings
+	client.spelling = {}; // Spelling correction
+	client.answers = require("./modules/answers.json"); // Phrases used across the bot
+	// Create a twitch client with opts
+	client.twitch = new tmi.client(opts);
+	client.twitch.opts.channels = client.config.channels;
+	
+	require("./modules/functions.js")(client); // Bind functions directly to client
 
-	// Create a client with our options
-	const client = new tmi.client(opts);
-
-	client.config = require("./config.json");
-
-	client.opts.channels = client.config.channels;
-
-	client.spelling = {}; // Initiate spelling Object
-	require("./modules/functions.js")(client);
-
-	client.config.hosted = client.checkHosted();
+	client.config.hosted = client.checkHosted(); // Tests .env variables
 	
 	if (client.config.hosted) {
 		const http = require('http');
@@ -50,20 +51,10 @@ async function main() {
 		}, 280000);
 	}
 
-	client.answers = require("./modules/answers.json");
-
 	const commandOrder = ["ping", "template"]; // Order, in which the commands will be tested
 	const responseOrder = ["erick", "nidhogg", "runes"]; // Order, in which the autoresponses will be tested
-	client.unconditionalResponses = ["erick", "nidhogg"]; // Autoresponses, which will trigger no matter what other things are also triggered by the message
-	/*
-	client.spelling = {}; // Initiate spelling Object
-	client.spelling.surrounding = [" ",",","\*", "'", "\@", "?", "!", "s "]; // Characters, which may also indicate the beginning or ending of a name (possibly useless with new change)
-	client.spelling.erickTrue = ["eric", "erik"];
-	client.spelling.erickFalse = ["rick"];
-	client.spelling.nidhoggTrue = ["nid hog", "nighog", "niddhog"];
-	client.spelling.nidhoggFalse = [];
-	client.spelling.useLevenshtein = true;
-	*/
+	client.twitch.unconditionalResponses = ["erick", "nidhogg"]; // Autoresponses, which will trigger no matter what other things are also triggered by the message
+	
 	const init = async () => {
 		
 		// Load commands
@@ -85,15 +76,15 @@ async function main() {
 			)
 		});
 		// Sort commands
-		client.commands = new Map();
+		client.twitch.commands = new Map();
 		console.log("Sorting commands...");
 		commandOrder.forEach(function(element) {
 			if (!cmdMap.has(element)) return; // Skip name if corresponding command doesn't exist
-			client.commands.set(element, cmdMap.get(element));
+			client.twitch.commands.set(element, cmdMap.get(element));
 			cmdMap.delete(element);
 		});
 		console.log("Done sorting commands");
-		client.commands = new Map([...client.commands,...cmdMap]);
+		client.twitch.commands = new Map([...client.twitch.commands,...cmdMap]);
 		
 		// Load responses
 		var resMap = new Map();
@@ -115,14 +106,14 @@ async function main() {
 		});
 		
 		// Sort responses
-		client.responses = new Map();
+		client.twitch.responses = new Map();
 		console.log("Sorting responses...");
 		responseOrder.forEach(function(element) {
 			if (!resMap.has(element)) return; // Skip name if corresponding response doesn't exist
-			client.responses.set(element, resMap.get(element));
+			client.twitch.responses.set(element, resMap.get(element));
 			resMap.delete(element);
 		});
-		client.responses = new Map([...client.responses,...resMap]);
+		client.twitch.responses = new Map([...client.twitch.responses,...resMap]);
 		
 		// Load events
 		const evtFiles = await readdir("./events/");
@@ -134,11 +125,11 @@ async function main() {
 			// Bind the client to any event, before the existing arguments
 			// provided by the twitch.js event.
 			// This line is awesome by the way. Just sayin'.
-			client.on(eventName, event.bind(null, client));
+			client.twitch.on(eventName, event.bind(null, client));
 		});
 		console.log("done loading events.")
 		
-		client.connect();
+		client.twitch.connect();
 	};
 
 

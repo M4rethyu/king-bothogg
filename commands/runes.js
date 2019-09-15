@@ -1,5 +1,5 @@
 exports.run = async (client, channel, userstate, command, args, content) => {
-	client.say(channel, client.answers.runes);
+	client.twitch.say(channel, client.answers.runes);
 	return;
 };
 

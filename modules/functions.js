@@ -1,8 +1,8 @@
 module.exports = (client) => {
-	client.linkSocialMedia = (channel) =>
+	client.twitch.linkSocialMedia = (channel) =>
 	{
 		console.log("linking social media in", channel, "'s chat");
-		client.say(channel, client.answers.social);
+		client.twitch.say(channel, client.answers.social);
 	}
 	
 	client.checkHosted = () =>
