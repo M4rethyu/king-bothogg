@@ -8,6 +8,7 @@ exports.config = {
 };
 
 exports.condition = (client, channel, userstate, content) => {
+	return false;
 	
 	const wordDelim = client.spelling.wordDelimiter;
 	const sentDelim = client.spelling.sentenceDelimiter;
@@ -18,6 +19,9 @@ exports.condition = (client, channel, userstate, content) => {
 	var regex1 = new RegExp(sentDelim + "[^.!?;]*(\\bw\\w+\\b)" + "[^.!?;]*" + "runes" + "[^.!?;]*" + sentDelim, "ig");
 	// Sentence has "runes" and ends in "?"
 	var regex2 = new RegExp(sentDelim + "[^.!?;]*" + "runes" + "[^.!?;]*" + "\\?", "ig");
+	
+	console.log(regex1.test(content))
+	console.log(regex2.test(content))
 	
 	if (regex1.test(content) || regex2.test(content)) return true;
 	return false;
