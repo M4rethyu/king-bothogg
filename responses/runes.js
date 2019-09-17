@@ -8,20 +8,15 @@ exports.config = {
 };
 
 exports.condition = (client, channel, userstate, content) => {
-	return false;
-	
 	const wordDelim = client.spelling.wordDelimiter;
 	const sentDelim = client.spelling.sentenceDelimiter;
 	
 	content = content.toLowerCase();
 	
 	// Sentence has word staring with "w", followed by "runes"
-	var regex1 = new RegExp(sentDelim + "[^.!?;]*(\\bw\\w+\\b)" + "[^.!?;]*" + "runes" + "[^.!?;]*" + sentDelim, "ig");
+	var regex1 = new RegExp(sentDelim + "[^.!?;]*(\\bw\\w+\\b)" + "[^.!?;]*" + "runes" + "[^.!?;]*" + sentDelim, "g");
 	// Sentence has "runes" and ends in "?"
-	var regex2 = new RegExp(sentDelim + "[^.!?;]*" + "runes" + "[^.!?;]*" + "\\?", "ig");
-	
-	console.log(regex1.test(content))
-	console.log(regex2.test(content))
+	var regex2 = new RegExp(sentDelim + "[^.!?;]*" + "runes" + "[^.!?;]*" + "\\?", "g");
 	
 	if (regex1.test(content) || regex2.test(content)) return true;
 	return false;

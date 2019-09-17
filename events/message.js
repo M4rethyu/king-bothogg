@@ -26,7 +26,10 @@ module.exports = async (client, channel, userstate, message, self) => {
 			const name = entry[0];
 			const functions = entry[1];
 			if (functions.condition(client, channel, userstate, command, args, content)) {
-				if (functions.onCooldown) continue;
+				if (functions.onCooldown) {
+					process.stdout.write("(!" + name + ") ");
+					continue;
+				}
 				//console.log("'", name, "' condition was fulfilled. executing...");
 				process.stdout.write("!" + name + " ");
 				functions.run(client, channel, userstate, command, args, content);
@@ -42,7 +45,10 @@ module.exports = async (client, channel, userstate, message, self) => {
 			const name = entry[0];
 			const functions = entry[1];
 			if (!(client.twitch.unconditionalResponses.includes(name)) && functions.condition(client, channel, userstate, content)) {
-				if (functions.onCooldown) continue;
+				if (functions.onCooldown) {
+					process.stdout.write("(" + name + ") ");
+					continue;
+				}
 				//console.log("'", name, "' condition was fulfilled. executing...");
 				process.stdout.write(name + " ");
 				functions.run(client, channel, userstate, content);
@@ -58,7 +64,10 @@ module.exports = async (client, channel, userstate, message, self) => {
 		const name = entry[0];
 		const functions = entry[1];
 		if ((client.twitch.unconditionalResponses.includes(name)) && functions.condition(client, channel, userstate, content)) {
-			if (functions.onCooldown) continue;
+			if (functions.onCooldown) {
+					process.stdout.write("(" + name + ") ");
+					continue;
+				}
 			//console.log("'", name, "' condition was fulfilled. executing...");
 			process.stdout.write(name + " ");
 			functions.run(client, channel, userstate, content);
