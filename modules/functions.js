@@ -26,25 +26,25 @@ module.exports = (client) => {
 			promises.push(client.league.CurrentGame.by.summonerID(summoner.id).then((game) => {
 				
 				// Extract rune IDs from game
-				var part = game.participants.filter(s => s.summonerName == summoner.name)[0];
-				var perks = part.perks;
-				mainTree = client.runeNames.filter(t => t.id == perks.perkStyle)[0];
+				const part = game.participants.filter(s => s.summonerName == summoner.name)[0];
+				const perks = part.perks;
+				const mainTree = client.runeNames.filter(t => t.id == perks.perkStyle)[0];
 				
-				scndTree = client.runeNames.filter(t => t.id == perks.perkSubStyle)[0];
+				const scndTree = client.runeNames.filter(t => t.id == perks.perkSubStyle)[0];
 				
-				main0 = mainTree.slots[0].runes.filter(t => t.id == perks.perkIds[0])[0];
-				main1 = mainTree.slots[1].runes.filter(t => t.id == perks.perkIds[1])[0];
-				main2 = mainTree.slots[2].runes.filter(t => t.id == perks.perkIds[2])[0];
-				main3 = mainTree.slots[3].runes.filter(t => t.id == perks.perkIds[3])[0];
+				const main0 = mainTree.slots[0].runes.filter(t => t.id == perks.perkIds[0])[0];
+				const main1 = mainTree.slots[1].runes.filter(t => t.id == perks.perkIds[1])[0];
+				const main2 = mainTree.slots[2].runes.filter(t => t.id == perks.perkIds[2])[0];
+				const main3 = mainTree.slots[3].runes.filter(t => t.id == perks.perkIds[3])[0];
 				
-				var slots = scndTree.slots[1].runes.concat(scndTree.slots[2].runes, scndTree.slots[3].runes);
+				const slots = scndTree.slots[1].runes.concat(scndTree.slots[2].runes, scndTree.slots[3].runes);
 				
-				scnd0 = slots.filter(t => t.id == perks.perkIds[4])[0];
-				scnd1 = slots.filter(t => t.id == perks.perkIds[5])[0];
+				const scnd0 = slots.filter(t => t.id == perks.perkIds[4])[0];
+				const scnd1 = slots.filter(t => t.id == perks.perkIds[5])[0];
 				
-				stat0 = client.runeNames.runeShards[perks.perkIds[6]];
-				stat1 = client.runeNames.runeShards[perks.perkIds[7]];
-				stat2 = client.runeNames.runeShards[perks.perkIds[8]];
+				const stat0 = client.runeNames.runeShards[perks.perkIds[6]];
+				const stat1 = client.runeNames.runeShards[perks.perkIds[7]];
+				const stat2 = client.runeNames.runeShards[perks.perkIds[8]];
 				
 				// Pack runes neatly
 				const runes = {
