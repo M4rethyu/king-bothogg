@@ -7,14 +7,8 @@ async function main() {
 	const { promisify } = require("util");
 	const readdir = promisify(require("fs").readdir);
 
-	// Define configuration options
-	const opts = {
-		identity: {
-			username: process.env.BOT_USERNAME,
-			password: process.env.OAUTH_TOKEN
-		},
-		channels: []
-	};
+	
+	
 	
 	const client = {};
 	// Load modules
@@ -22,9 +16,43 @@ async function main() {
 	client.spelling = require("./modules/spelling.json"); // Spelling correction
 	client.answers = require("./modules/answers.json"); // Phrases used across the bot
 	
-	// Create clients
-	client.twitch = new tmi.client(opts); // Twitch Client
+	// Define twitch configuration options
+	const twitch_opts = {
+		identity: {
+			username: process.env.TWITCH_USERNAME,
+			password: process.env.TWITCH_TOKEN
+		},
+		channels: []
+	};
+	// Create and bind twitch client
+	client.twitch = new tmi.client(twitch_opts); // Twitch Client
 	client.twitch.opts.channels = client.config.channels; // Set channels from config file
+	// Create and bind league client
+	const {Kayn, REGIONS} = require('kayn')
+	client.league = Kayn(process.env.LEAGUE_TOKEN)({ // Set configuration options
+		region: REGIONS.NORTH_AMERICA,
+		apiURLPrefix: 'https://%s.api.riotgames.com',
+		locale: 'en_US',
+		debugOptions: {
+			isEnabled: true,
+			showKey: false,
+		},
+		requestOptions: {
+			shouldRetry: true,
+			numberOfRetriesBeforeAbort: 3,
+			delayBeforeRetry: 1000,
+			burst: false,
+			shouldExitOn403: false,
+		},
+		cacheOptions: {
+			cache: null,
+			timeToLives: {
+				useDefault: false,
+				byGroup: {},
+				byMethod: {},
+			},
+		},
+	})
 	
 	require("./modules/functions.js")(client); // Bind functions directly to client
 

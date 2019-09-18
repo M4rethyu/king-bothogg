@@ -1,4 +1,5 @@
 exports.run = async (client, channel, userstate, command, args, content) => {
+	console.log(client.twitch.getChannels());
 	client.twitch.say(channel, "test successful");
 	return;
 };

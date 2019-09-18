@@ -10,7 +10,8 @@
     "express": "^4.16.4",
     "tmi.js": "^1.4.2",
     "dotenv": "^6.1.0",
-    "js-levenshtein": "^1.1.6"
+    "js-levenshtein": "^1.1.6",
+    "kayn": "^0.10.2"
   },
   "engines": {
     "node": "8.x"
