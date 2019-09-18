@@ -5,6 +5,92 @@ module.exports = (client) => {
 		return (process.env.PROJECT_DOMAIN == "king-bothogg");
 	}
 	
+	client.getSummonerAccounts = () =>
+	{
+		client.erick.summonerAccounts = [];
+		for (const name of client.erick.summonerNames) {
+			client.league.Summoner.by.name(name.toLowerCase()).then((summoner) => {
+				client.erick.summonerAccounts.push(summoner);
+				console.log("loaded account '" + name + "'");
+			}, (err) => {
+				console.log("couldn't find account '" + name + "'");
+			});
+		}
+	}
+	
+	client.getSummonerRunes = () =>
+	{
+		console.log("Getting runes");
+		var promises = [];
+		for (const summoner of client.erick.summonerAccounts) {
+			promises.push(client.league.CurrentGame.by.summonerID(summoner.id).then((game) => {
+				
+				// Extract rune IDs from game
+				var part = game.participants.filter(s => s.summonerName == summoner.name)[0];
+				var perks = part.perks;
+				mainTree = client.runeNames.filter(t => t.id == perks.perkStyle)[0];
+				
+				scndTree = client.runeNames.filter(t => t.id == perks.perkSubStyle)[0];
+				
+				main0 = mainTree.slots[0].runes.filter(t => t.id == perks.perkIds[0])[0];
+				main1 = mainTree.slots[1].runes.filter(t => t.id == perks.perkIds[1])[0];
+				main2 = mainTree.slots[2].runes.filter(t => t.id == perks.perkIds[2])[0];
+				main3 = mainTree.slots[3].runes.filter(t => t.id == perks.perkIds[3])[0];
+				
+				var slots = scndTree.slots[1].runes.concat(scndTree.slots[2].runes, scndTree.slots[3].runes);
+				
+				scnd0 = slots.filter(t => t.id == perks.perkIds[4])[0];
+				scnd1 = slots.filter(t => t.id == perks.perkIds[5])[0];
+				
+				stat0 = client.runeNames.runeShards[perks.perkIds[6]];
+				stat1 = client.runeNames.runeShards[perks.perkIds[7]];
+				stat2 = client.runeNames.runeShards[perks.perkIds[8]];
+				
+				// Pack runes neatly
+				const runes = {
+					"accName" : summoner.name,
+					"mainTree" : mainTree.name,
+					"mainRunes" : [main0.name, main1.name, main2.name, main3.name],
+					"scndTree" : scndTree.name,
+					"scndRunes" : [scnd0.name, scnd1.name],
+					"statRunes" : [stat0, stat1, stat2]
+				}
+				
+				// And bind to client
+				client.erick.summonerRunes = runes;
+				console.log(summoner.name + " is online")
+				return runes;
+			},(err) => {
+				console.log(summoner.name + " is offline");
+			return undefined;
+			}));
+		}
+		
+		const promise = Promise.all(promises.map(p => p.catch(e => e)))
+			.then(results => {
+				return results.filter(o => o != undefined);
+			})
+			.catch(e => console.log(e));
+		
+		return promise;
+	}
+	
+	client.runesToMessage = () =>
+	{
+		
+		const runes = client.erick.summonerRunes[0];
+		var string;
+		if (runes == []) {
+			string = "Can't find active game. You can look at Erick's op.gg to see the runes of past games (accounts in twitch description)";
+		} else {
+			string =	runes.accName + "'s runes are " + 
+						"Primary: " + runes.mainTree + "[" + runes.mainRunes[0] + " > " + runes.mainRunes[1] + " > " + runes.mainRunes[2] + " > " + runes.mainRunes[3] + "], " +
+						"Secondary: " + runes.scndTree + "[" + runes.scndRunes[0] + " > " + runes.scndRunes[1] + "], " +
+						"Rune Shards: [" + runes.statRunes[0] + " > " + runes.statRunes[1] + " > " + runes.statRunes[2] + "]";
+		}
+		return string;
+	}
+	
 	client.test = (str) => {
 		console.log("test function received :'", str, "'")
 	}
@@ -19,6 +105,10 @@ module.exports = (client) => {
 	// Functions bound to client.discord
 	
 	// Functions bound to client.league
+	client.league.getCurrentRunes = () =>
+	{
+		
+	}
 	
 	// Functions bound to client.spelling
 	client.spelling.findMisspellings = (string, word) =>

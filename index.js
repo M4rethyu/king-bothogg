@@ -8,15 +8,17 @@ async function main() {
 	const readdir = promisify(require("fs").readdir);
 
 	
-	
-	
 	const client = {};
 	// Load modules
 	client.config = require("./config.json"); // Configuration settings
 	client.spelling = require("./modules/spelling.json"); // Spelling correction
 	client.answers = require("./modules/answers.json"); // Phrases used across the bot
+	client.runeNames = require("./modules/runesReforged.json"); // RunesReforged
+	client.runeNames.runeShards = {5001 : "Health", 5002 : "Armor", 5003 : "Magic Resist", 5005 : "Attack Speed", 5007 : "Cooldown Reduction", 5008 : "Adaptive Force"};
+	client.erick = require("./modules/erick.json"); // Erick's account names
+	client.erick.summonerRunes = [];
 	
-	// Define twitch configuration options
+	// Set twitch configuration options
 	const twitch_opts = {
 		identity: {
 			username: process.env.TWITCH_USERNAME,
@@ -52,12 +54,13 @@ async function main() {
 				byMethod: {},
 			},
 		},
-	})
+	});
 	
 	require("./modules/functions.js")(client); // Bind functions directly to client
-
-	client.config.hosted = client.checkHosted(); // Tests if this program is running on glitch
 	
+	client.getSummonerAccounts();
+	
+	client.config.hosted = client.checkHosted(); // Tests if this program is running on glitch
 	if (client.config.hosted) {
 		const http = require('http');
 		const express = require('express');
@@ -79,7 +82,8 @@ async function main() {
 			http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
 		}, 280000);
 	}
-
+	
+	// Stuff used for init()
 	const commandOrder = ["ping", "template"]; // Order, in which the commands will be tested
 	const responseOrder = ["erick", "nidhogg", "runes"]; // Order, in which the autoresponses will be tested
 	client.twitch.unconditionalResponses = ["erick", "nidhogg"]; // Autoresponses, which will trigger no matter what other things are also triggered by the message
@@ -156,7 +160,7 @@ async function main() {
 			// This line is awesome by the way. Just sayin'.
 			client.twitch.on(eventName, event.bind(null, client));
 		});
-		console.log("done loading events.")
+		console.log("Done loading events.")
 		
 		client.twitch.connect();
 	};
