@@ -26,7 +26,7 @@ module.exports = async (client, channel, userstate, message, self) => {
 			const name = entry[0];
 			const functions = entry[1];
 			if (functions.condition(client, channel, userstate, command, args, content)) {
-				if (functions.onCooldown) {
+				if (functions.onCooldown[channel]) {
 					process.stdout.write("(!" + name + ") ");
 					continue;
 				}
@@ -45,7 +45,7 @@ module.exports = async (client, channel, userstate, message, self) => {
 			const name = entry[0];
 			const functions = entry[1];
 			if (!(client.twitch.unconditionalResponses.includes(name)) && functions.condition(client, channel, userstate, content)) {
-				if (functions.onCooldown) {
+				if (functions.onCooldown[channel]) {
 					process.stdout.write("(" + name + ") ");
 					continue;
 				}
@@ -64,7 +64,7 @@ module.exports = async (client, channel, userstate, message, self) => {
 		const name = entry[0];
 		const functions = entry[1];
 		if ((client.twitch.unconditionalResponses.includes(name)) && functions.condition(client, channel, userstate, content)) {
-			if (functions.onCooldown) {
+			if (functions.onCooldown[channel]) {
 					process.stdout.write("(" + name + ") ");
 					continue;
 				}
@@ -81,16 +81,16 @@ module.exports = async (client, channel, userstate, message, self) => {
 	executedCommands.forEach((name) => {
 		const functions = client.twitch.commands.get(name);
 		if (!(typeof functions.config.cooldown) == Number) return;
-		functions.onCooldown = true;
-		setTimeout(function(){ functions.onCooldown = false; }, functions.config.cooldown * 1000);
+		functions.onCooldown[channel] = true;
+		setTimeout(function(){ functions.onCooldown[channel] = false; }, functions.config.cooldown * 1000);
 	});
 	
 	// Set cooldown for executed responses
 	executedResponses.forEach((name) => {
 		const functions = client.twitch.responses.get(name);
 		if (!(typeof functions.config.cooldown) == Number) return;
-		functions.onCooldown = true;
-		setTimeout(function(){ functions.onCooldown = false; }, functions.config.cooldown * 1000);
+		functions.onCooldown[channel] = true;
+		setTimeout(function(){ functions.onCooldown[channel] = false; }, functions.config.cooldown * 1000);
 	});
 	
 	return;

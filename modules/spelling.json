@@ -3,6 +3,6 @@
 	"sentenceDelimiter" : "(\\.|!|\\?|;|^|$)",
 	"misspellings" : {
 		"erick" : ["eric", "erik"],
-		"nidhogg" : ["nid hog", "nighog", "niddhog", "nigghog", "nighod", "nigghod", "nid hod", "nig hog", "nignog", "nig nog"]
+		"nidhogg" : ["nid hog", "nighog", "niddhog", "nigghog", "nighod", "nigghod", "nid hod", "nig hog", "nignog", "nig nog", "nighogg"]
 	}
 }

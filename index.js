@@ -104,7 +104,7 @@ async function main() {
 					"run" : command.run,
 					"condition" : command.condition,
 					"config" : command.config,
-					"onCooldown" : false
+					"onCooldown" : []
 				}
 			)
 		});
@@ -133,7 +133,7 @@ async function main() {
 					"run" : response.run,
 					"condition" : response.condition,
 					"config" : response.config,
-					"onCooldown" : false
+					"onCooldown" : []
 				}
 			)
 		});
