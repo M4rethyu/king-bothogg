@@ -77,17 +77,17 @@ module.exports = (client) => {
 	
 	client.runesToMessage = () =>
 	{
-		
-		const runes = client.erick.summonerRunes[0];
 		var string;
-		if (runes == []) {
-			string = "Can't find active game. You can look at Erick's op.gg to see the runes of past games (accounts in twitch description)";
-		} else {
+		if (client.erick.summonerRunes.length > 0) {
+			const runes = client.erick.summonerRunes[0];
 			string =	runes.accName + "'s runes are " + 
 						"Primary: " + runes.mainTree + "[" + runes.mainRunes[0] + " > " + runes.mainRunes[1] + " > " + runes.mainRunes[2] + " > " + runes.mainRunes[3] + "], " +
 						"Secondary: " + runes.scndTree + "[" + runes.scndRunes[0] + " > " + runes.scndRunes[1] + "], " +
 						"Rune Shards: [" + runes.statRunes[0] + " > " + runes.statRunes[1] + " > " + runes.statRunes[2] + "]";
+		} else {
+			string = "Can't find active game. You can look at Erick's op.gg to see the runes of past games (accounts in twitch description)";
 		}
+		
 		return string;
 	}
 	
