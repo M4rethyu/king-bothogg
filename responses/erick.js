@@ -1,5 +1,5 @@
 exports.run = async (client, channel, userstate, content) => {
-	const n = 1; const sum = 1;
+	var n = 1; var sum = 1;
 	var nAdd = client.persist("commands.erick." + userstate.username);
 	var sumAdd = client.persist.commandTotal("erick");
 	if ((typeof nAdd) == "number") n += nAdd
