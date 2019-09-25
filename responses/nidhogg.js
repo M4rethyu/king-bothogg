@@ -1,6 +1,10 @@
 exports.run = async (client, channel, userstate, content) => {
-	const n = client.persist("commands.nidhogg." + userstate.username);
-	const sum = client.persist.commandTotal("nidhogg");
+	const n = 1; const sum = 1;
+	const nAdd = client.persist("commands.nidhogg." + userstate.username);
+	const sumAdd = client.persist.commandTotal("nidhogg");
+	if ((typeof nAdd) == "number") n += nAdd
+	if ((typeof sumAdd) == "number") sum += sumAdd
+	
 	const name = userstate["display-name"];
 	
 	client.twitch.say(channel, "@" + name + " " + client.answers.nidhogg + " (" + n + " times by " + name + ", " + sum + " times total)");
