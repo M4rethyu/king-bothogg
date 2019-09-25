@@ -17,6 +17,9 @@ async function main() {
 	client.runeNames.runeShards = {5001 : "Health", 5002 : "Armor", 5003 : "Magic Resist", 5005 : "Attack Speed", 5007 : "Cooldown Reduction", 5008 : "Adaptive Force"};
 	client.erick = require("./modules/erick.json"); // Erick's account names
 	client.erick.summonerRunes = [];
+	client.dataStorage = require('data-store')({ path: "./modules/permanentData.json"}); // Set persistent storage location
+	client.persist = (key, data) => { if (data != undefined) return client.dataStorage.set(key, data); else return client.dataStorage.get(key); }; // Rebind get & set functions
+	//client.persist = {};
 	
 	// Set twitch configuration options
 	const twitch_opts = {

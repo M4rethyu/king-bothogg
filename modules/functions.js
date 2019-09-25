@@ -110,6 +110,23 @@ module.exports = (client) => {
 		
 	}
 	
+	// Functions bound to client.persist
+	client.persist.commandTotal = (name) =>
+	{
+		if ((typeof name) != "string") return false;
+		
+		const map = client.persist("commands." + name);
+		if (map == undefined) return false;
+		
+		var sum = 0;
+		const names = Object.getOwnPropertyNames(map);
+		names.forEach(name => {
+			sum += map[name];
+		});
+		
+		return sum;
+	}
+	
 	// Functions bound to client.spelling
 	client.spelling.findMisspellings = (string, word) =>
 	{
