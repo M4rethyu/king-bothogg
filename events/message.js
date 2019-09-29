@@ -77,8 +77,7 @@ module.exports = async (client, channel, userstate, message, self) => {
 	
 	console.log("]")
 	
-	const func = ((name) => {
-		const functions = (client.twitch.commands.get(name) || client.twitch.responses.get(name));
+	const func = ((name, functions) => {
 		if (!(typeof functions.config.cooldown) == Number) return;
 		functions.onCooldown[channel] = true;
 		setTimeout(function(){ functions.onCooldown[channel] = false; }, functions.config.cooldown * 1000);
@@ -88,10 +87,11 @@ module.exports = async (client, channel, userstate, message, self) => {
 	});
 	
 	// Set cooldown for executed commands
-	executedCommands.forEach(func);
+	executedCommands.forEach(name => { func(name, client.twitch.commands.get(name)) });
+	
 	
 	// Set cooldown for executed responses
-	executedResponses.forEach(func);
+	executedResponses.forEach(name => { func(name, client.twitch.responses.get(name)) });
 	
 	return;
 }

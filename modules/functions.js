@@ -1,3 +1,5 @@
+const fetch = require("node-fetch");
+
 module.exports = (client) => {
 	// Functions bound to client
 	client.checkHosted = () =>
@@ -16,6 +18,22 @@ module.exports = (client) => {
 				console.log("couldn't find account '" + name + "'");
 			});
 		}
+	}
+	
+	client.currency = (name, amount) => 
+	{
+		var currentAmount = client.persist("currency.amount." + name);
+		if ((typeof currentAmount) != "number" || currentAmount == NaN) {
+			client.persist("currency.amount." + name, 0);
+			currentAmount = 0;
+		}
+		
+		if ((typeof amount) == "number") {
+			client.persist("currency.amount." + name, currentAmount + amount);
+			currentAmount += amount;
+		}
+		
+		return client.persist("currency.amount." + name);
 	}
 	
 	client.getSummonerRunes = () =>
@@ -100,6 +118,13 @@ module.exports = (client) => {
 	{
 		console.log("linking social media in", channel, "'s chat");
 		client.twitch.say(channel, client.answers.social);
+	}
+	
+	client.twitch.viewerlist = (name) => {
+		console.log("getting viewlist");
+		const list = fetch("http://tmi.twitch.tv/group/user/" + name + "/chatters")
+			.then(res => res.json());
+		return list;
 	}
 	
 	// Functions bound to client.discord

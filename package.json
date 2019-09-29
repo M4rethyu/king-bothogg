@@ -12,7 +12,8 @@
     "dotenv": "^6.1.0",
     "js-levenshtein": "^1.1.6",
     "kayn": "^0.10.2",
-    "data-store": "^4.0.3"
+    "data-store": "^4.0.3",
+    "node-fetch": "^2.6.0"
   },
   "engines": {
     "node": "8.x"

@@ -17,7 +17,7 @@ async function main() {
 	client.runeNames.runeShards = {5001 : "Health", 5002 : "Armor", 5003 : "Magic Resist", 5005 : "Attack Speed", 5007 : "Cooldown Reduction", 5008 : "Adaptive Force"};
 	client.erick = require("./modules/erick.json"); // Erick's account names
 	client.erick.summonerRunes = [];
-	client.dataStorage = require('data-store')({ path: ".modules/permanentData.json"}); // Set persistent storage location
+	client.dataStorage = require('data-store')({ path: "./modules/permanentData.json"}); // Set persistent storage location
 	client.persist = (key, data) => { if (data != undefined) return client.dataStorage.set(key, data); else return client.dataStorage.get(key); }; // Rebind get & set functions
 	
 	// Set twitch configuration options
@@ -26,11 +26,10 @@ async function main() {
 			username: process.env.TWITCH_USERNAME,
 			password: process.env.TWITCH_TOKEN
 		},
-		channels: []
+		channels: client.config.channels
 	};
 	// Create and bind twitch client
 	client.twitch = new tmi.client(twitch_opts); // Twitch Client
-	client.twitch.opts.channels = client.config.channels; // Set channels from config file
 	// Create and bind league client
 	const {Kayn, REGIONS} = require('kayn')
 	client.league = Kayn(process.env.LEAGUE_TOKEN)({ // Set configuration options
