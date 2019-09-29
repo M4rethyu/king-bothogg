@@ -15,6 +15,6 @@ exports.config = {
 };
 
 exports.condition = (client, channel, userstate, command, args, content) => {
-	if (command === "daily" /*&& !client.persist("currency.usedDaily." + userstate.username)*/) return true;
+	if (command === "daily") return true;
 	return false;
 };
