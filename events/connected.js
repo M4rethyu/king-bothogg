@@ -28,7 +28,16 @@ module.exports = async (client, address, port) => {
 		});
 			
 	}, 1 * 60 * 1000);
+	
+	// Resets the !daily command at 3pm EST
+	resetDaily = () => {
+		// Reset daily at                 EST             3pm
+		const t = (new Date().getTime() - 5 * 60 * 1000 + 15 * 60 * 1000)%(24 * 60 * 1000);
+		setTimeout(async function() {
+			client.dataStorage.del("currency.usedDaily");
+			resetDaily();
+		}, 24 * 60 * 1000 - t);
+	}
+	
 	return;
-	
-	
 }
