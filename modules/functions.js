@@ -127,6 +127,13 @@ module.exports = (client) => {
 		return list;
 	}
 	
+	client.twitch.live = (name) => {
+		console.log("checking live status");
+		const list = fetch("https://api.twitch.tv/helix/streams" + "?user_login=" + name + "?oauth_token=" + process.env.TWITCH_TOKEN)
+			.then(res => res.json());
+		return list;
+	}
+	
 	// Functions bound to client.discord
 	
 	// Functions bound to client.league

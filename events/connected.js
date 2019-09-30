@@ -20,7 +20,8 @@ module.exports = async (client, address, port) => {
 	
 	// Add money to all viewers every 5 minutes
 	setTimeout(async function() {
-		const chatters = (await client.twitch.viewerlist("xmarethyu")).chatters;
+		console.log("awarding chatters a nidcoin");
+		const chatters = (await client.twitch.viewerlist("king_nidhogg")).chatters;
 		var list = chatters.broadcaster.concat(chatters.vips, chatters.moderators, chatters.staff, chatters.admins, chatters.global_mods, chatters.viewers);
 		
 		list.forEach(name => {
@@ -31,13 +32,18 @@ module.exports = async (client, address, port) => {
 	
 	// Resets the !daily command at 3pm EST
 	resetDaily = () => {
-		// Reset daily at                 EST             3pm
-		const t = (new Date().getTime() - 5 * 60 * 1000 + 15 * 60 * 1000)%(24 * 60 * 1000);
+		// Reset   daily    at                                 EST               3pm
+		const t = (24 * 3600 * 1000) - (new Date().getTime() - 5 * 3600 * 1000 - 15 * 3600 * 1000)%(24 * 3600 * 1000);
 		setTimeout(async function() {
 			client.dataStorage.del("currency.usedDaily");
 			resetDaily();
-		}, 24 * 60 * 1000 - t);
+		}, t);
+		console.log("resetting daily in " + Math.floor(t/(3600 * 1000)) + " hours, " + Math.floor(t/(60 * 1000)) + " minutes");
 	}
-	
+	resetDaily();
+	/*
+	console.log(client.twitch)
+	console.log(await client.twitch.live("king_nidhogg"));
+	*/
 	return;
 }
