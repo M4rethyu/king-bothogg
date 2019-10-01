@@ -1,6 +1,6 @@
 exports.run = async (client, channel, userstate, command, args, content) => {
 	
-	const target = args[0];
+	const target = args[0].toLowerCase();
 	
 	const amount = Number(args[1]);
 	if (Number.isNaN(amount)) {
