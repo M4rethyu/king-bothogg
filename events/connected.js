@@ -30,8 +30,6 @@ module.exports = async (client, address, port) => {
 			list.forEach(name => {
 				const amount = client.currency(name, 1);
 			});
-		} else {
-			console.log("Erick isn't live, not awarding a nidcoin to chatters");
 		}
 	}, 1 * 60 * 1000);
 	
