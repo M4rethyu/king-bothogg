@@ -20,7 +20,7 @@ module.exports = async (client, address, port) => {
 	
 	// Add money to all viewers every minute
 	setInterval(async function() {
-		const live = await client.twitch.live("xqcow")
+		const live = await client.twitch.live("king_nidhogg")
 		if (live) {
 			console.log("awarding chatters a nidcoin");
 			
@@ -31,7 +31,7 @@ module.exports = async (client, address, port) => {
 				const amount = client.currency(name, 1);
 			});
 		} else {
-			console.log("Erick isn't live, not awarding a nidcoin");
+			console.log("Erick isn't live, not awarding a nidcoin to chatters");
 		}
 	}, 1 * 60 * 1000);
 	
