@@ -129,9 +129,10 @@ module.exports = (client) => {
 	
 	client.twitch.live = (name) => {
 		console.log("checking live status");
-		const list = fetch("https://api.twitch.tv/helix/streams" + "?user_login=" + name + "?oauth_token=" + process.env.TWITCH_TOKEN)
+		const streams = await fetch("https://api.twitch.tv/kraken/streams/?oauth_token=" + process.env.TWITCH_TOKEN + "&channel=" + name + "&stream_type=live")
 			.then(res => res.json());
-		return list;
+		const live = (streams._total == 1);
+		return live;
 	}
 	
 	// Functions bound to client.discord

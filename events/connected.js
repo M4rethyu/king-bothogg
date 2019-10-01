@@ -20,14 +20,19 @@ module.exports = async (client, address, port) => {
 	
 	// Add money to all viewers every minute
 	setInterval(async function() {
-		console.log("awarding chatters a nidcoin");
-		const chatters = (await client.twitch.viewerlist("king_nidhogg")).chatters;
-		var list = chatters.broadcaster.concat(chatters.vips, chatters.moderators, chatters.staff, chatters.admins, chatters.global_mods, chatters.viewers);
-		
-		list.forEach(name => {
-			const amount = client.currency(name, 1);
-		});
+		const live = await client.twitch.live("xqcow")
+		if (live) {
+			console.log("awarding chatters a nidcoin");
 			
+			const chatters = (await client.twitch.viewerlist("king_nidhogg")).chatters;
+			var list = chatters.broadcaster.concat(chatters.vips, chatters.moderators, chatters.staff, chatters.admins, chatters.global_mods, chatters.viewers);
+			
+			list.forEach(name => {
+				const amount = client.currency(name, 1);
+			});
+		} else {
+			console.log("Erick isn't live, not awarding a nidcoin");
+		}
 	}, 1 * 60 * 1000);
 	
 	// Resets the !daily command at 3pm EST
@@ -41,9 +46,7 @@ module.exports = async (client, address, port) => {
 		console.log("resetting daily in " + Math.floor(t/(3600 * 1000)) + " hours, " + Math.floor(t/(60 * 1000)) + " minutes");
 	}
 	resetDaily();
-	/*
-	console.log(client.twitch)
-	console.log(await client.twitch.live("king_nidhogg"));
-	*/
+	
+	
 	return;
 }
