@@ -5,10 +5,14 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 };
 
 exports.config = {
-	"cooldown" : 0
+	"cooldown" : 30,
+	"sharedCooldown" : false,
+	"permission" : 5
 };
 
 exports.condition = (client, channel, userstate, command, args, content) => {
 	if (command === "coins") return true;
 	return false;
 };
+
+exports.help = "Shows your balance";

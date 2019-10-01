@@ -46,6 +46,21 @@ module.exports = async (client, address, port) => {
 	}
 	resetDaily();
 	
+	const cooldown = {};
+	
+	setInterval(async function() {
+		client.actions.forEach((functions, name) => {
+			if (!functions.onCooldown && functions.condition(client)) {
+				functions.run(client);
+				functions.onCooldown = true;
+				setTimeout(async function() {
+					functions.onCooldown = false;
+				}, functions.config.cooldown * 1000)
+			}
+		});
+	}, 10001)
+	
+	
 	
 	return;
 }

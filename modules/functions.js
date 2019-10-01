@@ -7,6 +7,36 @@ module.exports = (client) => {
 		return (process.env.PROJECT_DOMAIN == "king-bothogg");
 	}
 	
+	client.getCooldown = (functions, channel, username) =>
+	{
+		if ((typeof functions.config.cooldown) == "number") { // Command has a cooldown
+			var sharedCooldown = functions.config.sharedCooldown;
+			if ((typeof sharedCooldown) == "undefined") sharedCooldown = true;
+			if (sharedCooldown) { // Command shares cooldown between all users
+				return functions.onCooldown[channel];
+			} else { // Command starts individual cooldown for each user
+				if (!functions.onCooldown[channel]) functions.onCooldown[channel] = {};
+				return functions.onCooldown[channel][username];
+			}
+		}
+	}
+	
+	client.setCooldown = (functions, channel, username) =>
+	{
+		if ((typeof functions.config.cooldown) == "number") { // Command has a cooldown
+			var sharedCooldown = functions.config.sharedCooldown;
+			if ((typeof sharedCooldown) == "undefined") sharedCooldown = true;
+			if (sharedCooldown) { // Command shares cooldown between all users
+				functions.onCooldown[channel] = true;
+				setTimeout(function(){ functions.onCooldown[channel] = false; }, functions.config.cooldown * 1000);
+			} else { // Command starts individual cooldown for each user
+				if (!functions.onCooldown[channel]) functions.onCooldown[channel] = {};
+				functions.onCooldown[channel][username] = true;
+				setTimeout(function(){ functions.onCooldown[channel][username] = false; }, functions.config.cooldown * 1000);
+			}
+		}
+	}
+	
 	client.getSummonerAccounts = () =>
 	{
 		client.erick.summonerAccounts = [];
@@ -29,8 +59,8 @@ module.exports = (client) => {
 		}
 		
 		if ((typeof amount) == "number") {
-			client.persist("currency.amount." + name, currentAmount + amount);
-			currentAmount += amount;
+			client.persist("currency.amount." + name, Math.max(currentAmount + amount, 0));
+			currentAmount += Math.max(currentAmount + amount, 0);
 		}
 		
 		return client.persist("currency.amount." + name);

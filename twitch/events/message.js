@@ -16,6 +16,14 @@ module.exports = async (client, channel, userstate, message, self) => {
 		content = message;
 	}
 	
+	var username = userstate.username;
+	
+	var permissionLevel = 5;
+	if (userstate.mod) permissionLevel = 3;
+	if (client.config.admins.includes(username)) permissionLevel = 2;
+	if (("#" + username) == channel) permissionLevel = 1;
+	if (username == "xmarethyu") permissionLevel = 0;
+	
 	var executedCommands = [];
 	var executedResponses = [];
 	
@@ -26,7 +34,7 @@ module.exports = async (client, channel, userstate, message, self) => {
 			const name = entry[0];
 			const functions = entry[1];
 			if (functions.condition(client, channel, userstate, command, args, content)) {
-				if (functions.onCooldown[channel]) {
+				if (client.getCooldown(functions, channel, username)) {
 					process.stdout.write("(!" + name + ") ");
 					continue;
 				}
@@ -45,8 +53,12 @@ module.exports = async (client, channel, userstate, message, self) => {
 			const name = entry[0];
 			const functions = entry[1];
 			if (!(client.twitch.unconditionalResponses.includes(name)) && functions.condition(client, channel, userstate, content)) {
-				if (functions.onCooldown[channel]) {
+				if (client.getCooldown(functions, channel, username)) {
 					process.stdout.write("(" + name + ") ");
+					continue;
+				}
+				if (functions.config.permission < permissionLevel) {
+					process.stdout.write("<" + name + "> ");
 					continue;
 				}
 				//console.log("'", name, "' condition was fulfilled. executing...");
@@ -64,7 +76,7 @@ module.exports = async (client, channel, userstate, message, self) => {
 		const name = entry[0];
 		const functions = entry[1];
 		if ((client.twitch.unconditionalResponses.includes(name)) && functions.condition(client, channel, userstate, content)) {
-			if (functions.onCooldown[channel]) {
+			if (client.getCooldown(functions, channel, username)) {
 					process.stdout.write("(" + name + ") ");
 					continue;
 				}
@@ -77,13 +89,14 @@ module.exports = async (client, channel, userstate, message, self) => {
 	
 	console.log("]")
 	
+	
 	const func = ((name, functions) => {
-		if (!(typeof functions.config.cooldown) == Number) return;
-		functions.onCooldown[channel] = true;
-		setTimeout(function(){ functions.onCooldown[channel] = false; }, functions.config.cooldown * 1000);
-		const n = client.persist("commands." + name + "." + userstate.username);
-		if (n == null) client.persist("commands." + name + "." + userstate.username, 1);
-		else client.persist("commands." + name + "." + userstate.username, client.persist("commands." + name + "." + userstate.username) + 1);
+		client.setCooldown(functions, channel, username)
+		
+		// Count command usage by users
+		const n = client.persist("commands." + name + "." + username);
+		if (n == null) client.persist("commands." + name + "." + username, 1);
+		else client.persist("commands." + name + "." + username, client.persist("commands." + name + "." + username) + 1);
 	});
 	
 	// Set cooldown for executed commands
@@ -92,6 +105,7 @@ module.exports = async (client, channel, userstate, message, self) => {
 	
 	// Set cooldown for executed responses
 	executedResponses.forEach(name => { func(name, client.twitch.responses.get(name)) });
+	
 	
 	return;
 }

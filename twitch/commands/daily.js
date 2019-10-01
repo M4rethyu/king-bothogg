@@ -12,9 +12,12 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 
 exports.config = {
 	"cooldown" : 0,
+	"permission" : 5,
 };
 
 exports.condition = (client, channel, userstate, command, args, content) => {
 	if (command === "daily") return true;
 	return false;
 };
+
+exports.help = "Get a daily bonus of 10 to 30";

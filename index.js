@@ -91,15 +91,15 @@ async function main() {
 	
 	const init = async () => {
 		
-		// Load commands
+		// Load twitch commands
 		var cmdMap = new Map();
-		const cmdFiles = await readdir("./commands");
+		const cmdFiles = await readdir("./twitch/commands");
 		console.log(`Loading a total of ${cmdFiles.length} commands...`);
 		cmdFiles.forEach((file, i) => {
 			if (!file.endsWith(".js")) return; // only load .js files
 			const commandName = file.slice(0,-3)
 			console.log(`Loading Command: ${commandName}`);
-			const command = require(`./commands/${file}`);
+			const command = require(`./twitch/commands/${file}`);
 			cmdMap.set(commandName,
 				{
 					"run" : command.run,
@@ -109,7 +109,7 @@ async function main() {
 				}
 			)
 		});
-		// Sort commands
+		// Sort twitch commands
 		client.twitch.commands = new Map();
 		console.log("Sorting commands...");
 		commandOrder.forEach(function(element) {
@@ -117,18 +117,18 @@ async function main() {
 			client.twitch.commands.set(element, cmdMap.get(element));
 			cmdMap.delete(element);
 		});
-		console.log("Done sorting commands");
 		client.twitch.commands = new Map([...client.twitch.commands,...cmdMap]);
+		console.log("Done sorting commands");
 		
-		// Load responses
+		// Load twitch responses
 		var resMap = new Map();
-		const resFiles = await readdir("./responses");
+		const resFiles = await readdir("./twitch/responses");
 		console.log(`Loading a total of ${resFiles.length} responses...`);
 		resFiles.forEach((file, i) => {
 			if (!file.endsWith(".js")) return; // only load .js files
 			const responseName = file.slice(0,-3)
 			console.log(`Loading Response: ${responseName}`);
-			const response = require(`./responses/${file}`);
+			const response = require(`./twitch/responses/${file}`);
 			resMap.set(responseName,
 				{
 					"run" : response.run,
@@ -139,7 +139,7 @@ async function main() {
 			)
 		});
 		
-		// Sort responses
+		// Sort twitch responses
 		client.twitch.responses = new Map();
 		console.log("Sorting responses...");
 		responseOrder.forEach(function(element) {
@@ -148,20 +148,42 @@ async function main() {
 			resMap.delete(element);
 		});
 		client.twitch.responses = new Map([...client.twitch.responses,...resMap]);
+		console.log("Done sorting responses");
 		
-		// Load events
-		const evtFiles = await readdir("./events/");
+		// Load twitch events
+		const evtFiles = await readdir("./twitch/events/");
 		console.log(`Loading a total of ${evtFiles.length} events...`);
 		evtFiles.forEach(file => {
 			const eventName = file.split(".")[0];
 			console.log(`Loading Event: ${eventName}`);
-			const event = require(`./events/${file}`);
+			const event = require(`./twitch/events/${file}`);
 			// Bind the client to any event, before the existing arguments
 			// provided by the twitch.js event.
 			// This line is awesome by the way. Just sayin'.
 			client.twitch.on(eventName, event.bind(null, client));
 		});
 		console.log("Done loading events.")
+		
+		// Load actions
+		client.actions = new Map()
+		const actFiles = await readdir("./actions/");
+		console.log(`Loading a total of ${actFiles.length} actions...`);
+		actFiles.forEach(file => {
+			const actionName = file.split(".")[0];
+			console.log(`Loading Action: ${actionName}`);
+			const action = require(`./actions/${file}`);
+			client.actions.set(actionName,
+				{
+					"run" : action.run,
+					"condition" : action.condition,
+					"config" : action.config,
+					"onCooldown" : false
+				}
+			)
+		});
+		console.log("Done loading actions.")
+		
+		
 		
 		client.twitch.connect();
 	};

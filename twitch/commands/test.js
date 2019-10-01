@@ -1,15 +1,18 @@
 exports.run = async (client, channel, userstate, command, args, content) => {
-	client.twitch.say(channel, client.answers.social);
+	client.twitch.say(channel, "test successful");
 	return;
 };
 
 exports.config = {
-	"cooldown" : 30
+	"cooldown" : 0,
+	"permission" : 0
 };
 
 exports.condition = (client, channel, userstate, command, args, content) => {
-	if (command === "social") {
+	if (command === "test" && client.config.admins.includes(userstate.username)) {
 		return true;
 	}
 	return false;
 };
+
+exports.help = "A command for testing code";
