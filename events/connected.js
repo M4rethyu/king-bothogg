@@ -43,7 +43,8 @@ module.exports = async (client, address, port) => {
 			client.dataStorage.del("currency.usedDaily");
 			resetDaily();
 		}, t);
-		console.log("resetting daily in " + (const hours = Math.floor(t/(3600 * 1000))) + " hours, " + Math.floor((t - hours * 3600 * 1000)/(60 * 1000)) + " minutes");
+		const hours = Math.floor(t/(3600 * 1000))
+		console.log("resetting daily in " + hours + " hours, " + Math.floor((t - hours * 3600 * 1000)/(60 * 1000)) + " minutes");
 	}
 	resetDaily();
 	
