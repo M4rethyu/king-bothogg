@@ -127,7 +127,7 @@ module.exports = (client) => {
 		return list;
 	}
 	
-	client.twitch.live = (name) => {
+	client.twitch.live = async (name) => {
 		console.log("checking live status");
 		const streams = await fetch("https://api.twitch.tv/kraken/streams/?oauth_token=" + process.env.TWITCH_TOKEN + "&channel=" + name + "&stream_type=live")
 			.then(res => res.json());
