@@ -26,7 +26,7 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 		}
 	} else { // Redeem money from someone else
 		if (userstate.permission > 1) { // Check if user has permission to redeem from someone else
-			client.twitch.say(channel, "@" + userstate.username + ", you don't have permission to redeem " + client.answers.currencies + " from someone else");
+			//client.twitch.say(channel, "@" + userstate.username + ", you don't have permission to redeem " + client.answers.currencies + " from someone else");
 			return false;
 		}
 		if (client.currency(target) >= amount) { // Has enough money
