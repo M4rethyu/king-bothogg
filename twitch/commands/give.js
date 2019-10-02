@@ -1,10 +1,14 @@
 exports.run = async (client, channel, userstate, command, args, content) => {
 	
-	const target = args[0].toLowerCase();
-	
-	const amount = Number(args[1]);
+	const amount = Number(args[0]);
 	if (Number.isNaN(amount)) {
-		client.twitch.say(channel, "@" + userstate.username + ", please specify a valid amount");
+		client.twitch.say(channel, "@" + userstate.username + ", please specify a valid amount (!give [amount] [user])");
+		return false;
+	}
+	
+	const target = args[1].toLowerCase();
+	if (typeof target == "undefined") {
+		client.twitch.say(channel, "@" + userstate.username + ", please specify a valid target (!give [amount] [user])");
 		return false;
 	}
 	
@@ -27,4 +31,4 @@ exports.condition = (client, channel, userstate, command, args, content) => {
 	return false;
 };
 
-exports.help = "!give [user] [amount] of money";
+exports.help = "!give [amount] [user] of money";

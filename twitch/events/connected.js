@@ -7,31 +7,32 @@ module.exports = async (client, address, port) => {
 	
 	// Get summoner runes initially
 	setTimeout(function(){
-		client.getSummonerRunes().then(runes =>  {
-			client.erick.summonerRunes = runes;
-		});
+		console.log(client.actions);
 	}, 20 * 1000);
-	// Get summoner runes every 3 minutes
-	setInterval(function(){
-		client.getSummonerRunes().then(runes =>  {
-			client.erick.summonerRunes = runes;
-		});
-	}, 3 * 60 * 1000);
 	
-	// Add money to all viewers every minute
+	
+	const cooldown = {};
+	// Set all actions on cooldown initially
+	client.actions.forEach((functions, name) => {
+		functions.onCooldown = true;
+		setTimeout(async function() {
+			functions.onCooldown = false;
+		}, functions.config.cooldown * 1000);
+	});
+	
+	// Run all actions that are off cooldown every 10 seconds
 	setInterval(async function() {
-		const live = await client.twitch.live("king_nidhogg")
-		if (live) {
-			console.log("awarding chatters a nidcoin");
-			
-			const chatters = (await client.twitch.viewerlist("king_nidhogg")).chatters;
-			var list = chatters.broadcaster.concat(chatters.vips, chatters.moderators, chatters.staff, chatters.admins, chatters.global_mods, chatters.viewers);
-			
-			list.forEach(name => {
-				const amount = client.currency(name, 1);
-			});
-		}
-	}, 1 * 60 * 1000);
+		client.actions.forEach((functions, name) => {
+			if (!functions.onCooldown && functions.condition(client)) {
+				functions.run(client);
+				functions.onCooldown = true;
+				setTimeout(async function() {
+					functions.onCooldown = false;
+				}, functions.config.cooldown * 1000);
+			}
+		});
+	}, 10010) // A little extra, so this isn't executed before the cooldown is reset
+	
 	
 	// Resets the !daily command at 3pm EST
 	resetDaily = () => {
@@ -45,21 +46,6 @@ module.exports = async (client, address, port) => {
 		console.log("resetting daily in " + hours + " hours, " + Math.floor((t - hours * 3600 * 1000)/(60 * 1000)) + " minutes");
 	}
 	resetDaily();
-	
-	const cooldown = {};
-	
-	setInterval(async function() {
-		client.actions.forEach((functions, name) => {
-			if (!functions.onCooldown && functions.condition(client)) {
-				functions.run(client);
-				functions.onCooldown = true;
-				setTimeout(async function() {
-					functions.onCooldown = false;
-				}, functions.config.cooldown * 1000)
-			}
-		});
-	}, 10001)
-	
 	
 	
 	return;

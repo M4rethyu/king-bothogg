@@ -23,6 +23,7 @@ module.exports = async (client, channel, userstate, message, self) => {
 	if (client.config.admins.includes(username)) permissionLevel = 2;
 	if (("#" + username) == channel) permissionLevel = 1;
 	if (username == "xmarethyu") permissionLevel = 0;
+	userstate.permission = permissionLevel;
 	
 	var executedCommands = [];
 	var executedResponses = [];
