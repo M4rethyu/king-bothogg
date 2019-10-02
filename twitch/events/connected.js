@@ -3,7 +3,7 @@ module.exports = async (client, address, port) => {
 	
 	// Get summoner runes initially
 	setTimeout(function(){
-		console.log(client.actions);
+		client.actions.get("runes").run(client);
 	}, 20 * 1000);
 	
 	
