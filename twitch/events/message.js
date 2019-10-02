@@ -92,7 +92,9 @@ module.exports = async (client, channel, userstate, message, self) => {
 	
 	
 	const func = ((name, functions) => {
-		client.setCooldown(functions, channel, username)
+		if (permissionLevel > 3) { // Don't set cooldown for mods+
+			client.setCooldown(functions, channel, username)
+		}
 		
 		// Count command usage by users
 		const n = client.persist("commands." + name + "." + username);
