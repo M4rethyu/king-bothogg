@@ -7,6 +7,24 @@ module.exports = (client) => {
 		return (process.env.PROJECT_DOMAIN == "king-bothogg");
 	}
 	
+	client.log = (type, message) =>
+	{
+		if ((typeof message) != "string") client.log("error", "can't log message of type " + typeof message);
+		if ((typeof type) != "string") client.log("error", "can't log type of type " + typeof type);
+		
+		if (type === "chat") {
+			console.log("[CHAT]:  " + message);
+		} else if (type === "log") {
+			console.log("[LOG]:   " + message);
+		} else if (type === "warn") {
+			console.log("[WARN]:  " + message);
+		} else if (type === "error") {
+			console.log("[ERROR]: " + message);
+		} else {
+			client.log("error", "unknown logging type: '" + type + "'");
+		}
+	}
+	
 	client.getCooldown = (functions, channel, username) =>
 	{
 		if ((typeof functions.config.cooldown) == "number") { // Command has a cooldown
