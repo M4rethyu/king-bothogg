@@ -59,6 +59,8 @@ async function main() {
 	
 	require("./modules/functions.js")(client); // Bind functions directly to client
 	
+	(async () => { client.twitch.liveStatus = await client.twitch.live("king_nidhogg") })(); // Initiate live status
+	
 	client.getSummonerAccounts();
 	
 	client.config.hosted = client.checkHosted(); // Tests if this program is running on glitch
@@ -73,7 +75,7 @@ async function main() {
 		}
 		
 		while (!(process.env.RUN == "true")) {
-			console.log("bot is idle");
+			client.log("log", "bot is idle");
 			await (function(){ return new Promise(resolve => setTimeout(resolve, 5000)); })();
 		}
 		
@@ -94,11 +96,11 @@ async function main() {
 		// Load twitch commands
 		var cmdMap = new Map();
 		const cmdFiles = await readdir("./twitch/commands");
-		console.log(`Loading a total of ${cmdFiles.length} commands...`);
+		client.log("log", `Loading a total of ${cmdFiles.length} commands...`);
 		cmdFiles.forEach((file, i) => {
 			if (!file.endsWith(".js")) return; // only load .js files
 			const commandName = file.slice(0,-3)
-			console.log(`Loading Command: ${commandName}`);
+			client.log("log", `Loading Command: ${commandName}`);
 			const command = require(`./twitch/commands/${file}`);
 			cmdMap.set(commandName,
 				{
@@ -111,23 +113,23 @@ async function main() {
 		});
 		// Sort twitch commands
 		client.twitch.commands = new Map();
-		console.log("Sorting commands...");
+		client.log("log", "Sorting commands...");
 		commandOrder.forEach(function(element) {
 			if (!cmdMap.has(element)) return; // Skip name if corresponding command doesn't exist
 			client.twitch.commands.set(element, cmdMap.get(element));
 			cmdMap.delete(element);
 		});
 		client.twitch.commands = new Map([...client.twitch.commands,...cmdMap]);
-		console.log("Done sorting commands");
+		client.log("log", "Done sorting commands");
 		
 		// Load twitch responses
 		var resMap = new Map();
 		const resFiles = await readdir("./twitch/responses");
-		console.log(`Loading a total of ${resFiles.length} responses...`);
+		client.log("log", `Loading a total of ${resFiles.length} responses...`);
 		resFiles.forEach((file, i) => {
 			if (!file.endsWith(".js")) return; // only load .js files
 			const responseName = file.slice(0,-3)
-			console.log(`Loading Response: ${responseName}`);
+			client.log("log", `Loading Response: ${responseName}`);
 			const response = require(`./twitch/responses/${file}`);
 			resMap.set(responseName,
 				{
@@ -141,36 +143,36 @@ async function main() {
 		
 		// Sort twitch responses
 		client.twitch.responses = new Map();
-		console.log("Sorting responses...");
+		client.log("log", "Sorting responses...");
 		responseOrder.forEach(function(element) {
 			if (!resMap.has(element)) return; // Skip name if corresponding response doesn't exist
 			client.twitch.responses.set(element, resMap.get(element));
 			resMap.delete(element);
 		});
 		client.twitch.responses = new Map([...client.twitch.responses,...resMap]);
-		console.log("Done sorting responses");
+		client.log("log", "Done sorting responses");
 		
 		// Load twitch events
 		const evtFiles = await readdir("./twitch/events/");
-		console.log(`Loading a total of ${evtFiles.length} events...`);
+		client.log("log", `Loading a total of ${evtFiles.length} events...`);
 		evtFiles.forEach(file => {
 			const eventName = file.split(".")[0];
-			console.log(`Loading Event: ${eventName}`);
+			client.log("log", `Loading Event: ${eventName}`);
 			const event = require(`./twitch/events/${file}`);
 			// Bind the client to any event, before the existing arguments
 			// provided by the twitch.js event.
 			// This line is awesome by the way. Just sayin'.
 			client.twitch.on(eventName, event.bind(null, client));
 		});
-		console.log("Done loading events.")
+		client.log("log", "Done loading events.")
 		
 		// Load actions
 		client.actions = new Map()
 		const actFiles = await readdir("./actions/");
-		console.log(`Loading a total of ${actFiles.length} actions...`);
+		client.log("log", `Loading a total of ${actFiles.length} actions...`);
 		actFiles.forEach(file => {
 			const actionName = file.split(".")[0];
-			console.log(`Loading Action: ${actionName}`);
+			client.log("log", `Loading Action: ${actionName}`);
 			const action = require(`./actions/${file}`);
 			client.actions.set(actionName,
 				{
@@ -181,7 +183,7 @@ async function main() {
 				}
 			)
 		});
-		console.log("Done loading actions.")
+		client.log("log", "Done loading actions.")
 		
 		
 		
@@ -192,7 +194,7 @@ async function main() {
 	try {
 		init();
 	} catch(err) {
-		console.log(err);
+		client.log("error", err);
 	}
 }
 main();

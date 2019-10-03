@@ -1,5 +1,5 @@
 module.exports = async (client, address, port) => {
-	console.log("connected");
+	client.log("log", "connected");
 	
 	// Get summoner runes initially
 	setTimeout(function(){
@@ -39,7 +39,7 @@ module.exports = async (client, address, port) => {
 			resetDaily();
 		}, t);
 		const hours = Math.floor(t/(3600 * 1000))
-		console.log("resetting daily in " + hours + " hours, " + Math.floor((t - hours * 3600 * 1000)/(60 * 1000)) + " minutes");
+		client.log("log", "resetting daily in " + hours + " hours, " + Math.floor((t - hours * 3600 * 1000)/(60 * 1000)) + " minutes");
 	}
 	resetDaily();
 	

@@ -61,9 +61,9 @@ module.exports = (client) => {
 		for (const name of client.erick.summonerNames) {
 			client.league.Summoner.by.name(name.toLowerCase()).then((summoner) => {
 				client.erick.summonerAccounts.push(summoner);
-				console.log("loaded account '" + name + "'");
+				client.log("log", "loaded account '" + name + "'");
 			}, (err) => {
-				console.log("couldn't find account '" + name + "'");
+				client.log("log", "couldn't find account '" + name + "'");
 			});
 		}
 	}
@@ -86,7 +86,7 @@ module.exports = (client) => {
 	
 	client.getSummonerRunes = () =>
 	{
-		console.log("Getting runes");
+		client.log("log", "Getting runes");
 		var promises = [];
 		for (const summoner of client.erick.summonerAccounts) {
 			promises.push(client.league.CurrentGame.by.summonerID(summoner.id).then((game) => {
@@ -124,10 +124,10 @@ module.exports = (client) => {
 				
 				// And bind to client
 				client.erick.summonerRunes = runes;
-				console.log(summoner.name + " is online")
+				client.log("log", summoner.name + " is online")
 				return runes;
 			},(err) => {
-				console.log(summoner.name + " is offline");
+				client.log("log", summoner.name + " is offline");
 			return undefined;
 			}));
 		}
@@ -157,19 +157,15 @@ module.exports = (client) => {
 		return string;
 	}
 	
-	client.test = (str) => {
-		console.log("test function received :'", str, "'")
-	}
-	
 	// Functions bound to client.twitch
 	client.twitch.linkSocialMedia = (channel) =>
 	{
-		console.log("linking social media in", channel, "'s chat");
+		client.log("log", "linking social media in", channel, "'s chat");
 		client.twitch.say(channel, client.answers.social);
 	}
 	
 	client.twitch.viewerlist = (name) => {
-		console.log("getting viewlist");
+		client.log("log", "getting viewlist");
 		const list = fetch("http://tmi.twitch.tv/group/user/" + name + "/chatters")
 			.then(res => res.json());
 		return list;

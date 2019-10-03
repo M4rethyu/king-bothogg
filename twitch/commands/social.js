@@ -1,5 +1,5 @@
 exports.run = async (client, channel, userstate, command, args, content) => {
-	client.twitch.say(channel, client.answers.social);
+	client.twitch.linkSocialMedia(channel);
 	return;
 };
 

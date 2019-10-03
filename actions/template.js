@@ -1,5 +1,5 @@
 exports.run = async (client) => {
-	console.log("template");
+	client.log("log", "template");
 	return;
 };
 
