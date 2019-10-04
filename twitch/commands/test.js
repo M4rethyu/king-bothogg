@@ -1,7 +1,7 @@
 exports.run = async (client, channel, userstate, command, args, content) => {
 	client.log("warn", "RESETTING REPOSITORY TO ORIGIN/MASTER");
 	
-	exec = require("child_process").exec;
+	const exec = require("child_process").exec;
 	
 	exec("git fetch", (err, stdout, stderr) => {
 		process.stdout.write(stdout)
