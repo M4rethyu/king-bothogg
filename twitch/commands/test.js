@@ -1,8 +1,9 @@
 exports.run = async (client, channel, userstate, command, args, content) => {
 	
+	exec = require("child_process").exec;
 	exec("git fetch", (err, stdout, stderr) => {
 		process.stdout.write(stdout)
-	})
+	});
 	
 	client.twitch.say(channel, "test successful");
 	return;
