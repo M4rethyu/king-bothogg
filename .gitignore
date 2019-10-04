@@ -3,9 +3,6 @@
 # permanently saved data, shouldn't get transfered between hosted and test version
 modules/permanentData.json
 
-# config file
-config.json
-
 # compiled output
 /dist
 /tmp
