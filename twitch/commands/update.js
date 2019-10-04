@@ -29,7 +29,7 @@ exports.config = {
 };
 
 exports.condition = (client, channel, userstate, command, args, content) => {
-	if (command === "template" && client.config.hosted) return true;
+	if (command === "update" && client.config.hosted) return true;
 	return false;
 };
 
