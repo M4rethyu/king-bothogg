@@ -18,8 +18,6 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 		}, 10);
 	}, 700);
 	
-	//test
-	
 	client.twitch.say(channel, "test successful");
 	return;
 };
