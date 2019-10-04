@@ -18,11 +18,6 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 		}, 10);
 	}, 500);
 	
-	
-	
-	
-	// Does it work? Maybe? Maybe again? Maybe...? /////
-	
 	client.twitch.say(channel, "test successful");
 	return;
 };
