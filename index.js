@@ -58,6 +58,7 @@ async function main() {
 			},
 		},
 	});
+	client.league.config = require("./league/config.json");
 	
 	require("./modules/functions.js")(client); // Bind functions directly to client
 	

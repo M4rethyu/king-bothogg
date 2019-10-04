@@ -3,9 +3,10 @@
 # permanently saved data, shouldn't get transfered between hosted and test version
 modules/permanentData.json
 
-# Twitch/Discord config
+# Twitch/Discord/League config
 twitch/config.json
 discord/config.json
+league/config.json
 
 # compiled output
 /dist

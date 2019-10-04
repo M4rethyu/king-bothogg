@@ -1,16 +1,18 @@
 module.exports = async (client, address, port) => {
 	client.log("log", "connected");
 	
-	(async () => { // Initialize LoL stuff
-		// Get LoL Accounts
-		client.erick.summonerAccounts = await client.getSummonerAccounts();
-		client.log("log", "loaded the LoL accounts: " + Array.from(client.erick.summonerAccounts, o => o.name).join(", "));
-		
-		// Get runes for active account
-		setTimeout(function(){
-			client.actions.get("runes").run(client);
-		}, 1 * 1000);
-	})();
+	if (client.league.active) {
+		(async () => { // Initialize LoL stuff
+			// Get LoL Accounts
+			client.erick.summonerAccounts = await client.getSummonerAccounts();
+			client.log("log", "loaded the LoL accounts: " + Array.from(client.erick.summonerAccounts, o => o.name).join(", "));
+			
+			// Get runes for active account
+			setTimeout(function(){
+				client.actions.get("runes").run(client);
+			}, 1 * 1000);
+		})();
+	}
 	
 	
 	const cooldown = {};
