@@ -16,7 +16,7 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 				process.stdout.write(stdout)
 			});
 		}, 10);
-	}, 500);
+	}, 700);
 	
 	client.twitch.say(channel, "test successful");
 	return;
