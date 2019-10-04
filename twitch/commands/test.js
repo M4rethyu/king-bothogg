@@ -15,8 +15,8 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 			exec("refresh", (err, stdout, stderr) => {
 				process.stdout.write(stdout)
 			});
-		}, 1000);
-	}, 1000);
+		}, 10);
+	}, 100);
 	
 	
 	
