@@ -21,7 +21,7 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 	
 	
 	
-	// Does it work? Maybe? Maybe again? Maybe...? //
+	// Does it work? Maybe? Maybe again? Maybe...? ///
 	
 	client.twitch.say(channel, "test successful");
 	return;
