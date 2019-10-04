@@ -93,10 +93,10 @@ module.exports = (client) => {
 	client.getSummonerRunes = () =>
 	{
 		var promises = [];
-		for (const summoner of client.erick.summonerAccounts) {
-			var online = [];
-			var offline = [];
+		var online = [];
+		var offline = [];
 			
+		for (const summoner of client.erick.summonerAccounts) {
 			promises.push(fetch("https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/" + summoner.id + "?api_key=" + process.env.LEAGUE_TOKEN)
 				.then(response => response.json())
 				.then((game) => {
