@@ -22,7 +22,7 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 
 exports.config = {
 	"cooldown" : 0,
-	"sharedCooldown" : true,
+	"sharedCooldown" : false,
 	"permission" : 1
 };
 

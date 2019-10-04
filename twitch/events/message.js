@@ -38,6 +38,10 @@ module.exports = async (client, channel, userstate, message, self) => {
 					logMessage += ("(!" + name + ") ");
 					continue;
 				}
+				if (functions.config.permission < permissionLevel) {
+					logMessage += ("<" + name + "> ");
+					continue;
+				}
 				logMessage += ("!" + name + " ");
 				functions.run(client, channel, userstate, command, args, content);
 				executedCommands.push(name);
@@ -73,9 +77,13 @@ module.exports = async (client, channel, userstate, message, self) => {
 		const functions = entry[1];
 		if ((client.twitch.unconditionalResponses.includes(name)) && functions.condition(client, channel, userstate, content)) {
 			if (client.getCooldown(functions, channel, username)) {
-					logMessage += ("(" + name + ") ");
-					continue;
-				}
+				logMessage += ("(" + name + ") ");
+				continue;
+			}
+			if (functions.config.permission < permissionLevel) {
+				logMessage += ("<" + name + "> ");
+				continue;
+			}
 			logMessage += (name + " ");
 			functions.run(client, channel, userstate, content);
 			executedResponses.push(name);
