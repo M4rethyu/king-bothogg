@@ -92,8 +92,6 @@ module.exports = (client) => {
 	
 	client.getSummonerRunes = () =>
 	{
-		client.log("log", "Getting runes");
-		
 		var promises = [];
 		for (const summoner of client.erick.summonerAccounts) {
 			online = [];
@@ -149,7 +147,7 @@ module.exports = (client) => {
 		
 		const promise = Promise.all(promises.map(p => p.catch(e => e)))
 			.then(results => {
-				client.log("log", "Online: " + online.join(", ") + " | Offline: " + offline.join(", "))
+				client.log("log", "Getting Runes: Online: " + online.join(", ") + " | Offline: " + offline.join(", "))
 				return results.filter(o => o != undefined);
 			})
 			.catch(e => console.log(e));
