@@ -55,19 +55,6 @@ module.exports = (client) => {
 		}
 	}
 	
-	client.getSummonerAccounts = () =>
-	{
-		client.erick.summonerAccounts = [];
-		for (const name of client.erick.summonerNames) {
-			client.league.Summoner.by.name(name.toLowerCase()).then((summoner) => {
-				client.erick.summonerAccounts.push(summoner);
-				client.log("log", "loaded account '" + name + "'");
-			}, (err) => {
-				client.log("log", "couldn't find account '" + name + "'");
-			});
-		}
-	}
-	
 	client.currency = (name, amount) => 
 	{
 		var currentAmount = client.persist("currency.amount." + name);
@@ -84,12 +71,42 @@ module.exports = (client) => {
 		return client.persist("currency.amount." + name);
 	}
 	
+	client.getSummonerAccounts = () =>
+	{
+		var promises = [];
+		for (const name of client.erick.summonerNames) {
+			promises.push(
+				fetch("https://na1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + name + "?api_key=" + process.env.LEAGUE_TOKEN)
+					.then(response => response.json())
+			)
+		}
+		
+		const promise = Promise.all(promises.map(p => p.catch(e => e)))
+			.then(results => {
+				return results.filter(o => (o.id != undefined && o.accountId != undefined && o.puuid != undefined && o.name != undefined && o.profileIconId != undefined && o.revisionDate != undefined && o.summonerLevel != undefined));
+			})
+			.catch(e => client.log("error", e));
+		
+		return promise;
+	}
+	
 	client.getSummonerRunes = () =>
 	{
 		client.log("log", "Getting runes");
+		
 		var promises = [];
 		for (const summoner of client.erick.summonerAccounts) {
-			promises.push(client.league.CurrentGame.by.summonerID(summoner.id).then((game) => {
+			online = [];
+			offline = [];
+			
+			promises.push(fetch("https://na1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/" + summoner.id + "?api_key=" + process.env.LEAGUE_TOKEN)
+				.then(response => response.json())
+				.then((game) => {
+				
+				if (game.status != undefined) {
+					offline.push(summoner.name);
+					return undefined;
+				}
 				
 				// Extract rune IDs from game
 				const part = game.participants.filter(s => s.summonerName == summoner.name)[0];
@@ -122,18 +139,17 @@ module.exports = (client) => {
 					"statRunes" : [stat0, stat1, stat2]
 				}
 				
-				// And bind to client
-				client.erick.summonerRunes = runes;
-				client.log("log", summoner.name + " is online")
+				online.push(summoner.name);
 				return runes;
 			},(err) => {
-				client.log("log", summoner.name + " is offline");
-			return undefined;
+				client.log("error", err);
+				return undefined;
 			}));
 		}
 		
 		const promise = Promise.all(promises.map(p => p.catch(e => e)))
 			.then(results => {
+				client.log("log", "Online: " + online.join(", ") + " | Offline: " + offline.join(", "))
 				return results.filter(o => o != undefined);
 			})
 			.catch(e => console.log(e));

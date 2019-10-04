@@ -1,10 +1,16 @@
 module.exports = async (client, address, port) => {
 	client.log("log", "connected");
 	
-	// Get summoner runes initially
-	setTimeout(function(){
-		client.actions.get("runes").run(client);
-	}, 20 * 1000);
+	(async () => { // Initialize LoL stuff
+		// Get LoL Accounts
+		client.erick.summonerAccounts = await client.getSummonerAccounts();
+		client.log("log", "loaded the LoL accounts: " + Array.from(client.erick.summonerAccounts, o => o.name).join(", "));
+		
+		// Get runes for active account
+		setTimeout(function(){
+			client.actions.get("runes").run(client);
+		}, 1 * 1000);
+	})();
 	
 	
 	const cooldown = {};
@@ -15,6 +21,7 @@ module.exports = async (client, address, port) => {
 			functions.onCooldown = false;
 		}, functions.config.cooldown * 1000);
 	});
+	
 	
 	// Run all actions that are off cooldown every 10 seconds
 	setInterval(async function() {
