@@ -3,15 +3,23 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 	
 	const exec = require("child_process").exec;
 	
-	await exec("git fetch", (err, stdout, stderr) => {
+	exec("git fetch", (err, stdout, stderr) => {
 		process.stdout.write(stdout)
 	});
-	await exec("git reset --hard origin/master", (err, stdout, stderr) => {
-		process.stdout.write(stdout)
-	});
-	exec("refresh", (err, stdout, stderr) => {
-		process.stdout.write(stdout)
-	});
+	setTimeout(function() {
+		exec("git reset --hard origin/master", (err, stdout, stderr) => {
+			process.stdout.write(stdout)
+		});
+		
+		setTimeout(function() {
+			exec("refresh", (err, stdout, stderr) => {
+				process.stdout.write(stdout)
+			});
+		}, 1000);
+	}, 1000);
+	
+	
+	
 	
 	// Does it work? Maybe? Maybe again?
 	
