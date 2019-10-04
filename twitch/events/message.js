@@ -6,9 +6,9 @@ module.exports = async (client, channel, userstate, message, self) => {
 	var content;
 	var args;
 	var command;
-	if (message.startsWith(client.config.prefix)) {
+	if (message.startsWith(client.twitch.config.prefix)) {
 		prefix = true;
-		content = message.slice(client.config.prefix.length);
+		content = message.slice(client.twitch.config.prefix.length);
 		args = content.trim().split(/ +/g);
 		command = args.shift().toLowerCase();
 	} else {
@@ -20,7 +20,7 @@ module.exports = async (client, channel, userstate, message, self) => {
 	
 	var permissionLevel = 5;
 	if (userstate.mod) permissionLevel = 3;
-	if (client.config.admins.includes(username)) permissionLevel = 2;
+	if (client.twitch.config.admins.includes(username)) permissionLevel = 2;
 	if (("#" + username) == channel) permissionLevel = 1;
 	if (username == "xmarethyu") permissionLevel = 0;
 	userstate.permission = permissionLevel;

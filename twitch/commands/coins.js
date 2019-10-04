@@ -10,10 +10,10 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 		self = false;
 	}
 	
-	if (self) { // Redeems money from themself
+	if (self) { // Check money from themself
 		client.twitch.say(channel, "@" + userstate.username + ", you have " + client.currency(userstate.username) + " " + client.answers.currencies);
-	} else { // Redeem money from someone else
-		if (userstate.permission > 3) { // Check if user has permission to redeem from someone else
+	} else { // Check money from someone else
+		if (userstate.permission > 3) { // Check if user has permission to check money of someone else
 			//client.twitch.say(channel, "@" + userstate.username + ", you don't have permission to check someone else's balance");
 			return false;
 		}

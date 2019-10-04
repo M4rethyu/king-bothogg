@@ -21,15 +21,17 @@ async function main() {
 	client.persist = (key, data) => { if (data != undefined) return client.dataStorage.set(key, data); else return client.dataStorage.get(key); }; // Rebind get & set functions
 	
 	// Set twitch configuration options
+	const twitchConfig = require("./twitch/config.json");
 	const twitch_opts = {
 		identity: {
 			username: process.env.TWITCH_USERNAME,
 			password: process.env.TWITCH_TOKEN
 		},
-		channels: client.config.channels
+		channels: twitchConfig.channels
 	};
 	// Create and bind twitch client
 	client.twitch = new tmi.client(twitch_opts); // Twitch Client
+	client.twitch.config = twitchConfig;
 	// Create and bind league client
 	const {Kayn, REGIONS} = require('kayn')
 	client.league = Kayn(process.env.LEAGUE_TOKEN)({ // Set configuration options
