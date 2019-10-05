@@ -244,11 +244,11 @@ module.exports = (client) => {
 	}
 	
 	// Functions bound to client.persist
-	client.persist.commandTotal = (name) =>
+	client.persist.twitchCommandTotal = (name) =>
 	{
 		if ((typeof name) != "string") return false;
 		
-		const map = client.persist("commands." + name);
+		const map = client.persist("twitch.commands." + name);
 		if (map == undefined) return false;
 		
 		var sum = 0;
