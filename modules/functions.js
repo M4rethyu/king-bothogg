@@ -12,8 +12,11 @@ module.exports = (client) => {
 		if ((typeof message) != "string") client.log("error", "can't log message of type " + typeof message);
 		if ((typeof type) != "string") client.log("error", "can't log type of type " + typeof type);
 		
-		if (type === "chat") {
-			console.log("[CHAT]:  " + message);
+		if (type === "twitch") {
+			console.log("[TWITCH]:  " + message);
+			if (client.discord.config.useLog) client.discord.logChannel().send("[TWITCH]: " + message);
+		} else if (type === "discord") {
+			console.log("[DSCRD]: " + message);
 		} else if (type === "log") {
 			console.log("[LOG]:   " + message);
 		} else if (type === "warn") {
@@ -25,35 +28,6 @@ module.exports = (client) => {
 		}
 	}
 	
-	client.getCooldown = (functions, channel, username) =>
-	{
-		if ((typeof functions.config.cooldown) == "number") { // Command has a cooldown
-			var sharedCooldown = functions.config.sharedCooldown;
-			if ((typeof sharedCooldown) == "undefined") sharedCooldown = true;
-			if (sharedCooldown) { // Command shares cooldown between all users
-				return functions.onCooldown[channel];
-			} else { // Command starts individual cooldown for each user
-				if (!functions.onCooldown[channel]) functions.onCooldown[channel] = {};
-				return functions.onCooldown[channel][username];
-			}
-		}
-	}
-	
-	client.setCooldown = (functions, channel, username) =>
-	{
-		if ((typeof functions.config.cooldown) == "number") { // Command has a cooldown
-			var sharedCooldown = functions.config.sharedCooldown;
-			if ((typeof sharedCooldown) == "undefined") sharedCooldown = true;
-			if (sharedCooldown) { // Command shares cooldown between all users
-				functions.onCooldown[channel] = true;
-				setTimeout(function(){ functions.onCooldown[channel] = false; }, functions.config.cooldown * 1000);
-			} else { // Command starts individual cooldown for each user
-				if (!functions.onCooldown[channel]) functions.onCooldown[channel] = {};
-				functions.onCooldown[channel][username] = true;
-				setTimeout(function(){ functions.onCooldown[channel][username] = false; }, functions.config.cooldown * 1000);
-			}
-		}
-	}
 	
 	client.currency = (name, amount) => 
 	{
@@ -192,7 +166,76 @@ module.exports = (client) => {
 		return live;
 	}
 	
+	client.twitch.getCooldown = (functions, channel, username) =>
+	{
+		if ((typeof functions.config.cooldown) == "number") { // Command has a cooldown
+			var sharedCooldown = functions.config.sharedCooldown;
+			if ((typeof sharedCooldown) == "undefined") sharedCooldown = true;
+			if (sharedCooldown) { // Command shares cooldown between all users
+				return functions.onCooldown[channel];
+			} else { // Command starts individual cooldown for each user
+				if (!functions.onCooldown[channel]) functions.onCooldown[channel] = {};
+				return functions.onCooldown[channel][username];
+			}
+		}
+	}
+	
+	client.twitch.setCooldown = (functions, channel, username) =>
+	{
+		if ((typeof functions.config.cooldown) == "number") { // Command has a cooldown
+			var sharedCooldown = functions.config.sharedCooldown;
+			if ((typeof sharedCooldown) == "undefined") sharedCooldown = true;
+			if (sharedCooldown) { // Command shares cooldown between all users
+				functions.onCooldown[channel] = true;
+				setTimeout(function(){ functions.onCooldown[channel] = false; }, functions.config.cooldown * 1000);
+			} else { // Command starts individual cooldown for each user
+				if (!functions.onCooldown[channel]) functions.onCooldown[channel] = {};
+				functions.onCooldown[channel][username] = true;
+				setTimeout(function(){ functions.onCooldown[channel][username] = false; }, functions.config.cooldown * 1000);
+			}
+		}
+	}
+	
 	// Functions bound to client.discord
+	client.discord.logChannel = () =>
+	{
+		//return client.discord.channels.find("id", "630054905075204106");
+		return client.discord.channels.get(client.discord.config.logID);
+	}
+	client.discord.consoleChannel = () =>
+	{
+		//return client.discord.channels.find("id", "630054905075204106");
+		return client.discord.channels.get(client.discord.config.logID);
+	}
+	
+	client.discord.getCooldown = (functions, id) =>
+	{
+		if ((typeof functions.config.cooldown) == "number") { // Command has a cooldown
+			var sharedCooldown = functions.config.sharedCooldown;
+			if ((typeof sharedCooldown) == "undefined") sharedCooldown = true;
+			if (sharedCooldown) { // Command shares cooldown between all users
+				return functions.onCooldown;
+			} else { // Command starts individual cooldown for each user
+				return functions.onCooldown[id];
+			}
+		}
+	}
+	
+	client.twitch.setCooldown = (functions, id) =>
+	{
+		if ((typeof functions.config.cooldown) == "number") { // Command has a cooldown
+			var sharedCooldown = functions.config.sharedCooldown;
+			if ((typeof sharedCooldown) == "undefined") sharedCooldown = true;
+			if (sharedCooldown) { // Command shares cooldown between all users
+				functions.onCooldown = true;
+				setTimeout(function(){ functions.onCooldown[channel] = false; }, functions.config.cooldown * 1000);
+			} else { // Command starts individual cooldown for each user
+				if (!functions.onCooldown[channel]) functions.onCooldown[channel] = {};
+				functions.onCooldown[id] = true;
+				setTimeout(function(){ functions.onCooldown[id] = false; }, functions.config.cooldown * 1000);
+			}
+		}
+	}
 	
 	// Functions bound to client.league
 	client.league.getCurrentRunes = () =>

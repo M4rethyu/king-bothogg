@@ -32,6 +32,10 @@ async function main() {
 	// Create and bind twitch client
 	client.twitch = new tmi.client(twitch_opts); // Twitch Client
 	client.twitch.config = twitchConfig;
+	// Create and bind discord client
+	const Discord = require("discord.js");
+	client.discord = new Discord.Client();
+	client.discord.config = require("./discord/config.json");
 	// Create and bind league client
 	const {Kayn, REGIONS} = require('kayn')
 	client.league = Kayn(process.env.LEAGUE_TOKEN)({ // Set configuration options
@@ -89,17 +93,18 @@ async function main() {
 		}, 280000);
 	}
 	
-	// Stuff used for init()
-	const commandOrder = ["ping", "template"]; // Order, in which the commands will be tested
-	const responseOrder = ["erick", "nidhogg", "runes"]; // Order, in which the autoresponses will be tested
-	client.twitch.unconditionalResponses = ["erick", "nidhogg"]; // Autoresponses, which will trigger no matter what other things are also triggered by the message
 	
 	const init = async () => {
 		
+		// Twitch command order
+		var commandOrder = ["ping", "template"]; // Order, in which the commands will be tested
+		var responseOrder = ["erick", "nidhogg", "runes"]; // Order, in which the autoresponses will be tested
+		client.twitch.unconditionalResponses = ["erick", "nidhogg"]; // Autoresponses, which will trigger no matter what other things are also triggered by the message
+		
 		// Load twitch commands
 		var cmdMap = new Map();
-		const cmdFiles = await readdir("./twitch/commands");
-		client.log("log", `Loading a total of ${cmdFiles.length} commands...`);
+		var cmdFiles = await readdir("./twitch/commands");
+		client.log("log", `Loading a total of ${cmdFiles.length} twitch commands...`);
 		cmdFiles.forEach((file, i) => {
 			if (!file.endsWith(".js")) return; // only load .js files
 			const commandName = file.slice(0,-3)
@@ -116,19 +121,19 @@ async function main() {
 		});
 		// Sort twitch commands
 		client.twitch.commands = new Map();
-		client.log("log", "Sorting commands...");
+		client.log("log", "Sorting twitch commands...");
 		commandOrder.forEach(function(element) {
 			if (!cmdMap.has(element)) return; // Skip name if corresponding command doesn't exist
 			client.twitch.commands.set(element, cmdMap.get(element));
 			cmdMap.delete(element);
 		});
 		client.twitch.commands = new Map([...client.twitch.commands,...cmdMap]);
-		client.log("log", "Done sorting commands");
+		client.log("log", "Done sorting twitch commands");
 		
 		// Load twitch responses
 		var resMap = new Map();
-		const resFiles = await readdir("./twitch/responses");
-		client.log("log", `Loading a total of ${resFiles.length} responses...`);
+		var resFiles = await readdir("./twitch/responses");
+		client.log("log", `Loading a total of ${resFiles.length} twitch responses...`);
 		resFiles.forEach((file, i) => {
 			if (!file.endsWith(".js")) return; // only load .js files
 			const responseName = file.slice(0,-3)
@@ -146,18 +151,18 @@ async function main() {
 		
 		// Sort twitch responses
 		client.twitch.responses = new Map();
-		client.log("log", "Sorting responses...");
+		client.log("log", "Sorting twitch responses...");
 		responseOrder.forEach(function(element) {
 			if (!resMap.has(element)) return; // Skip name if corresponding response doesn't exist
 			client.twitch.responses.set(element, resMap.get(element));
 			resMap.delete(element);
 		});
 		client.twitch.responses = new Map([...client.twitch.responses,...resMap]);
-		client.log("log", "Done sorting responses");
+		client.log("log", "Done sorting twitch responses");
 		
 		// Load twitch events
-		const evtFiles = await readdir("./twitch/events/");
-		client.log("log", `Loading a total of ${evtFiles.length} events...`);
+		var evtFiles = await readdir("./twitch/events/");
+		client.log("log", `Loading a total of ${evtFiles.length} twitch events...`);
 		evtFiles.forEach(file => {
 			const eventName = file.split(".")[0];
 			client.log("log", `Loading Event: ${eventName}`);
@@ -167,7 +172,89 @@ async function main() {
 			// This line is awesome by the way. Just sayin'.
 			client.twitch.on(eventName, event.bind(null, client));
 		});
-		client.log("log", "Done loading events.")
+		client.log("log", "Done loading twitch events.");
+		
+		
+		
+		// Discord command order
+		commandOrder = ["ping", "template"]; // Order, in which the commands will be tested
+		responseOrder = ["erick", "nidhogg", "runes"]; // Order, in which the autoresponses will be tested
+		client.discord.unconditionalResponses = ["erick", "nidhogg"]; // Autoresponses, which will trigger no matter what other things are also triggered by the message
+		
+		// Load discord commands
+		cmdMap = new Map();
+		cmdFiles = await readdir("./discord/commands");
+		client.log("log", `Loading a total of ${cmdFiles.length} discord commands...`);
+		cmdFiles.forEach((file, i) => {
+			if (!file.endsWith(".js")) return; // only load .js files
+			const commandName = file.slice(0,-3)
+			client.log("log", `Loading Command: ${commandName}`);
+			const command = require(`./discord/commands/${file}`);
+			cmdMap.set(commandName,
+				{
+					"run" : command.run,
+					"condition" : command.condition,
+					"config" : command.config,
+					"onCooldown" : false
+				}
+			)
+		});
+		// Sort discord commands
+		client.discord.commands = new Map();
+		client.log("log", "Sorting discord commands...");
+		commandOrder.forEach(function(element) {
+			if (!cmdMap.has(element)) return; // Skip name if corresponding command doesn't exist
+			client.discord.commands.set(element, cmdMap.get(element));
+			cmdMap.delete(element);
+		});
+		client.discord.commands = new Map([...client.discord.commands,...cmdMap]);
+		client.log("log", "Done sorting discord commands");
+		
+		// Load discord responses
+		resMap = new Map();
+		resFiles = await readdir("./discord/responses");
+		client.log("log", `Loading a total of ${resFiles.length} discord responses...`);
+		resFiles.forEach((file, i) => {
+			if (!file.endsWith(".js")) return; // only load .js files
+			const responseName = file.slice(0,-3)
+			client.log("log", `Loading Response: ${responseName}`);
+			const response = require(`./discord/responses/${file}`);
+			resMap.set(responseName,
+				{
+					"run" : response.run,
+					"condition" : response.condition,
+					"config" : response.config,
+					"onCooldown" : false
+				}
+			)
+		});
+		
+		// Sort discord responses
+		client.discord.responses = new Map();
+		client.log("log", "Sorting discord responses...");
+		responseOrder.forEach(function(element) {
+			if (!resMap.has(element)) return; // Skip name if corresponding response doesn't exist
+			client.discord.responses.set(element, resMap.get(element));
+			resMap.delete(element);
+		});
+		client.discord.responses = new Map([...client.discord.responses,...resMap]);
+		client.log("log", "Done sorting discord responses");
+		
+		// Load discord events
+		evtFiles = await readdir("./discord/events/");
+		client.log("log", `Loading a total of ${evtFiles.length} discord events...`);
+		evtFiles.forEach(file => {
+			const eventName = file.split(".")[0];
+			client.log("log", `Loading Event: ${eventName}`);
+			const event = require(`./discord/events/${file}`);
+			// Bind the client to any event, before the existing arguments
+			// provided by the discord.js event.
+			// This line is awesome by the way. Just sayin'.
+			client.discord.on(eventName, event.bind(null, client));
+		});
+		client.log("log", "Done loading discord events.");
+		
+		
 		
 		// Load actions
 		client.actions = new Map()
@@ -189,8 +276,14 @@ async function main() {
 		client.log("log", "Done loading actions.")
 		
 		
-		
+		// Log in twitch client
 		client.twitch.connect();
+		
+		// Log in discord client
+		var token;
+		if (client.discord.config.testing) token = process.env.DISCORD_TESTTOKEN;
+		else token = process.env.DISCORD_TOKEN;
+		client.discord.login(token);
 	};
 
 

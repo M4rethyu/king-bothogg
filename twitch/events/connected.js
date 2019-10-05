@@ -1,7 +1,9 @@
 module.exports = async (client, address, port) => {
 	client.log("log", "connected");
 	
-	if (client.league.active) {
+	
+	
+	if (client.league.config.active) {
 		(async () => { // Initialize LoL stuff
 			// Get LoL Accounts
 			client.erick.summonerAccounts = await client.getSummonerAccounts();

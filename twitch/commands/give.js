@@ -16,7 +16,7 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 	client.currency(target, amount);
 	const after = client.currency(target);
 	
-	client.twitch.say(channel, "@" + args[0] + ", " + userstate.username + " gave you " + amount + " " + ((amount == 1)?(client.answers.currency):(client.answers.currencies)) + " for a total of " + after);
+	client.twitch.say(channel, "@" + target + ", " + userstate.username + " gave you " + amount + " " + ((amount == 1)?(client.answers.currency):(client.answers.currencies)) + " for a total of " + after);
 	return;
 };
 

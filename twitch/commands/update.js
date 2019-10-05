@@ -33,4 +33,4 @@ exports.condition = (client, channel, userstate, command, args, content) => {
 	return false;
 };
 
-exports.help = "A template for commands, so I can just copy paste"
+exports.help = "Updates glitch to origin/master"
