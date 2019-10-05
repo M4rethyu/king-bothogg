@@ -221,7 +221,7 @@ module.exports = (client) => {
 		}
 	}
 	
-	client.twitch.setCooldown = (functions, id) =>
+	client.discord.setCooldown = (functions, id) =>
 	{
 		if ((typeof functions.config.cooldown) == "number") { // Command has a cooldown
 			var sharedCooldown = functions.config.sharedCooldown;
