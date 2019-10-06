@@ -11,7 +11,7 @@ exports.run = async (client, message, permission, command, args, content) => {
 		if (excludeErick && name == "king_nidhogg") return;
 		sum += map[name];
 	});
-	const n = names.length;
+	const n = names.length + (excludeErick?-1:0);
 	const avg = sum/n
 	
 	console.log(n)
