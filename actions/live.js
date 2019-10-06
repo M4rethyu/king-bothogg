@@ -8,7 +8,7 @@ exports.run = async (client) => {
 		})),
 		(() => client.discord.user.setPresence({
 			game: {
-				name: "to Erick's stream",
+				name: "Erick's stream",
 				type: "LISTENING"
 			}
 		}))
