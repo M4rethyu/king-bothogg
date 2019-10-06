@@ -1,12 +1,14 @@
 exports.run = async (client, message, permission, command, args, content) => {
 	
+	const excludeErick = args.includes("-e")
+	
 	const map = client.persist("currency.amount");
 	//if (map == undefined) return false;
 	
 	var sum = 0;
 	const names = Object.getOwnPropertyNames(map);
 	names.forEach(name => {
-		if (name == "king_nidhogg") return;
+		if (excludeErick && name == "king_nidhogg") return;
 		sum += map[name];
 	});
 	const n = names.length;
