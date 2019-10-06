@@ -23,7 +23,7 @@ exports.run = async (client) => {
 		})),
 		(() => client.discord.user.setPresence({
 			game: {
-				name: "to AI debates",
+				name: "AI debates",
 				type: "LISTENING"
 			}
 		})),
