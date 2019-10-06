@@ -66,7 +66,7 @@ exports.run = async (client) => {
 };
 
 exports.config = {
-	"cooldown" : 10
+	"cooldown" : 40
 };
 
 exports.condition = (client) => {
