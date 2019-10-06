@@ -11,7 +11,7 @@ exports.run = async (client, message, permission, command, args, content) => {
 		exec("refresh", (err, stdout, stderr) => {
 			process.stdout.write(stdout)
 		});
-	}, 700);
+	}, 1000);
 	
 	return;
 };
