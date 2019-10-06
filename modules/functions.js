@@ -19,6 +19,9 @@ module.exports = (client) => {
 			console.log("[DSCRD]: " + message);
 		} else if (type === "log") {
 			console.log("[LOG]:   " + message);
+		} else if (type === "log+") {
+			console.log("[LOG+]:  " + message);
+			if (client.discord.config.useLog) client.discord.logChannel().send("[LOG]: " + message);
 		} else if (type === "warn") {
 			console.log("[WARN]:  " + message);
 		} else if (type === "error") {
