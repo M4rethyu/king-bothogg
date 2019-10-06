@@ -14,4 +14,4 @@ exports.condition = (client, message, permission, command, args, content) => {
 	return false;
 };
 
-exports.help = "A template for commands, so I can just copy paste"
+exports.help = "test code here"
