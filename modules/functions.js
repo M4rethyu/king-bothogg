@@ -169,7 +169,7 @@ module.exports = (client) => {
 	// Functions bound to client.twitch
 	client.twitch.linkSocialMedia = (channel) =>
 	{
-		client.log("log", "linking social media in" + channel + "'s chat");
+		client.log("log", "linking social media in " + channel + "'s chat");
 		client.twitch.say(channel, client.answers.social);
 	}
 	
