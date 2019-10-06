@@ -28,8 +28,8 @@ exports.run = async (client, message, permission, command, args, content) => {
 	
 	top10.forEach(e => e.join(": "));
 	
-	client.log("console", 
-		"Total viewers with " + client.answers.currencies + ": " + n +
+	message.channel.send("[OUTPUT]: " + 
+		"\nTotal viewers with " + client.answers.currencies + ": " + n +
 		"\nTotal amount of " + client.answers.currencies + ": " + sum +
 		"\nAverage amount of " + client.answers.currencies + ": " + avg
 	);
