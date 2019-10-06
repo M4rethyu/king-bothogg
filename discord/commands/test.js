@@ -1,5 +1,6 @@
 exports.run = async (client, message, permission, command, args, content) => {
-	console.log(message.author.fetchProfile());
+	
+	
 	return;
 };
 

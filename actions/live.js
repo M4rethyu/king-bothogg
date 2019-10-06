@@ -1,12 +1,62 @@
 exports.run = async (client) => {
+	const liveStati = [
+		(() => client.discord.user.setPresence({
+			game: {
+				name: "Erick's stream",
+				type: "WATCHING"
+			}
+		})),
+		(() => client.discord.user.setPresence({
+			game: {
+				name: "to Erick's stream",
+				type: "LISTENING"
+			}
+		}))
+	];
+	
+	const deadStati = [
+		(() => client.discord.user.setPresence({
+			game: {
+				name: "you closely",
+				type: "WATCHING"
+			}
+		})),
+		(() => client.discord.user.setPresence({
+			game: {
+				name: "to AI debates",
+				type: "LISTENING"
+			}
+		})),
+		(() => client.discord.user.setPresence({
+			game: {
+				name: "apocalyptic movies",
+				type: "WATCHING"
+			}
+		})),
+		(() => client.discord.user.setPresence({
+			game: {
+				name: "god",
+				type: "PLAYING"
+			}
+		}))
+	];
+	
 	const live = await client.twitch.live("king_nidhogg");
 	if (live) { // Is live
+		var i = Math.floor(Math.random()*liveStati.length);
+		console.log(i);
+		liveStati[i]();
+		
 		if (client.twitch.liveStatus) { // Was live => continued streaming
 			client.log("log", "Erick continued streaming");
 		} else { // Wasn't live => started streaming
 			client.log("log+", "Erick started streaming");
 		}
 	} else { // Isn't live
+		var i = Math.floor(Math.random()*deadStati.length);
+		console.log(i);
+		deadStati[i]();
+		
 		if (client.twitch.liveStatus) { // Was live => stopped streaming
 			client.log("log+", "Erick stopped streaming");
 		} else { // Wasn't live => Isn't streaming
@@ -18,7 +68,7 @@ exports.run = async (client) => {
 };
 
 exports.config = {
-	"cooldown" : 40
+	"cooldown" : 10
 };
 
 exports.condition = (client) => {
