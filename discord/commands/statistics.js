@@ -6,7 +6,7 @@ exports.run = async (client, message, permission, command, args, content) => {
 	var sum = 0;
 	const names = Object.getOwnPropertyNames(map);
 	names.forEach(name => {
-		//if (name == "king_nidhogg") return;
+		if (name == "king_nidhogg") return;
 		sum += map[name];
 	});
 	const n = names.length;
