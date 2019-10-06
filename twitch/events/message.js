@@ -21,7 +21,7 @@ module.exports = async (client, channel, userstate, message, self) => {
 	var permissionLevel = 5;
 	if (userstate.mod) permissionLevel = 3;
 	if (client.twitch.config.admins.includes(username)) permissionLevel = 2;
-	if (("#" + username) == channel) permissionLevel = 1;
+	if (("#" + username) == channel && userstate["message-type"] == "chat") permissionLevel = 1;
 	if (client.twitch.config.owner.includes(username)) permissionLevel = 0;
 	userstate.permission = permissionLevel;
 	
