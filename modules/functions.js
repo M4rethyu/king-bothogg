@@ -23,8 +23,10 @@ module.exports = (client) => {
 			console.log("[LOG+]:  " + message);
 			if (client.discord.config.useLog) client.discord.logChannel().send("[LOG]: " + message);
 		} else if (type === "console") {
-			console.log("[CONSL]: " + message);
-			/*if (client.discord.config.consoleOutput) */client.discord.consoleChannel().send("[OUTPUT]: " + message);
+			if (client.discord.config.consoleOutput) {
+				console.log("[CONSL]: " + message);
+				client.discord.consoleChannel().send("[OUTPUT]: " + message);
+			}
 		} else if (type === "warn") {
 			console.log("[WARN]:  " + message);
 		} else if (type === "error") {
