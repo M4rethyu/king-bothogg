@@ -148,6 +148,19 @@ module.exports = (client) => {
 		return string;
 	}
 	
+	client.currentAccount = () =>
+	{
+		var string;
+		if (client.erick.summonerRunes.length > 0) {
+			const runes = client.erick.summonerRunes[0];
+			string =	"Erick is currently playing on https://na.op.gg/summoner/userName=" + runes.accName + ". The other accounts are in the twitch description";
+		} else {
+			string = "Can't find active game. You can find the links to Erick's accounts in the twitch description";
+		}
+		
+		return string;
+	}
+	
 	// Functions bound to client.twitch
 	client.twitch.linkSocialMedia = (channel) =>
 	{
