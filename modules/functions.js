@@ -22,6 +22,9 @@ module.exports = (client) => {
 		} else if (type === "log+") {
 			console.log("[LOG+]:  " + message);
 			if (client.discord.config.useLog) client.discord.logChannel().send("[LOG]: " + message);
+		} else if (type === "console") {
+			console.log("[CONSL]: " + message);
+			/*if (client.discord.config.consoleOutput) */client.discord.consoleChannel().send("[OUTPUT]: " + message);
 		} else if (type === "warn") {
 			console.log("[WARN]:  " + message);
 		} else if (type === "error") {
@@ -221,7 +224,7 @@ module.exports = (client) => {
 	client.discord.consoleChannel = () =>
 	{
 		//return client.discord.channels.find("id", "630054905075204106");
-		return client.discord.channels.get(client.discord.config.logID);
+		return client.discord.channels.get(client.discord.config.consoleID);
 	}
 	
 	client.discord.getCooldown = (functions, id) =>
