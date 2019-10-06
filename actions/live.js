@@ -44,7 +44,6 @@ exports.run = async (client) => {
 	const live = await client.twitch.live("king_nidhogg");
 	if (live) { // Is live
 		var i = Math.floor(Math.random()*liveStati.length);
-		console.log(i);
 		liveStati[i]();
 		
 		if (client.twitch.liveStatus) { // Was live => continued streaming
@@ -54,7 +53,6 @@ exports.run = async (client) => {
 		}
 	} else { // Isn't live
 		var i = Math.floor(Math.random()*deadStati.length);
-		console.log(i);
 		deadStati[i]();
 		
 		if (client.twitch.liveStatus) { // Was live => stopped streaming
