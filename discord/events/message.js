@@ -43,7 +43,7 @@ module.exports = async (client, message) => {
 	console.log(typeof client.discord.config.spamID)
 	
 	if (/*permissionLevel > 3 && */channel.id != client.discord.config.spamID) {
-		logMessage += ("]");
+		logMessage += ("NOT IN SPAM CHANNEL ]");
 		client.log("discord", logMessage);
 		return false;
 	}
