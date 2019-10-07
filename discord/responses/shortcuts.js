@@ -11,7 +11,7 @@ exports.run = async (client, message, permission, content) => {
 				client.discord.commands.get("backup").run(client);
 				break;
 			case "t":
-				client.discord.commands.get("test").run(client);
+				client.discord.commands.get("test").run(client, message);
 				break;
 			default:
 				client.log("warn", "used '" + arg + "' as an argument in shortcuts, has no function");
