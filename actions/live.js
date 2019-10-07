@@ -6,7 +6,7 @@ exports.run = async (client) => {
 		
 		
 		if (client.twitch.liveStatus) { // Was live => continued streaming
-			client.log("log", "Erick continued streaming");
+			//client.log("log", "Erick continued streaming");
 		} else { // Wasn't live => started streaming
 			client.log("log+", "Erick started streaming");
 		}
@@ -16,7 +16,7 @@ exports.run = async (client) => {
 		if (client.twitch.liveStatus) { // Was live => stopped streaming
 			client.log("log+", "Erick stopped streaming");
 		} else { // Wasn't live => Isn't streaming
-			client.log("log", "Erick isn't streaming");
+			//client.log("log", "Erick isn't streaming");
 		}
 	}
 	client.twitch.liveStatus = live; // Update live status for next time
