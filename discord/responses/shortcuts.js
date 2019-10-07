@@ -19,6 +19,8 @@ exports.run = async (client, message, permission, content) => {
 		}
 	}
 	
+	message.delete().catch(e => client.log("error", e));
+	
 	return;
 };
 
