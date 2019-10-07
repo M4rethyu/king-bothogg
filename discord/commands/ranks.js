@@ -28,13 +28,15 @@ exports.run = async (client, message, permission, command, args, content) => {
 };
 
 exports.config = {
-	"cooldown" : 0,
+	"cooldown" : 30,
 	"sharedCooldown" : true,
 	"permission" : 5
 };
 
 exports.condition = (client, message, permission, command, args, content) => {
+	console.log("testing condition of !ranks");
 	if (command === "ranks") return true;
+	console.log("returned false");
 	return false;
 };
 
