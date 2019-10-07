@@ -249,9 +249,9 @@ module.exports = (client) => {
 			if ((typeof sharedCooldown) == "undefined") sharedCooldown = true;
 			if (sharedCooldown) { // Command shares cooldown between all users
 				functions.onCooldown = true;
-				setTimeout(function(){ functions.onCooldown[channel] = false; }, functions.config.cooldown * 1000);
+				setTimeout(function(){ functions.onCooldown = false; }, functions.config.cooldown * 1000);
 			} else { // Command starts individual cooldown for each user
-				if (!functions.onCooldown[channel]) functions.onCooldown[channel] = {};
+				if (!functions.onCooldown) functions.onCooldown = {};
 				functions.onCooldown[id] = true;
 				setTimeout(function(){ functions.onCooldown[id] = false; }, functions.config.cooldown * 1000);
 			}

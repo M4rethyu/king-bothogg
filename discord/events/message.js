@@ -5,7 +5,7 @@ module.exports = async (client, message) => {
 	if (client.config.hosted) {
 		if (message.guild.id != "159712694671245312") return false;
 	} else {
-		if (message.guild.id != "437644282933936130") return false;
+		//if (message.guild.id != "437644282933936130") return false;
 	}
 	// Preparing variables
 	const channel = message.channel;
@@ -37,7 +37,16 @@ module.exports = async (client, message) => {
 	const permission = permissionLevel;
 	
 	// Plebs can only use commands in the intended bot spam channel
-	if (permissionLevel > 3 && channel.id != client.discord.config.spamID) return false;
+	console.log(channel.id)
+	console.log(typeof channel.id)
+	console.log(client.discord.config.spamID)
+	console.log(typeof client.discord.config.spamID)
+	
+	if (/*permissionLevel > 3 && */channel.id != client.discord.config.spamID) {
+		logMessage += ("]");
+		client.log("discord", logMessage);
+		return false;
+	}
 	
 	var executedCommands = [];
 	var executedResponses = [];
