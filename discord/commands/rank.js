@@ -44,6 +44,9 @@ exports.run = async (client, message, permission, command, args, content) => {
 		if (/<@!\d{1,}>/.test(target)) {
 			targetID = target.substring(3,21);
 			target = message.guild.members.find(m => m.id == targetID);
+		} else if (/<@\d{1,}>/.test(target)) {
+			targetID = target.substring(2,20);
+			target = message.guild.members.find(m => m.id == targetID);
 		} else {
 			channel.send(message.author + ", please mention a user to assign a rank (!rank [rank] ([user]))");
 			return false;
