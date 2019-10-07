@@ -35,6 +35,7 @@ module.exports = async (client, message) => {
 	//if (false) permissionLevel = 1;
 	if (client.discord.config.owner.includes(message.author.id)) permissionLevel = 0;
 	const permission = permissionLevel;
+	permissionLevel = 5;
 	
 	// Plebs can only use commands in the intended bot spam channel
 	console.log(channel.id)
