@@ -32,6 +32,7 @@ module.exports = async (client, message) => {
 	if (client.discord.config.owner.includes(message.author.id)) permissionLevel = 0;
 	const permission = permissionLevel;
 	
+	if (permissionLevel > 3 && channel.id != client.discord.config.spamID) return false;
 	
 	var executedCommands = [];
 	var executedResponses = [];
