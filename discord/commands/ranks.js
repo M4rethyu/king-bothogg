@@ -6,6 +6,7 @@ exports.run = async (client, message, permission, command, args, content) => {
 	var abbrLength = 0;
 	var nameLength = 0;
 	for (const entry of client.discord.ranks) {
+		if (entry[0] == "template") continue;
 		const rank = entry[1];
 		const abbr = rank.abbreviation.length;
 		const name = rank.name.length;
@@ -14,6 +15,7 @@ exports.run = async (client, message, permission, command, args, content) => {
 	}
 	
 	for (const entry of client.discord.ranks) {
+		if (entry[0] == "template") continue;
 		const rank = entry[1];
 		string += "\n" + rank.abbreviation + " ".repeat(abbrLength - rank.abbreviation.length) + " | ";
 		string += rank.name + " ".repeat(nameLength - rank.name.length) + "  ";
