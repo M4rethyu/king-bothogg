@@ -1,5 +1,5 @@
 exports.run = async (client, message, permission, command, args, content) => {
-	
+	channel.send("test successful")
 	
 	return;
 };
