@@ -265,7 +265,6 @@ async function main() {
 			client.discord.ranks.set(rankName, rank.config);
 			client.discord.ranks.get(rankName).help = rank.help;
 		});
-		console.log(client.discord.ranks);
 		client.log("log", "Done loading discord ranks.");
 		
 		// Load actions

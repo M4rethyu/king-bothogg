@@ -38,12 +38,7 @@ module.exports = async (client, message) => {
 	
 	
 	// Plebs can only use commands in the intended bot spam channel
-	console.log(channel.id)
-	console.log(typeof channel.id)
-	console.log(client.discord.config.spamID)
-	console.log(typeof client.discord.config.spamID)
-	
-	if (/*permissionLevel > 3 && */channel.id != client.discord.config.spamID) {
+	if (permissionLevel > 3 && channel.id != client.discord.config.spamID) {
 		logMessage += ("NOT IN SPAM CHANNEL ]");
 		client.log("discord", logMessage);
 		return false;

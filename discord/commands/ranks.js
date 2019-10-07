@@ -34,9 +34,7 @@ exports.config = {
 };
 
 exports.condition = (client, message, permission, command, args, content) => {
-	console.log("testing condition of !ranks");
 	if (command === "ranks") return true;
-	console.log("returned false");
 	return false;
 };
 
