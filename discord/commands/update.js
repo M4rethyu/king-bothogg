@@ -1,6 +1,6 @@
 exports.run = async (client, message, permission, command, args, content) => {
 	
-	client.log("warn", "UPDATING REPOSITORY");
+	client.log("log+", "UPDATING REPOSITORY");
 	
 	const exec = require("child_process").exec;
 	

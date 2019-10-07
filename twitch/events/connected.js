@@ -1,7 +1,5 @@
 module.exports = async (client, address, port) => {
-	client.log("log", "connected");
-	
-	
+	client.log("log+", "Twitch bot has started"); 
 	
 	if (client.league.config.active) {
 		(async () => { // Initialize LoL stuff
