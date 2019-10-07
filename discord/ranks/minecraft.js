@@ -5,4 +5,4 @@ exports.config = {
 	"permission" : 5
 };
 
-exports.help = "Made by the not-quite-as-great-as-The-Great-Hogg Notch. \"Never dig down\".";
+exports.help = "Made by the not-quite-as-great-as-The-Great-Hogg Notch. \"Never dig down\"";

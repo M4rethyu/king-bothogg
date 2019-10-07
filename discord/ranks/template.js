@@ -5,4 +5,4 @@ exports.config = {
 	"permission" : 0
 };
 
-exports.help = "A template for ranks, so I can just copy paste"
+exports.help = "A template for ranks, so I can just copy paste. Can't be assigned";

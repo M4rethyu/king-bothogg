@@ -5,4 +5,4 @@ exports.config = {
 	"permission" : 5
 };
 
-exports.help = "This rank is lost in its search for the meaning of its life. Please don't disturb it.";
+exports.help = "This rank is lost in its search for the meaning of its life. Please do not disturb it.";

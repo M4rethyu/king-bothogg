@@ -1,6 +1,12 @@
 module.exports = async (client, message) => {
 	// Ignore messages sent by a bot
 	if (message.author.bot) return;
+	// Only use Erick's server when hosted, only use mine when running locally
+	if (client.config.hosted) {
+		if (message.guild.id != "159712694671245312") return false;
+	} else {
+		if (message.guild.id != "437644282933936130") return false;
+	}
 	// Preparing variables
 	const channel = message.channel;
 	const guild = message.guild;
@@ -8,8 +14,6 @@ module.exports = async (client, message) => {
 	const id = message.author.id;
 	
 	var logMessage = ((channel.type == "dm")?"[DM], ":"#" + channel.name + ", ") + message.author.tag + ": " + message.content + " [ ";
-	
-	//var logMessage = ((typeof channel) == "undefined")?"[pm], ":"#" + channel.name + ", ") + userstate["display-name"] + ": " + message + " [ ";
 	
 	var prefix;
 	var content;
@@ -32,6 +36,7 @@ module.exports = async (client, message) => {
 	if (client.discord.config.owner.includes(message.author.id)) permissionLevel = 0;
 	const permission = permissionLevel;
 	
+	// Plebs can only use commands in the intended bot spam channel
 	if (permissionLevel > 3 && channel.id != client.discord.config.spamID) return false;
 	
 	var executedCommands = [];

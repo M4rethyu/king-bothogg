@@ -5,4 +5,4 @@ exports.config = {
 	"permission" : 5
 };
 
-exports.help = "";
+exports.help = "Need to build faster";
