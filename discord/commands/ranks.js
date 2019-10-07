@@ -1,7 +1,7 @@
 exports.run = async (client, message, permission, command, args, content) => {
 	const channel = message.channel;
 	
-	var string = "The available roles are:```"
+	var string = "The available ranks are:```"
 	
 	var abbrLength = 0;
 	var nameLength = 0;
