@@ -6,11 +6,12 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 		return false;
 	}
 	
-	const target = args[1].toLowerCase();
+	const target = args[1]
 	if (typeof target == "undefined") {
 		client.twitch.say(channel, "@" + userstate.username + ", please specify a valid target (!give [amount] [user])");
 		return false;
 	}
+	target = target.toLowerCase();
 	
 	if (client.currency(userstate.username) < amount) {
 		client.twitch.say(channel, "@" + userstate.username + ", you don't have enough " + client.answers.currencies);
