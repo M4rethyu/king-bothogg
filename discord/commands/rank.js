@@ -82,4 +82,4 @@ exports.condition = (client, message, permission, command, args, content) => {
 	return false;
 };
 
-exports.help = "Assign ranks to yourself and others (mod)"
+exports.help = "Assign ranks to yourself and others (if you're a mod)"
