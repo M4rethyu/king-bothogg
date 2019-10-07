@@ -6,7 +6,7 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 		return false;
 	}
 	
-	const target = args[1]
+	var target = args[1]
 	if (typeof target == "undefined") {
 		client.twitch.say(channel, "@" + userstate.username + ", please specify a valid target (!give [amount] [user])");
 		return false;
