@@ -7,6 +7,7 @@ exports.run = async (client) => {
 		var list = chatters.broadcaster.concat(chatters.vips, chatters.moderators, chatters.staff, chatters.admins, chatters.global_mods, chatters.viewers);
 		
 		list.forEach(name => {
+			if client.twitch.config.bots.includes(name) return;
 			const amount = client.currency(name, 1);
 		});
 	}
