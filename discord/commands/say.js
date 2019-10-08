@@ -1,7 +1,5 @@
 exports.run = async (client, message, permission, command, args, content) => {
 	
-	//console.log(message);
-	/*
 	var channel = args[0];
 	if (typeof channel == "undefined") {
 		return false;
@@ -12,13 +10,14 @@ exports.run = async (client, message, permission, command, args, content) => {
 	console.log(string);
 	
 	if (/<#\d{1,}>/.test(channel)) {
-		channelID = channel.match(/\d/);
+		channelID = channel.match(/\d{1,}/);
 		string = string.replace(channel, "");
 		channel = client.discord.channels.find(c => c.id == channelID);
 	} else {
 		return false;
 	}
 	
+	//console.log(channel);
 	console.log(string);
 	
 	string = string.trim();
@@ -26,34 +25,22 @@ exports.run = async (client, message, permission, command, args, content) => {
 	var options = [];
 	for (i = args.length - 1; /\-[a-zA-Z]/.test(args[i]); i--) {
 		options.push(args[i][1]);
-		string.replace(new RegExp("\\-" + args[i][1] + "$"), "");
-		string.trim();
+		string = string.replace(new RegExp(args[i] + "$", "g"), "");
+		string = string.trim();
 	}
 	
-	console.log(string);
-	console.log(options);
-	
-	
-	
-	string.match(/\-[a-zA-Z](\-[a-zA-Z]|$)/)
-	
-	if (typeof rank == "undefined") {
-		channel.send(message.author + ", this rank doesn't exist");
-		return false;
+	for (const opt of options) {
+		switch(opt) {
+		case "d": // Delete Message
+			message.delete().catch(err => client.log("error", err));
+			break;
+		}
 	}
 	
-	if (rank.permission < permission) {
-		channel.send(message.author + ", you can't assign this rank.");
-		return false;
-	}
+	channel.send(string);
 	
-	const role = message.guild.roles.find(r => r.id == rank.roleID);
-	if (!role) {
-		channel.send(message.author + ", this rank's role doesn't exist. Please ping a mod, if you think this is unintended");
-		return false;
-	}
 	
-	return;*/
+	return;
 };
 
 exports.config = {
