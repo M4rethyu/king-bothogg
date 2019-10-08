@@ -35,6 +35,12 @@ exports.run = async (client) => {
 		})),
 		(() => client.discord.user.setPresence({
 			game: {
+				name: "apocalyptic movies",
+				type: "WATCHING"
+			}
+		})),
+		(() => client.discord.user.setPresence({
+			game: {
 				name: "Terminator",
 				type: "WATCHING"
 			}
