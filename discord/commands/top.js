@@ -7,7 +7,7 @@ exports.run = async (client, message, permission, command, args, content) => {
 	}
 	
 	plebLimit = 10;
-	if (number > plebLimit && userstate.permission > 3) {
+	if (number > plebLimit && permission > 3) {
 		message.channel.send(message.author + ", please specify a number from 1 to " + plebLimit);
 		return false;
 	}
