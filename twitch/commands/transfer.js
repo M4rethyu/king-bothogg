@@ -30,7 +30,7 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 exports.config = {
 	"cooldown" : 0,
 	"sharedCooldown" : false,
-	"permission" : 0
+	"permission" : 5
 };
 
 exports.condition = (client, channel, userstate, command, args, content) => {
