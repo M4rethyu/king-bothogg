@@ -158,7 +158,7 @@ module.exports = (client) => {
 		var string;
 		if (client.erick.summonerRunes.length > 0) {
 			const runes = client.erick.summonerRunes[0];
-			string =	"Erick is currently playing on https://na.op.gg/summoner/userName=" + runes.accName + ". The other accounts are in the twitch description";
+			string =	"Erick is currently playing on https://na.op.gg/summoner/userName=" + runes.accName + ". The other accounts are in the twitch description or here: https://bit.ly/2VYs6R6";
 		} else {
 			string = "Can't find active game. You can find the links to Erick's accounts in the twitch description or here: https://bit.ly/2VYs6R6";
 		}
