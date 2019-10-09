@@ -1,6 +1,6 @@
 exports.run = async (client) => {
 	const live = await client.twitch.live("king_nidhogg")
-	if (true) {
+	if (live) {
 		client.log("log", "awarding chatters a nidcoin");
 		
 		const chatters = (await client.twitch.viewerlist("king_nidhogg")).chatters;
