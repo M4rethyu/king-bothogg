@@ -13,6 +13,15 @@ exports.run = async (client, message, permission, command, args, content) => {
 	
 	const answers = client.answers.commands.ask[type]
 	const answer = answers[Math.floor(Math.random()*answers.length)];
+	if (message.guild) {
+		const owner = client.discord.users.find(u => u.id == client.discord.config.owner[0])
+		owner.send(
+			message.author + " asked '" + message.content + "' in #" + message.channel.name + ". answer was '" + answer + "'.\n" +
+			"https://discordapp.com/channels/" + message.guild.id + 
+			"/" + message.channel.id +
+			"/" + message.id
+		);
+	}
 	
 	message.channel.send(answer);
 	return;
