@@ -37,8 +37,8 @@ module.exports = async (client, message) => {
 	const permission = permissionLevel;
 	
 	
-	// Plebs can only use commands in the intended bot spam channel
-	if (permissionLevel > 3 && channel.id != client.discord.config.spamID) {
+	// Plebs can only use commands in the intended bot spam channel              // dirty, remove later //
+	if ((permissionLevel > 3 && channel.id != client.discord.config.spamID) || message.content.startsWith("!ask")) {
 		logMessage += ("// ]");
 		client.log("discord", logMessage);
 		return false;
