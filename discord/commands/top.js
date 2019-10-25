@@ -13,7 +13,7 @@ exports.run = async (client, message, permission, command, args, content) => {
 	}
 	
 	if (number < 1) {
-		message.channel.send(message.author + ", please specify a number >= 1");
+		message.channel.send(message.author + ", please specify a number greater than or equal to 1");
 		return false;
 	}
 	
