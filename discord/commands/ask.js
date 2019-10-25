@@ -11,6 +11,7 @@ exports.run = async (client, message, permission, command, args, content) => {
 		type = "yes";
 	}
 	
+	
 	const answers = client.answers.commands.ask[type]
 	const answer = answers[Math.floor(Math.random()*answers.length)];
 	if (message.guild) {
