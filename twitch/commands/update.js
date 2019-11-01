@@ -1,23 +1,17 @@
 exports.run = async (client, channel, userstate, command, args, content) => {
 	
-	client.log("warn", "RESETTING REPOSITORY TO ORIGIN/MASTER");
+	client.log("log+", "UPDATING REPOSITORY");
 	
 	const exec = require("child_process").exec;
 	
-	exec("git fetch", (err, stdout, stderr) => {
+	exec("git pull", (err, stdout, stderr) => {
 		process.stdout.write(stdout)
 	});
 	setTimeout(function() {
-		exec("git reset --hard origin/master", (err, stdout, stderr) => {
+		exec("refresh", (err, stdout, stderr) => {
 			process.stdout.write(stdout)
 		});
-		
-		setTimeout(function() {
-			exec("refresh", (err, stdout, stderr) => {
-				process.stdout.write(stdout)
-			});
-		}, 10);
-	}, 700);
+	}, 1000);
 	
 	return;
 };

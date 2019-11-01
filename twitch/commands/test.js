@@ -1,5 +1,7 @@
 exports.run = async (client, channel, userstate, command, args, content) => {
 	
+	console.log(userstate);
+	
 	client.twitch.say(channel, "test successful");
 	return;
 };
