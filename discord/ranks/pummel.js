@@ -2,7 +2,6 @@ exports.config = {
 	"abbreviation" : "pp",
 	"name" : "Pummel Party",
 	"roleID" : 567405036653510666,
-	"permission" : 5
+	"permission" : 5,
+	"help" : "Get mentioned when The Great Hogg wishes to play Pummel"
 };
-
-exports.help = "Get mentioned when The Great Hogg wishes to play Pummel";

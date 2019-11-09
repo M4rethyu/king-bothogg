@@ -275,7 +275,7 @@ async function main() {
 		});
 		client.log("log", "Done loading discord events.");
 		
-		// Load discord events
+		// Load discord ranks
 		client.discord.ranks = new Map();
 		rankFiles = await readdir("./discord/ranks/");
 		client.log("log", `Loading a total of ${rankFiles.length} discord ranks...`);
@@ -284,7 +284,6 @@ async function main() {
 			client.log("log", `Loading Rank: ${rankName}`);
 			const rank = require(`./discord/ranks/${file}`);
 			client.discord.ranks.set(rankName, rank.config);
-			client.discord.ranks.get(rankName).help = rank.help;
 		});
 		client.log("log", "Done loading discord ranks.");
 		

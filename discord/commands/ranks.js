@@ -1,11 +1,12 @@
+const Discord = require('discord.js');
+
 exports.run = async (client, message, arguments, options, permission) => {
 	const channel = message.channel;
-	
-	var string = "The available ranks are:```"
 	
 	var abbrLength = 0;
 	var nameLength = 0;
 	for (const entry of client.discord.ranks) {
+		
 		if (entry[0] == "template") continue;
 		const rank = entry[1];
 		const abbr = rank.abbreviation.length;
@@ -14,16 +15,34 @@ exports.run = async (client, message, arguments, options, permission) => {
 		if (nameLength < name) nameLength = name;
 	}
 	
-	for (const entry of client.discord.ranks) {
-		if (entry[0] == "template") continue;
-		const rank = entry[1];
-		string += "\n" + rank.abbreviation + " ".repeat(abbrLength - rank.abbreviation.length) + " | ";
-		string += rank.name + " ".repeat(nameLength - rank.name.length) + "  ";
-		string += "(" + rank.help + ")";
-	}
-	string += "```";
+	var fields = [];
 	
-	channel.send(string);
+	for (var rank of client.discord.ranks) {
+		rank = rank[1];
+		
+		fields.push({
+			"name" : "**" + rank.abbreviation + "**" + " | " + rank.name,
+			"value" : rank.help
+		});
+	}
+	
+	if (fields.length == 0) console.log("there are no commands to display")
+	
+	message.channel.send({embed: {
+		title: "Available ranks:",
+		description: "Use the abbreviation, to assign ranks (e.g. \"!rank lol\")",
+		color: 3447003,
+		fields: fields,
+		timestamp: new Date(),
+		footer: {
+			icon_url: client.discord.user.avatarURL,
+			text: "This is not a cult."
+		}
+	}
+	});
+	
+	
+	
 	return;
 };
 
