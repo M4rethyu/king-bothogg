@@ -1,6 +1,6 @@
-exports.run = async (client, message, permission, command, args, content) => {
+exports.run = async (client, message, arguments, options, permission) => {
 	
-	const excludeErick = args.includes("-e")
+	const excludeErick = (options.get("e")?true:false)
 	
 	const map = client.persist("currency.amount");
 	//if (map == undefined) return false;
@@ -40,12 +40,15 @@ exports.run = async (client, message, permission, command, args, content) => {
 exports.config = {
 	"cooldown" : 0,
 	"sharedCooldown" : true,
-	"permission" : 3
+	"permission" : 3,
+	"syntax" : [
+		
+	],
+	"channels" : "spam",
+	"help" : "Statistics on nidcoins"
 };
 
-exports.condition = (client, message, permission, command, args, content) => {
-	if (command === "statistics" && message.channel.id == client.discord.config.consoleID) return true;
+exports.condition = (client, message, arguments, options, permission) => {
+	if (arguments._command === "statistics") return true;
 	return false;
 };
-
-exports.help = "Statistics on nidcoins"

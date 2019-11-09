@@ -1,4 +1,4 @@
-exports.run = async (client, message, permission, command, args, content) => {
+exports.run = async (client, message, arguments, options, permission) => {
 	const channel = message.channel;
 	
 	var string = "The available ranks are:```"
@@ -30,12 +30,15 @@ exports.run = async (client, message, permission, command, args, content) => {
 exports.config = {
 	"cooldown" : 30,
 	"sharedCooldown" : true,
-	"permission" : 5
+	"permission" : 5,
+	"syntax" : [
+		
+	],
+	"channels" : "spam",
+	"help" : "Show all available ranks"
 };
 
-exports.condition = (client, message, permission, command, args, content) => {
-	if (command === "ranks") return true;
+exports.condition = (client, message, arguments, options, permission) => {
+	if (arguments._command === "ranks") return true;
 	return false;
 };
-
-exports.help = "Assign ranks to yourself and others (mod)"

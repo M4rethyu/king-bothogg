@@ -1,4 +1,4 @@
-exports.run = async (client, channel, userstate, command, args, content) => {
+exports.run = async (client, message, channel, userstate, arguments, options) => {
 	const usedDaily = client.persist("currency.usedDaily." + userstate.username) || false;
 	if (usedDaily) return false;
 	
@@ -12,12 +12,16 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 
 exports.config = {
 	"cooldown" : 0,
+	"sharedCooldown" : true,
 	"permission" : 5,
+	"syntax" : [
+		
+	],
+	"channels" : "chat",
+	"help" : "A template for commands, so I can just copy paste"
 };
 
-exports.condition = (client, channel, userstate, command, args, content) => {
-	if (command === "daily") return true;
+exports.condition = (client, message, channel, userstate, arguments, options) => {
+	if (arguments._command === "daily") return true;
 	return false;
 };
-
-exports.help = "Get a daily bonus of 10 to 30";

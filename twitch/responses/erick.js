@@ -1,4 +1,4 @@
-exports.run = async (client, channel, userstate, content) => {
+exports.run = async (client, message, channel, userstate, arguments, options) => {
 	var n = 1; var sum = 1;
 	var nAdd = client.persist("twitch.commands.erick." + userstate.username);
 	var sumAdd = client.persist.twitchCommandTotal("erick");
@@ -13,10 +13,17 @@ exports.run = async (client, channel, userstate, content) => {
 };
 
 exports.config = {
-	
+	"cooldown" : 0,
+	"sharedCooldown" : true,
+	"permission" : 5,
+	"syntax" : [
+		
+	],
+	"channels" : "chat",
+	"help" : "Corrects misspellings of \"Erick\"."
 };
 
-exports.condition = (client, channel, userstate, content) => {
-	if (client.spelling.findMisspellings(content, "erick")) return true;
+exports.condition = (client, message, channel, userstate, arguments, options) => {
+	if (client.spelling.findMisspellings(message, "erick")) return true;
 	return false;
 };

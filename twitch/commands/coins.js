@@ -1,17 +1,11 @@
-exports.run = async (client, channel, userstate, command, args, content) => {
+exports.run = async (client, message, channel, userstate, arguments, options) => {
 	
-	var self;
-	var target;
-	if (typeof args[0] == "undefined") {
-		target = userstate.username;
-		self = true;
-	} else {
-		target = args[0].toLowerCase();
-		self = false;
-	}
+	var self = false;
+	var target = arguments.user;
+	if (target == userstate.username) self = true;
 	
-	if (self) { // Check money from themself
-		client.twitch.say(channel, "@" + userstate.username + ", you have " + client.currency(userstate.username) + " " + client.answers.currencies);
+	if (self) { // Check money from themselves
+		client.twitch.say(channel, "@" + userstate.username + ", you have " + client.currency(target) + " " + client.answers.currencies);
 	} else { // Check money from someone else
 		if (userstate.permission > 3) { // Check if user has permission to check money of someone else
 			//client.twitch.say(channel, "@" + userstate.username + ", you don't have permission to check someone else's balance");
@@ -20,20 +14,20 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 		client.twitch.say(channel, target + " has " + client.currency(target) + " " + client.answers.currencies);
 	}
 	return;
-	
-	client.twitch.say(channel, "@" + userstate.username + ", you have " + client.currency(userstate.username) + " " + client.answers.currencies);
-	return;
 };
 
 exports.config = {
 	"cooldown" : 0,
-	"sharedCooldown" : false,
-	"permission" : 5
+	"sharedCooldown" : true,
+	"permission" : 5,
+	"syntax" : [
+		"user_a:this"
+	],
+	"channels" : "chat",
+	"help" : "Shows a user's balance."
 };
 
-exports.condition = (client, channel, userstate, command, args, content) => {
-	if (command === "coins") return true;
+exports.condition = (client, message, channel, userstate, arguments, options) => {
+	if (arguments._command === "coins") return true;
 	return false;
 };
-
-exports.help = "Shows your balance";

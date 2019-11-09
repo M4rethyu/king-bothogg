@@ -64,6 +64,9 @@ async function main() {
 	});
 	client.league.config = require("./league/config.json");
 	
+	require("./discord/functions.js")(client); // Bind functions directly to client
+	require("./twitch/functions.js")(client); // Bind functions directly to client
+	require("./functions.js")(client); // Bind functions directly to client
 	require("./modules/functions.js")(client); // Bind functions directly to client
 	
 	(async () => { client.twitch.liveStatus = await client.twitch.live("king_nidhogg") })(); // Initiate live status
@@ -174,6 +177,24 @@ async function main() {
 		});
 		client.log("log", "Done loading twitch events.");
 		
+		// Load twitch tasks
+		client.twitch.tasks = new Map()
+		var actFiles = await readdir("./twitch/tasks/");
+		client.log("log", `Loading a total of ${actFiles.length} twitch tasks...`);
+		actFiles.forEach(file => {
+			const taskName = file.split(".")[0];
+			client.log("log", `Loading task: ${taskName}`);
+			const task = require(`./twitch/tasks/${file}`);
+			client.twitch.tasks.set(taskName,
+				{
+					"run" : task.run,
+					"condition" : task.condition,
+					"config" : task.config,
+					"lastUsed" : null
+				}
+			)
+		});
+		client.log("log", "Done loading twitch tasks.")
 		
 		
 		// Discord command order
@@ -195,7 +216,7 @@ async function main() {
 					"run" : command.run,
 					"condition" : command.condition,
 					"config" : command.config,
-					"onCooldown" : false
+					"lastUsed" : null
 				}
 			)
 		});
@@ -224,7 +245,7 @@ async function main() {
 					"run" : response.run,
 					"condition" : response.condition,
 					"config" : response.config,
-					"onCooldown" : false
+					"lastUsed" : null
 				}
 			)
 		});
@@ -267,24 +288,24 @@ async function main() {
 		});
 		client.log("log", "Done loading discord ranks.");
 		
-		// Load actions
-		client.actions = new Map()
-		const actFiles = await readdir("./actions/");
-		client.log("log", `Loading a total of ${actFiles.length} actions...`);
+		// Load discord tasks
+		client.discord.tasks = new Map()
+		actFiles = await readdir("./discord/tasks/");
+		client.log("log", `Loading a total of ${actFiles.length} discord tasks...`);
 		actFiles.forEach(file => {
-			const actionName = file.split(".")[0];
-			client.log("log", `Loading Action: ${actionName}`);
-			const action = require(`./actions/${file}`);
-			client.actions.set(actionName,
+			const taskName = file.split(".")[0];
+			client.log("log", `Loading task: ${taskName}`);
+			const task = require(`./discord/tasks/${file}`);
+			client.discord.tasks.set(taskName,
 				{
-					"run" : action.run,
-					"condition" : action.condition,
-					"config" : action.config,
-					"onCooldown" : false
+					"run" : task.run,
+					"condition" : task.condition,
+					"config" : task.config,
+					"lastUsed" : null
 				}
 			)
 		});
-		client.log("log", "Done loading actions.")
+		client.log("log", "Done loading discord tasks.")
 		
 		
 		// Log in twitch client

@@ -1,10 +1,5 @@
-exports.run = async (client, channel, userstate, command, args, content) => {
-	
-	const number = Number(args[0]);
-	if (Number.isNaN(number)) {
-		client.twitch.say(channel, "@" + userstate.username + ", please specify a valid number (!top [number])");
-		return false;
-	}
+exports.run = async (client, message, channel, userstate, arguments, options) => {
+	const number = arguments.number;
 	
 	if (number > 5 && userstate.permission > 3) {
 		client.twitch.say(channel, "@" + userstate.username + ", please specify a number from 1-5");
@@ -40,14 +35,17 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 };
 
 exports.config = {
-	"cooldown" : 30,
+	"cooldown" : 0,
 	"sharedCooldown" : true,
-	"permission" : 5
+	"permission" : 5,
+	"syntax" : [
+		"number_n:5"
+	],
+	"channels" : "chat",
+	"help" : "Show the top n nidcoin holders"
 };
 
-exports.condition = (client, channel, userstate, command, args, content) => {
-	if (command === "top") return true;
+exports.condition = (client, message, channel, userstate, arguments, options) => {
+	if (arguments._command === "top") return true;
 	return false;
 };
-
-exports.help = "A template for commands, so I can just copy paste"

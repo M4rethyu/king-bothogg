@@ -1,57 +1,47 @@
-exports.run = async (client, message, permission, command, args, content) => {
+exports.run = async (client, message, arguments, options, permission) => {
 	
-	var channel = args[0];
-	if (typeof channel == "undefined") {
+	if (!client.discord.config.consoleID.includes(message.channel.id)) {
+		message.delete().catch(err => client.log("error", err)); // Delete message if it's not in the console channel, to keep secrecy
+		return;
+	}
+	
+	var channel = arguments.channel;
+	if (!channel) {
 		return false;
 	}
 	
-	var string = content.replace("say","");
-	
-	console.log(string);
-	
-	if (/<#\d{1,}>/.test(channel)) {
-		channelID = channel.match(/\d{1,}/);
-		string = string.replace(channel, "");
-		channel = client.discord.channels.find(c => c.id == channelID);
-	} else {
-		return false;
-	}
-	
-	//console.log(channel);
-	console.log(string);
-	
-	string = string.trim();
-	
-	var options = [];
-	for (i = args.length - 1; /\-[a-zA-Z]/.test(args[i]); i--) {
-		options.push(args[i][1]);
-		string = string.replace(new RegExp(args[i] + "$", "g"), "");
-		string = string.trim();
-	}
+	var string = arguments._rest.trim();
 	
 	for (const opt of options) {
 		switch(opt) {
-		case "d": // Delete Message
-			message.delete().catch(err => client.log("error", err));
+		case "d": // Set Message up for sending later
+			// MISSING
 			break;
 		}
 	}
 	
-	channel.send(string);
+	if (string == "") return; // Don't send an empty message
 	
+	channel.send(string);
 	
 	return;
 };
 
 exports.config = {
-	"cooldown" : 30,
+	"cooldown" : 0,
 	"sharedCooldown" : false,
-	"permission" : 3
+	"permission" : 3,
+	"syntax" : [
+		"channel_c"
+	],
+	"usage" : [
+		"[channel]"
+	],
+	"channels" : "console",
+	"help" : "Make the bot say something"
 };
 
-exports.condition = (client, message, permission, command, args, content) => {
-	if (command === "say") return true;
+exports.condition = (client, message, arguments, options, permission) => {
+	if (arguments._command === "say") return true;
 	return false;
 };
-
-exports.help = "Make the bot say something."

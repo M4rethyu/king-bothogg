@@ -25,7 +25,7 @@ exports.run = async (client, message, arguments, options, permission) => {
 	}
 	
 	const answers = client.answers.commands.ask[type]
-	var answer = answers[Math.floor(Math.random()*answers.length)];
+	const answer = answers[Math.floor(Math.random()*answers.length)];
 	
 	if (message.content.includes("cult")) {
 		answer = "This is not a cult."
@@ -36,17 +36,17 @@ exports.run = async (client, message, arguments, options, permission) => {
 };
 
 exports.config = {
-	"cooldown" : 0,
+	"cooldown" : 5,
 	"sharedCooldown" : true,
 	"permission" : 5,
 	"syntax" : [
 		
 	],
 	"channels" : "ask",
-	"help" : "Ask a yes/no question"
+	"help" : "Ask the bot a yes/no question"
 };
 
 exports.condition = (client, message, arguments, options, permission) => {
-	if (arguments._command === "ask") return true;
+	if (message.mentions.users.has(client.discord.user.id)) return true;
 	return false;
 };

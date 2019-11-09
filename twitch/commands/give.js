@@ -1,25 +1,20 @@
-exports.run = async (client, channel, userstate, command, args, content) => {
+exports.run = async (client, message, channel, userstate, arguments, options) => {
 	
-	const amount = Number(args[0]);
-	if (Number.isNaN(amount)) {
-		client.twitch.say(channel, "@" + userstate.username + ", please specify a valid amount (!give [amount] [user])");
-		return false;
-	}
+	const amount = arguments.amount;
+	var target = arguments.target;
 	
 	if (amount < 0) {
 		client.twitch.say(channel, "@" + userstate.username + ", don't be that guy");
 		return false;
 	}
 	
-	var target = args[1]
-	if (typeof target == "undefined") {
-		client.twitch.say(channel, "@" + userstate.username + ", please specify a valid target (!give [amount] [user])");
-		return false;
-	}
-	target = target.toLowerCase();
-	
 	if (client.currency(userstate.username) < amount) {
 		client.twitch.say(channel, "@" + userstate.username + ", you don't have enough " + client.answers.currencies);
+		return false;
+	}
+	
+	if (!target) {
+		client.twitch.say(channel, "@" + userstate.username + ", please specify a valid target");
 		return false;
 	}
 	
@@ -34,13 +29,16 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 
 exports.config = {
 	"cooldown" : 0,
-	"sharedCooldown" : false,
-	"permission" : 5
+	"sharedCooldown" : true,
+	"permission" : 5,
+	"syntax" : [
+		"target_a amount_n"
+	],
+	"channels" : "chat",
+	"help" : "Give some of your nidcoins to a user."
 };
 
-exports.condition = (client, channel, userstate, command, args, content) => {
-	if (command === "give") return true;
+exports.condition = (client, message, channel, userstate, arguments, options) => {
+	if (arguments._command === "give") return true;
 	return false;
 };
-
-exports.help = "!give [amount] [user] of money";

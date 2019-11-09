@@ -217,46 +217,6 @@ module.exports = (client) => {
 		}
 	}
 	
-	// Functions bound to client.discord
-	client.discord.logChannel = () =>
-	{
-		//return client.discord.channels.find("id", "630054905075204106");
-		return client.discord.channels.get(client.discord.config.logID);
-	}
-	client.discord.consoleChannel = () =>
-	{
-		//return client.discord.channels.find("id", "630054905075204106");
-		return client.discord.channels.get(client.discord.config.consoleID);
-	}
-	
-	client.discord.getCooldown = (functions, id) =>
-	{
-		if ((typeof functions.config.cooldown) == "number") { // Command has a cooldown
-			var sharedCooldown = functions.config.sharedCooldown;
-			if ((typeof sharedCooldown) == "undefined") sharedCooldown = true;
-			if (sharedCooldown) { // Command shares cooldown between all users
-				return functions.onCooldown;
-			} else { // Command starts individual cooldown for each user
-				return functions.onCooldown[id];
-			}
-		}
-	}
-	
-	client.discord.setCooldown = (functions, id) =>
-	{
-		if ((typeof functions.config.cooldown) == "number") { // Command has a cooldown
-			var sharedCooldown = functions.config.sharedCooldown;
-			if ((typeof sharedCooldown) == "undefined") sharedCooldown = true;
-			if (sharedCooldown) { // Command shares cooldown between all users
-				functions.onCooldown = true;
-				setTimeout(function(){ functions.onCooldown = false; }, functions.config.cooldown * 1000);
-			} else { // Command starts individual cooldown for each user
-				if (!functions.onCooldown) functions.onCooldown = {};
-				functions.onCooldown[id] = true;
-				setTimeout(function(){ functions.onCooldown[id] = false; }, functions.config.cooldown * 1000);
-			}
-		}
-	}
 	
 	// Functions bound to client.league
 	client.league.getCurrentRunes = () =>

@@ -6,10 +6,11 @@ exports.run = async (client) => {
 };
 
 exports.config = {
-	"cooldown" : 1 * 60
+	"cooldown" : 60,
+	"initial" : 5
 };
 
 exports.condition = (client) => {
-	if (client.league.active) return true;
+	if (client.league.config.active) return true;
 	return false;
 };

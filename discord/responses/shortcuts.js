@@ -1,20 +1,19 @@
-exports.run = async (client, message, permission, content) => {
-	args = content.trim().split(/ +/g);
+exports.run = async (client, message, arguments, options, permission) => {
 	
-	for (const arg of args) {
-		switch(arg[1])	{
+	for (const opt of options) {
+		const name = opt[0];
+		const args = opt[1];
+		switch(name)	{
 			case "u":
 				if (client.config.hosted) client.discord.commands.get("update").run(client);
 				else client.log("warn", "didn't run '!update', because program isn't running on glitch");
 				break;
 			case "b":
-				client.discord.commands.get("backup").run(client);
-				break;
-			case "t":
-				client.discord.commands.get("test").run(client, message);
+				const backup = client.discord.tasks.get("backup");
+				if (backup.config.ready) backup.run(client);
 				break;
 			default:
-				client.log("warn", "used '" + arg + "' as an argument in shortcuts, has no function");
+				client.log("warn", "used '" + name + "' as an option in shortcuts, has no function");
 				break;
 		}
 	}
@@ -22,21 +21,21 @@ exports.run = async (client, message, permission, content) => {
 	message.delete().catch(e => client.log("error", e));
 	
 	return;
+	return;
 };
 
 exports.config = {
 	"cooldown" : 0,
 	"sharedCooldown" : true,
-	"permission" : 0
+	"permission" : 0,
+	"syntax" : [
+		"channel_c:this user_u:this number_n:0 role_r"
+	],
+	"channels" : "spam",
+	"help" : "Shortcut syntax to avoid typing out commands"
 };
 
-exports.condition = (client, message, permission, content) => {
-	args = content.trim().split(/ +/g);
-	var regex = /\-[a-zA-Z]/;
-	
-	for (const arg of args) {
-		if (!regex.test(arg)) return false;
-	}
-	
-	return true;
+exports.condition = (client, message, arguments, options, permission) => {
+	if (arguments._string.trim() == "" && !message.content.trim() == "" ) return true;
+	return false;
 };

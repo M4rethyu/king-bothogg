@@ -1,4 +1,4 @@
-exports.run = async (client, channel, userstate, command, args, content) => {
+exports.run = async (client, message, channel, userstate, arguments, options) => {
 	
 	client.log("log+", "UPDATING REPOSITORY");
 	
@@ -19,13 +19,15 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 exports.config = {
 	"cooldown" : 0,
 	"sharedCooldown" : true,
-	"permission" : 0
+	"permission" : 0,
+	"syntax" : [
+		
+	],
+	"channels" : "chat",
+	"help" : "Updates the repository."
 };
 
-exports.condition = (client, channel, userstate, command, args, content) => {
-	return false;
-	if (command === "update" && client.config.hosted) return true;
+exports.condition = (client, message, channel, userstate, arguments, options) => {
+	if (arguments._command === "update") return true;
 	return false;
 };
-
-exports.help = "Updates glitch to origin/master"

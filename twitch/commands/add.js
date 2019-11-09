@@ -1,15 +1,11 @@
-exports.run = async (client, channel, userstate, command, args, content) => {
+exports.run = async (client, message, channel, userstate, arguments, options) => {
 	
-	const amount = Number(args[0]);
-	if (Number.isNaN(amount)) {
-		client.twitch.say(channel, "@" + userstate.username + ", please specify a valid amount (!give [amount] [user])");
-		return false;
-	}
+	amount = arguments.amount;
+	target = arguments.user;
 	
-	const target = args[1].toLowerCase();
-	if (typeof target == "undefined") {
-		client.twitch.say(channel, "@" + userstate.username + ", please specify a valid target (!give [amount] [user])");
-		return false;
+	if (!amount) {
+		client.twitch.say(channel, "@" + target + ", please specify a valid amount")
+		return;
 	}
 	
 	const before = client.currency(target);
@@ -22,13 +18,16 @@ exports.run = async (client, channel, userstate, command, args, content) => {
 
 exports.config = {
 	"cooldown" : 0,
-	"sharedCooldown" : false,
-	"permission" : 1
+	"sharedCooldown" : true,
+	"permission" : 1,
+	"syntax" : [
+		"user_a:this amount_n"
+	],
+	"channels" : "chat",
+	"help" : "Add some amount to user's nidcoin balance."
 };
 
-exports.condition = (client, channel, userstate, command, args, content) => {
-	if (command === "add") return true;
+exports.condition = (client, message, channel, userstate, arguments, options) => {
+	if (arguments._command === "add") return true;
 	return false;
 };
-
-exports.help = "!add [amount] [user] of money";

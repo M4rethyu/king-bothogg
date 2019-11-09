@@ -1,18 +1,20 @@
-exports.run = async (client, channel, userstate, command, args, content) => {
+exports.run = async (client, message, channel, userstate, arguments, options) => {
 	client.twitch.linkSocialMedia(channel);
 	return;
 };
 
 exports.config = {
-	"cooldown" : 30,
-	"permission" : 5
+	"cooldown" : 0,
+	"sharedCooldown" : true,
+	"permission" : 5,
+	"syntax" : [
+		
+	],
+	"channels" : "chat dm",
+	"help" : "Link Erick's social media."
 };
 
-exports.condition = (client, channel, userstate, command, args, content) => {
-	if (command === "social") {
-		return true;
-	}
+exports.condition = (client, message, channel, userstate, arguments, options) => {
+	if (arguments._command === "social") return true;
 	return false;
 };
-
-exports.help = "Links Erick's social media";

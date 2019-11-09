@@ -1,4 +1,6 @@
-exports.run = async (client, message, permission, command, args, content) => {
+exports.run = async (client, message, arguments, options, permission) => {
+	
+	// MISSING => move to action
 	
 	client.log("log+", "UPDATING REPOSITORY");
 	
@@ -19,12 +21,15 @@ exports.run = async (client, message, permission, command, args, content) => {
 exports.config = {
 	"cooldown" : 0,
 	"sharedCooldown" : true,
-	"permission" : 0
+	"permission" : 0,
+	"syntax" : [
+		
+	],
+	"channels" : "console",
+	"help" : "Updates the repository"
 };
 
-exports.condition = (client, message, permission, command, args, content) => {
-	if (command === "update" && client.config.hosted) return true;
+exports.condition = (client, message, arguments, options, permission) => {
+	if (arguments._command === "update") return true;
 	return false;
 };
-
-exports.help = "Updates the repository."
