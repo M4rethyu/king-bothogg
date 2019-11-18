@@ -110,8 +110,7 @@ async function main() {
 		client.log("log", `Loading a total of ${cmdFiles.length} twitch commands...`);
 		cmdFiles.forEach((file, i) => {
 			if (!file.endsWith(".js")) return; // only load .js files
-			const commandName = file.slice(0,-3)
-			client.log("log", `Loading Command: ${commandName}`);
+			const commandName = file.slice(0,-3);
 			const command = require(`./twitch/commands/${file}`);
 			cmdMap.set(commandName,
 				{
@@ -124,14 +123,13 @@ async function main() {
 		});
 		// Sort twitch commands
 		client.twitch.commands = new Map();
-		client.log("log", "Sorting twitch commands...");
 		commandOrder.forEach(function(element) {
 			if (!cmdMap.has(element)) return; // Skip name if corresponding command doesn't exist
 			client.twitch.commands.set(element, cmdMap.get(element));
 			cmdMap.delete(element);
 		});
 		client.twitch.commands = new Map([...client.twitch.commands,...cmdMap]);
-		client.log("log", "Done sorting twitch commands");
+		client.log("log", "Loaded: " + Array.from(client.twitch.commands.keys()).join(", "));
 		
 		// Load twitch responses
 		var resMap = new Map();
@@ -139,8 +137,7 @@ async function main() {
 		client.log("log", `Loading a total of ${resFiles.length} twitch responses...`);
 		resFiles.forEach((file, i) => {
 			if (!file.endsWith(".js")) return; // only load .js files
-			const responseName = file.slice(0,-3)
-			client.log("log", `Loading Response: ${responseName}`);
+			const responseName = file.slice(0,-3);
 			const response = require(`./twitch/responses/${file}`);
 			resMap.set(responseName,
 				{
@@ -154,28 +151,26 @@ async function main() {
 		
 		// Sort twitch responses
 		client.twitch.responses = new Map();
-		client.log("log", "Sorting twitch responses...");
 		responseOrder.forEach(function(element) {
 			if (!resMap.has(element)) return; // Skip name if corresponding response doesn't exist
 			client.twitch.responses.set(element, resMap.get(element));
 			resMap.delete(element);
 		});
 		client.twitch.responses = new Map([...client.twitch.responses,...resMap]);
-		client.log("log", "Done sorting twitch responses");
+		client.log("log", "Loaded: " + Array.from(client.twitch.responses.keys()).join(", "));
 		
 		// Load twitch events
 		var evtFiles = await readdir("./twitch/events/");
 		client.log("log", `Loading a total of ${evtFiles.length} twitch events...`);
 		evtFiles.forEach(file => {
 			const eventName = file.split(".")[0];
-			client.log("log", `Loading Event: ${eventName}`);
 			const event = require(`./twitch/events/${file}`);
 			// Bind the client to any event, before the existing arguments
 			// provided by the twitch.js event.
 			// This line is awesome by the way. Just sayin'.
 			client.twitch.on(eventName, event.bind(null, client));
 		});
-		client.log("log", "Done loading twitch events.");
+		client.log("log", "Loaded: " + evtFiles.join(", "));
 		
 		// Load twitch tasks
 		client.twitch.tasks = new Map()
@@ -183,7 +178,6 @@ async function main() {
 		client.log("log", `Loading a total of ${actFiles.length} twitch tasks...`);
 		actFiles.forEach(file => {
 			const taskName = file.split(".")[0];
-			client.log("log", `Loading task: ${taskName}`);
 			const task = require(`./twitch/tasks/${file}`);
 			client.twitch.tasks.set(taskName,
 				{
@@ -194,7 +188,7 @@ async function main() {
 				}
 			)
 		});
-		client.log("log", "Done loading twitch tasks.")
+		client.log("log", "Loaded: " + Array.from(client.twitch.tasks.keys()).join(", "));
 		
 		
 		// Discord command order
@@ -208,8 +202,7 @@ async function main() {
 		client.log("log", `Loading a total of ${cmdFiles.length} discord commands...`);
 		cmdFiles.forEach((file, i) => {
 			if (!file.endsWith(".js")) return; // only load .js files
-			const commandName = file.slice(0,-3)
-			client.log("log", `Loading Command: ${commandName}`);
+			const commandName = file.slice(0,-3);
 			const command = require(`./discord/commands/${file}`);
 			cmdMap.set(commandName,
 				{
@@ -229,7 +222,7 @@ async function main() {
 			cmdMap.delete(element);
 		});
 		client.discord.commands = new Map([...client.discord.commands,...cmdMap]);
-		client.log("log", "Done sorting discord commands");
+		client.log("log", "Loaded: " + Array.from(client.discord.commands.keys()).join(", "));
 		
 		// Load discord responses
 		resMap = new Map();
@@ -237,8 +230,7 @@ async function main() {
 		client.log("log", `Loading a total of ${resFiles.length} discord responses...`);
 		resFiles.forEach((file, i) => {
 			if (!file.endsWith(".js")) return; // only load .js files
-			const responseName = file.slice(0,-3)
-			client.log("log", `Loading Response: ${responseName}`);
+			const responseName = file.slice(0,-3);
 			const response = require(`./discord/responses/${file}`);
 			resMap.set(responseName,
 				{
@@ -249,7 +241,6 @@ async function main() {
 				}
 			)
 		});
-		
 		// Sort discord responses
 		client.discord.responses = new Map();
 		client.log("log", "Sorting discord responses...");
@@ -259,21 +250,20 @@ async function main() {
 			resMap.delete(element);
 		});
 		client.discord.responses = new Map([...client.discord.responses,...resMap]);
-		client.log("log", "Done sorting discord responses");
+		client.log("log", "Loaded: " + Array.from(client.discord.commands.keys()).join(", "));
 		
 		// Load discord events
 		evtFiles = await readdir("./discord/events/");
 		client.log("log", `Loading a total of ${evtFiles.length} discord events...`);
 		evtFiles.forEach(file => {
 			const eventName = file.split(".")[0];
-			client.log("log", `Loading Event: ${eventName}`);
 			const event = require(`./discord/events/${file}`);
 			// Bind the client to any event, before the existing arguments
 			// provided by the discord.js event.
 			// This line is awesome by the way. Just sayin'.
 			client.discord.on(eventName, event.bind(null, client));
 		});
-		client.log("log", "Done loading discord events.");
+		client.log("log", "Loaded: " + evtFiles.join(", "));
 		
 		// Load discord ranks
 		client.discord.ranks = new Map();
@@ -281,11 +271,10 @@ async function main() {
 		client.log("log", `Loading a total of ${rankFiles.length} discord ranks...`);
 		rankFiles.forEach(file => {
 			const rankName = file.split(".")[0];
-			client.log("log", `Loading Rank: ${rankName}`);
 			const rank = require(`./discord/ranks/${file}`);
 			client.discord.ranks.set(rankName, rank.config);
 		});
-		client.log("log", "Done loading discord ranks.");
+		client.log("log", "Loaded: " + Array.from(client.discord.ranks.keys()).join(", "));
 		
 		// Load discord tasks
 		client.discord.tasks = new Map()
@@ -293,7 +282,6 @@ async function main() {
 		client.log("log", `Loading a total of ${actFiles.length} discord tasks...`);
 		actFiles.forEach(file => {
 			const taskName = file.split(".")[0];
-			client.log("log", `Loading task: ${taskName}`);
 			const task = require(`./discord/tasks/${file}`);
 			client.discord.tasks.set(taskName,
 				{
@@ -304,7 +292,7 @@ async function main() {
 				}
 			)
 		});
-		client.log("log", "Done loading discord tasks.")
+		client.log("log", "Loaded: " + Array.from(client.discord.tasks.keys()).join(", "));
 		
 		
 		// Log in twitch client
