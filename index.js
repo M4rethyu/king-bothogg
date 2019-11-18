@@ -191,7 +191,7 @@ async function main() {
 		client.log("log", "Loaded: " + Array.from(client.twitch.tasks.keys()).join(", "));
 		
 		
-		// Discord command order
+		// Discord command order 
 		commandOrder = ["ping", "template"]; // Order, in which the commands will be tested
 		responseOrder = ["erick", "nidhogg", "runes"]; // Order, in which the autoresponses will be tested
 		client.discord.unconditionalResponses = ["erick", "nidhogg"]; // Autoresponses, which will trigger no matter what other things are also triggered by the message
