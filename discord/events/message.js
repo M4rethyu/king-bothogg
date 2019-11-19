@@ -42,7 +42,7 @@ module.exports = async (client, message) => {
 	//if (permission > 3) return;
 	
 	// Extract Options from string
-	var regex = /\s+\-[a-zA-Z][a-zA-Z0-9]*(\s+[a-zA-Z0-9]+)*/g
+	var regex = /(^|\s+)\-[a-zA-Z][a-zA-Z0-9]*(\s+[a-zA-Z0-9]+)*/g
 	
 	const matches = string.match(regex);
 	
