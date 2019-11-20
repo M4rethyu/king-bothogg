@@ -147,7 +147,7 @@ module.exports = (client) => {
 						"Secondary: " + runes.scndTree + "[" + runes.scndRunes[0] + " > " + runes.scndRunes[1] + "], " +
 						"Rune Shards: [" + runes.statRunes[0] + " > " + runes.statRunes[1] + " > " + runes.statRunes[2] + "]";
 		} else {
-			string = "Can't find active game. You can look at Erick's op.gg to see the runes of past games (accounts in twitch description)";
+			string = "You can look at Erick's op.gg to see the runes of past games (accounts in twitch description)";
 		}
 		
 		return string;
