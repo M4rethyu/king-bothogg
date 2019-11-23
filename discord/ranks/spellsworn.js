@@ -3,5 +3,5 @@ exports.config = {
 	"name" : "Spellsworn",
 	"roleID" : 647145754682458123,
 	"permission" : 5,
-	"help" : "idk what this game does, someone give me a good description"
+	"help" : "\"Shooty shooty pew pew bam zip zap woo woo game\" -Alanbutternubs"
 };
