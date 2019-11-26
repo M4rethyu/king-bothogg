@@ -1,14 +1,7 @@
 exports.run = async (client, message, arguments, options, permission) => {
 	
-	var name = "xmarethyu";
-	var amount = 1;
-	
-	
-	var result = client.currency(name, amount);
-	//*/
-	
-	console.log(client.persist("currency.amount." + name))
-	console.log(result);
+	quotes = client.persist("quotes");
+	console.log(quotes)
 	
 	return;
 };
