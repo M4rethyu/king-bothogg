@@ -6,7 +6,9 @@ exports.run = async (client, message, channel, userstate, arguments, options) =>
 	}
 	
 	quote = quotes[Math.floor(Math.random()*quotes.length)];
-	client.twitch.say(channel, "\"" + quote + "\" -Erick");
+	string = quote[0];
+	time = quote[1];
+	client.twitch.say(channel, "\"" + string + "\" -Erick at " + new Date(time));
 	return;
 };
 

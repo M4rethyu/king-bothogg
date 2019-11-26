@@ -5,13 +5,12 @@ exports.run = async (client, message, arguments, options, permission) => {
 		return false;
 	}
 	
-	console.log(string)
-	
 	quotes = client.persist("quotes");
 	if (!quotes) {
 		quotes = [];
 	}
-	quotes.push(string);
+	time = (new Date()).getTime();
+	quotes.push([string, time]);
 	client.persist("quotes", quotes);
 	
 	return;
