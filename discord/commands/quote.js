@@ -8,7 +8,7 @@ exports.run = async (client, message, arguments, options, permission) => {
 	quote = quotes[Math.floor(Math.random()*quotes.length)];
 	string = quote[0];
 	time = new Date(quote[1]);
-	message.channel.send("\"" + string + "\" -Erick at " + time.getMonth() + " " + time.getDate());
+	message.channel.send("\"" + string + "\" -Erick on " + (time.getMonth()+1) + "/" + time.getDate() + "/" + time.getFullYear());
 	
 	return;
 };
