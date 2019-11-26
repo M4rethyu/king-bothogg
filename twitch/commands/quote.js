@@ -1,6 +1,10 @@
 exports.run = async (client, message, channel, userstate, arguments, options) => {
 	
 	quotes = client.persist("quotes");
+	if (!quotes) {
+		client.twitch.say(channel, "There are no quotes yet");
+	}
+	
 	quote = quotes[Math.floor(Math.random()*quotes.length)];
 	client.twitch.say(channel, "\"" + quote + "\" -Erick");
 	return;
