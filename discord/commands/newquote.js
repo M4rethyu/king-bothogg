@@ -19,7 +19,7 @@ exports.run = async (client, message, arguments, options, permission) => {
 exports.config = {
 	"cooldown" : 0,
 	"sharedCooldown" : true,
-	"permission" : 0,
+	"permission" : 3,
 	"syntax" : [
 		""
 	],
