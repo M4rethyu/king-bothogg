@@ -8,15 +8,18 @@ exports.run = async (client, message, arguments, options, permission) => {
 exports.config = {
 	"cooldown" : 0,
 	"sharedCooldown" : true,
-	"permission" : 0,
+	"permission" : 3,
 	"syntax" : [
 		
 	],
-	"channels" : "spam",
-	"help" : "I'm using this to test code"
+	"usage" : [
+		
+	],
+	"channels" : "console",
+	"help" : "Pings everyone in the announcements channel with a live notification"
 };
 
 exports.condition = (client, message, arguments, options, permission) => {
-	if (arguments._command === "test") return true;
+	if (arguments._command === "ping") return true;
 	return false;
 };

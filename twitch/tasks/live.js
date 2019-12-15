@@ -6,14 +6,14 @@ exports.run = async (client) => {
 			//client.log("log", "Erick continued streaming");
 		} else { // Wasn't live => started streaming
 			client.log("log+", "Erick started streaming");
-			if (client.discord.tasks.get("status").ready) client.discord.tasks.get("status").run(client);
+			if (client.discord.tasks.get("status").config.ready) client.discord.tasks.get("status").run(client);
 		}
 	} else { // Isn't live
 		
 		
 		if (client.twitch.liveStatus) { // Was live => stopped streaming
 			client.log("log+", "Erick stopped streaming");
-			if (client.discord.tasks.get("status").ready) client.discord.tasks.get("status").run(client);
+			if (client.discord.tasks.get("status").config.ready) client.discord.tasks.get("status").run(client);
 		} else { // Wasn't live => Isn't streaming
 			//client.log("log", "Erick isn't streaming");
 		}
