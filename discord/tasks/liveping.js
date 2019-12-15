@@ -30,8 +30,13 @@ exports.run = async (client) => {
 	*/
 	
 	
+	try {
+		client.discord.announceChannel().send("Hey @everyone! KiNG_Nidhogg is live on twitch: http://www.twitch.tv/king_nidhogg");
+	} catch(err) {
+		console.log("failed to announce:")
+		console.log(err)
+	}
 	
-	client.discord.announceChannel().send("Hey @everyone! KiNG_Nidhogg is live on twitch: http://www.twitch.tv/king_nidhogg");
 	return;
 };
 
