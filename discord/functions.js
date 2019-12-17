@@ -32,6 +32,10 @@ module.exports = (client) => {
 	{
 		return client.discord.channels.get(client.discord.config.announceID[0]);
 	}
+	client.discord.arrivalChannel = () =>
+	{
+		return client.discord.channels.get(client.discord.config.arrivalID[0]);
+	}
 	
 	// Get and set cooldowns
 	client.discord.getCooldown = (functions, id) =>
