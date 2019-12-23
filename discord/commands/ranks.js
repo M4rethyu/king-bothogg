@@ -20,6 +20,8 @@ exports.run = async (client, message, arguments, options, permission) => {
 	for (var rank of client.discord.ranks) {
 		rank = rank[1];
 		
+		if (rank.name == "template") continue;
+		
 		fields.push({
 			"name" : "**" + rank.abbreviation + "**" + " | " + rank.name,
 			"value" : rank.help

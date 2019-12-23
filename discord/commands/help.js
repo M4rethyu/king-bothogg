@@ -79,7 +79,6 @@ exports.run = async (client, message, arguments, options, permission) => {
 		}
 		
 		
-		
 		fields.push({
 			"name" : "!" + help.name,
 			"value" : string
