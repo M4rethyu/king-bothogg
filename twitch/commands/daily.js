@@ -5,7 +5,7 @@ exports.run = async (client, message, channel, userstate, arguments, options) =>
 	const amount = Math.floor(Math.random()*21) + 10;
 	client.currency(userstate.username, amount);
 	
-	client.twitch.say(userstate.username, "You gained " + amount + " " + client.answers.currencies + " for a total of " + client.currency(userstate.username));
+	client.twitch.whisper(userstate.username, "You gained " + amount + " " + client.answers.currencies + " for a total of " + client.currency(userstate.username));
 	client.persist("currency.usedDaily." + userstate.username, true);
 	return true;
 };
