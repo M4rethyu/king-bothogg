@@ -14,7 +14,7 @@ module.exports = (client) => {
 		
 		if (type === "twitch") {
 			console.log("[TWITCH]:  " + message);
-			if (client.discord.config.useLog) client.discord.logChannel()currentAcc.send("[TWITCH]: " + message.replace(/@[a-zA-Z0-9]{1,}/g, (s => s.replace("@","@​"))));
+			if (client.discord.config.useLog) client.discord.logChannel().send("[TWITCH]: " + message.replace(/@[a-zA-Z0-9]{1,}/g, (s => s.replace("@","@​"))));
 		} else if (type === "discord") {
 			console.log("[DSCRD]: " + message);
 		} else if (type === "log") {
