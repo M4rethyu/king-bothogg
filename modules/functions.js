@@ -14,7 +14,7 @@ module.exports = (client) => {
 		
 		if (type === "twitch") {
 			console.log("[TWITCH]:  " + message);
-			if (client.discord.config.useLog) client.discord.logChannel().send("[TWITCH]: " + message.replace(/@[a-zA-Z0-9]{1,}/g, (s => s.replace("@","@​"))));
+			if (client.discord.config.useLog) client.discord.logChannel()currentAcc.send("[TWITCH]: " + message.replace(/@[a-zA-Z0-9]{1,}/g, (s => s.replace("@","@​"))));
 		} else if (type === "discord") {
 			console.log("[DSCRD]: " + message);
 		} else if (type === "log") {
@@ -158,7 +158,7 @@ module.exports = (client) => {
 		var string;
 		if (client.erick.summonerRunes.length > 0) {
 			const runes = client.erick.summonerRunes[0];
-			string =	"Erick is currently playing on https://na.op.gg/summoner/userName=" + runes.accName + ". The other accounts are in the twitch description or here: https://bit.ly/2VYs6R6";
+			string =	"Erick is currently playing on https://na.op.gg/summoner/userName=" + runes.accName.replace(" ", "%20") + ". The other accounts are in the twitch description or here: https://bit.ly/2VYs6R6";
 		} else {
 			string = "You can find the links to Erick's accounts in the twitch description or here: https://bit.ly/2VYs6R6";
 		}
