@@ -21,9 +21,9 @@ exports.condition = (client, message, channel, userstate, arguments, options) =>
 	content = message.toLowerCase();
 	
 	// Sentence has word staring with "w", followed by "runes"
-	var regex1 = new RegExp(sentDelim + "[^.!?;]*(\\bw\\w+\\b)" + "[^.!?;]*" + "runes" + "[^.!?;]*" + sentDelim, "g");
+	var regex1 = new RegExp(sentDelim + "[^.!?;]*(\\bw\\w+\\b)" + "[^.!?;]*" + "\\brunes\\b" + "[^.!?;]*" + sentDelim, "g");
 	// Sentence has "runes" and ends in "?"
-	var regex2 = new RegExp(sentDelim + "[^.!?;]*" + "runes" + "[^.!?;]*" + "\\?", "g");
+	var regex2 = new RegExp(sentDelim + "[^.!?;]*" + "\\brunes\\b" + "[^.!?;]*" + "\\?", "g");
 	
 	if (regex1.test(content) || regex2.test(content)) return true;
 	return false;
