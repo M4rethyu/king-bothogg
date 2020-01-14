@@ -4,11 +4,11 @@ exports.run = async (client, message, arguments, options, permission) => {
 		case "ping":
 			if (client.discord.tasks.get("liveping").config.ready) client.discord.tasks.get("liveping").run(client);
 			break;
-		case "startping":
+		case "yesping":
 			client.pinging = true;
 			message.channel.send("Enabled live-pings");
 			break;
-		case "stopping":
+		case "noping":
 			client.pinging = true;
 			message.channel.send("Disabled live-pings");
 			break;
@@ -33,8 +33,8 @@ exports.config = {
 
 exports.condition = (client, message, arguments, options, permission) => {
 	if (arguments._command === "ping" ||
-		arguments._command === "startping" ||
-		arguments._command === "stopping"
+		arguments._command === "noping" ||
+		arguments._command === "yesping"
 		) return true;
 	return false;
 };
