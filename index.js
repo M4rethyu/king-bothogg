@@ -20,6 +20,7 @@ async function main() {
 	client.dataStorage = require('data-store')({ path: "./modules/permanentData.json"}); // Set persistent storage location
 	client.persist = (key, data) => { if (data != undefined) return client.dataStorage.set(key, data); else return client.dataStorage.get(key); }; // Rebind get & set functions
 	client.teamsort = {};
+	client.pinging = true;
 	
 	// Set twitch configuration options
 	const twitchConfig = require("./twitch/config.json");
