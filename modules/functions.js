@@ -183,7 +183,7 @@ module.exports = (client) => {
 	client.twitch.live = async (name) => {
 		const streams = await fetch("https://api.twitch.tv/helix/streams/?user_login=" + name + "&stream_type=live", { headers : {'Authorization': 'Bearer ' + process.env.TWITCH_TOKEN} })
 			.then(res => res.json());
-		const live = (streams._total == 1);
+		const live = (streams.data.length == 1);
 		
 		return live;
 	}
