@@ -9,7 +9,7 @@ exports.run = async (client, message, arguments, options, permission) => {
 			message.channel.send("Enabled live-pings");
 			break;
 		case "noping":
-			client.pinging = true;
+			client.pinging = false;
 			message.channel.send("Disabled live-pings");
 			break;
 	}
