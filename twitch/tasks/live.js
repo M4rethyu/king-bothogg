@@ -7,7 +7,7 @@ exports.run = async (client) => {
 		} else { // Wasn't live => started streaming
 			client.log("log+", "Erick started streaming");
 			if (client.discord.tasks.get("status").config.ready) client.discord.tasks.get("status").run(client);
-			if (client.pinging && client.discord.tasks.get("liveping").config.ready) client.discord.tasks.get("liveping").run(client); // Automatically live-ping
+			//if (client.pinging && client.discord.tasks.get("liveping").config.ready) client.discord.tasks.get("liveping").run(client); // Automatically live-ping
 		}
 	} else { // Isn't live
 		
