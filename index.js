@@ -92,11 +92,11 @@ async function main() {
       response.sendStatus(200);
     });
     app.listen(process.env.PORT);
-    setInterval(() => {
+    /*setInterval(() => {
       console.log("i pinged myself")
       console.log(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
       http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
-    }, 20000);
+    }, 20000);*/
 	}
 	
 	
