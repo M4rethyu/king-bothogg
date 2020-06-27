@@ -1,9 +1,7 @@
 exports.run = async (client, message, arguments, options, permission) => {
 
-	console.log("hi2")
+	console.log(process.env.PROJECT_DOMAIN)
 
-	if (client.pinging && client.discord.tasks.get("liveping").config.ready) client.discord.tasks.get("liveping").run(client); // Automatically live-ping
-	
 	return;
 };
 
