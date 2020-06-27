@@ -77,25 +77,26 @@ async function main() {
 	
 	client.config.hosted = client.checkHosted(); // Tests if this program is running on glitch
 	if (client.config.hosted) {
-		const http = require('http');
-		const express = require('express');
-		const app = express();
+    console.log("i'm being hosted")
+    
+    const http = require('http');
+    const express = require('express');
+    const app = express();
 		
 		if (!(process.env.RUN == "true")) {
-			app.get("/", (request, response) => { response.sendStatus(204); });
-		app.listen(process.env.PORT);
+      return
 		}
-		
-		while (!(process.env.RUN == "true")) {
-			client.log("log", "bot is idle");
-			await (function(){ return new Promise(resolve => setTimeout(resolve, 5000)); })();
-		}
-		
-		app.get("/", (request, response) => { response.sendStatus(200); });
-		app.listen(process.env.PORT);
-		setInterval(() => {
-			http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
-		}, 280000);
+    
+    app.get("/", (request, response) => {
+      console.log(Date.now() + " Ping Received");
+      response.sendStatus(200);
+    });
+    app.listen(process.env.PORT);
+    setInterval(() => {
+      console.log("i pinged myself")
+      console.log(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
+      http.get(`http://${process.env.PROJECT_DOMAIN}.glitch.me/`);
+    }, 20000);
 	}
 	
 	
@@ -252,7 +253,7 @@ async function main() {
 			resMap.delete(element);
 		});
 		client.discord.responses = new Map([...client.discord.responses,...resMap]);
-		client.log("log", "Loaded: " + Array.from(client.discord.commands.keys()).join(", "));
+		client.log("log", "Loaded: " + Array.from(client.discord.responses.keys()).join(", "));
 		
 		// Load discord events
 		evtFiles = await readdir("./discord/events/");

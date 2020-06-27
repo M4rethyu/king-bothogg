@@ -82,7 +82,7 @@ module.exports = (client) => {
 			const time = (new Date().getTime()) % (24 * 3600 * 1000);
 			var delays = [];
 			for (const t of timeA) {
-				delays.push((t - time + 24 * 3600 * 1000) % (24 * 3600 * 1000) + 50); // Add 50 to make sure
+				delays.push((t - time + 24 * 3600 * 1000) % (24 * 3600 * 1000) + 500); // Add 50 to make sure
 			}
 			delay = Math.min(...delays);
 			

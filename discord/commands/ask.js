@@ -31,6 +31,7 @@ exports.run = async (client, message, arguments, options, permission) => {
 		answer = "This is not a cult."
 	}
 	
+  console.log("hi")
 	message.channel.send(answer);
 	return;
 };
