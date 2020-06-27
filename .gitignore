@@ -1,12 +1,14 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # permanently saved data, shouldn't get transfered between hosted and test version
-#modules/permanentData.json
+modules/permanentData.json
 
 # Twitch/Discord/League config
 twitch/config.json
 discord/config.json
 league/config.json
+
+Start.bat
 
 # compiled output
 /dist
