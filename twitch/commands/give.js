@@ -2,7 +2,14 @@ exports.run = async (client, message, channel, userstate, arguments, options) =>
 	
 	const amount = arguments.amount;
 	var target = arguments.target;
-	
+
+	console.log(amount)
+
+	if (amount == null) {
+		client.twitch.say(channel, "@" + userstate.username + ", that's not a number");
+		return false;
+	}
+
 	if (amount < 0) {
 		client.twitch.say(channel, "@" + userstate.username + ", don't be that guy");
 		return false;
