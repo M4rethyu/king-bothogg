@@ -1,5 +1,5 @@
 exports.run = async (client, message, arguments, options, permission) => {
-	
+
 	for (const opt of options) {
 		const name = opt[0];
 		const args = opt[1];
@@ -36,6 +36,8 @@ exports.config = {
 };
 
 exports.condition = (client, message, arguments, options, permission) => {
-	if (arguments._string.trim() == "" && !message.content.trim() == "" ) return true;
+	console.log(arguments)
+	console.log(message.content)
+	if ((arguments._string.trim() === "") && !(message.content.trim() === "" )) return true;
 	return false;
 };

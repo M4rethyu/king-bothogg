@@ -158,9 +158,9 @@ module.exports = (client) => {
 		var string;
 		if (client.erick.summonerRunes.length > 0) {
 			const runes = client.erick.summonerRunes[0];
-			string =	"Erick is currently playing on https://na.op.gg/summoner/userName=" + runes.accName.replace(" ", "%20") + ". The other accounts are in the twitch description or here: https://bit.ly/2VYs6R6";
+			string =	"Erick is currently playing on https://na.op.gg/summoner/userName=" + runes.accName.replace(" ", "%20") + ". The other accounts are in the twitch description or here: https://bit.ly/39Iwokc";
 		} else {
-			string = "You can find the links to Erick's accounts in the twitch description or here: https://bit.ly/2VYs6R6";
+			string = "You can find the links to Erick's accounts in the twitch description or here: https://bit.ly/39Iwokc";
 		}
 		
 		return string;
