@@ -1,5 +1,7 @@
 exports.run = async (client, message, arguments, options, permission) => {
 
+	console.log(arguments._string)
+
 	for (const opt of options) {
 		const name = opt[0];
 		const args = opt[1];
@@ -21,7 +23,6 @@ exports.run = async (client, message, arguments, options, permission) => {
 	message.delete().catch(e => client.log("error", e));
 	
 	return;
-	return;
 };
 
 exports.config = {
@@ -38,6 +39,6 @@ exports.config = {
 exports.condition = (client, message, arguments, options, permission) => {
 	console.log(arguments)
 	console.log(message.content)
-	if ((arguments._string.trim() === "") && !(message.content.trim() === "" )) return true;
+	if (((arguments._string.trim() === "") && (arguments._command === undefined)) && !(message.content.trim() === "" )) return true;
 	return false;
 };
