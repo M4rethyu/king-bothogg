@@ -47,7 +47,7 @@ module.exports = (client) => {
 		
 		if ((typeof amount) == "number") {
 			client.persist("currency.amount." + name, Math.max(currentAmount + amount, 0));
-			currentAmount += Math.max(currentAmount + amount, 0);
+			currentAmount = Math.max(currentAmount + amount, 0);
 		}
 		
 		return client.persist("currency.amount." + name);

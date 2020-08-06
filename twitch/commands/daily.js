@@ -1,6 +1,6 @@
 exports.run = async (client, message, channel, userstate, arguments, options) => {
 	const usedDaily = client.persist("currency.usedDaily." + userstate.username) || false;
-	if (usedDaily) return false;
+	//if (usedDaily) return false;
 
 	const amount = Math.floor(Math.random()*21) + 10;
 	client.currency(userstate.username, amount);
