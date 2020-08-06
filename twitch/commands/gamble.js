@@ -1,8 +1,5 @@
 exports.run = async (client, message, channel, userstate, arguments, options) => {
 
-	console.log(arguments)
-	console.log(options)
-
 	let chad;
 	switch (arguments.mode) {
 		case "pussy":
