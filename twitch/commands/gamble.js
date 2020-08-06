@@ -20,6 +20,12 @@ exports.run = async (client, message, channel, userstate, arguments, options) =>
 	const amount = arguments.amount
 	const current = client.currency(userstate.username);
 
+	if (amount < 0) {
+		let response = "@" + userstate.username + " don't be so negative.";
+		client.twitch.say(channel, response);
+		return false;
+	}
+
 	if (amount > current) {
 		let response = "@" + userstate.username + " tried to flex with " + client.answers.currencies + " they don't have.";
 		client.twitch.say(channel, response);
