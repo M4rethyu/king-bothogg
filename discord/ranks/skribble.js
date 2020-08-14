@@ -3,5 +3,5 @@ exports.config = {
 	"name" : "Skribble",
 	"roleID" : 577203881277259816,
 	"permission" : 5,
-	"help" : "Get mentioned when The Great Hogg wishes to play Skribble"
+	"help" : "Get mentioned when Erick wishes to play Skribble"
 };

@@ -3,5 +3,5 @@ exports.config = {
 	"name" : "Smash",
 	"roleID" : 644982383812149249,
 	"permission" : 5,
-	"help" : "slide into the DMs -> go on a date -> ~~play~~ smash"
+	"help" : "Remember to bring a controller when she invites you over to smash"
 };
