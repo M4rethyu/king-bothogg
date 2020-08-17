@@ -7,8 +7,11 @@ exports.run = async (client, message, channel, userstate, arguments, options) =>
 	if ((typeof sumAdd) == "number") sum += sumAdd
 	
 	const name = userstate["display-name"];
-	
-	client.twitch.say(channel, "@" + name + " " + client.answers.nidhogg + " (" + n + " times by " + name + ", " + sum + " times total)");
+
+	var s = "@" + name + " " + client.answers.nidhogg
+	//s += " (" + n + " times by " + name + ", " + sum + " times total)"
+
+	client.twitch.say(channel, s);
 	return;
 };
 
