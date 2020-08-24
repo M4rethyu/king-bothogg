@@ -152,7 +152,8 @@ module.exports = async (client, message) => {
 				"spam" : client.discord.config.spamID,
 				"ask" : client.discord.config.askID,
 				"cult" : client.discord.config.cultID,
-				"pummel" : client.discord.config.pummelID
+				"pummel" : client.discord.config.pummelID,
+				"life_help" : client.discord.config.life_helpID
 			}
 			var channels = new Array(); // Initialize array of viable channels
 			for (const category of functions.config.channels.split(/\s+/)) {

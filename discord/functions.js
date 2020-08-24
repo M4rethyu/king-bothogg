@@ -36,7 +36,6 @@ module.exports = (client) => {
 	{
 		return client.discord.channels.get(client.discord.config.arrivalID[0]);
 	}
-	
 	// Get and set cooldowns
 	client.discord.getCooldown = (functions, id) =>
 	{
