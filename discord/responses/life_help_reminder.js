@@ -1,5 +1,5 @@
 exports.run = async (client, message, arguments, options, permission) => {
-	message.channel.send("life help");
+	message.channel.send("reminder to only reply in DMs (check pinned message)");
 	return;
 };
 
