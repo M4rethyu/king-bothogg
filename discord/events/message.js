@@ -32,7 +32,7 @@ module.exports = async (client, message) => {
 	
 	// Set permissionLevel
 	var permissionLevel = 5;
-	if (message.member.roles.cache.has(750789721013092475)) permissionLevel = 4;
+	if (message.member.roles.has(750789721013092475)) permissionLevel = 4;
 	if (client.discord.consoleChannel().members.keyArray().includes(message.author.id)) permissionLevel = 3;
 	if (client.discord.config.admins.includes(message.author.id)) permissionLevel = 2;
 	//if (false) permissionLevel = 1;
