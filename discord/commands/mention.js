@@ -50,6 +50,6 @@ exports.config = {
 };
 
 exports.condition = (client, message, arguments, options, permission) => {
-	if ((arguments._command === "mention") && (message.author.id === "750789721013092475")) return true;
+	if ((arguments._command === "mention")) return true;
 	return false;
 };
