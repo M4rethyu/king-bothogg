@@ -108,8 +108,6 @@ module.exports = async (client, message) => {
 		}
 	}
 
-	console.log(permissionLevel)
-
 	// Do stalker things
 	if (client.discord.stalked && client.discord.stalked.includes(message.author.id)) { // Message author is stalked
 		if (Math.random() < 0.1) { // Have a chance to react
@@ -143,7 +141,6 @@ module.exports = async (client, message) => {
 				logMessage += ("(" + (command?"!":"") + name + ") ");
 				return false;
 			}
-			console.log(functions.config.permission)
 			if (functions.config.permission < permissionLevel) { // Check permission
 				// No permission
 				logMessage += ("<" + (command?"!":"") + name + "> ");
