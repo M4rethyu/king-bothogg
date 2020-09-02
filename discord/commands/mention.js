@@ -45,7 +45,7 @@ exports.config = {
 	"usage" : [
 		"[rank abbreviation]"
 	],
-	"channels" : "spam",
+	"channels" : "all",
 	"help" : "Pings a rank (use !ranks in <#369312036628463617> for a list)"
 };
 
