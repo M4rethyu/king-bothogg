@@ -64,7 +64,7 @@ exports.run = async (client) => {
 
 	let i;
 	if (client.discord.lockdown) {
-		i = Math.floor(Math.random()*liveStati.length);
+		i = Math.floor(Math.random()*lockStati.length);
 		lockStati[i]();
 	} else if (client.twitch.liveStatus) {
 		i = Math.floor(Math.random()*liveStati.length);
