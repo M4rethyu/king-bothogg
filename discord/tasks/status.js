@@ -52,12 +52,25 @@ exports.run = async (client) => {
 			}
 		}))
 	];
-	
-	if (client.twitch.liveStatus) {
-		var i = Math.floor(Math.random()*liveStati.length);
+
+	const lockStati = [
+		(() => client.discord.user.setPresence({
+			game: {
+				name: "gatekeeper",
+				type: "PLAYING"
+			}
+		})),
+	]
+
+	let i;
+	if (client.discord.lockdown) {
+		i = Math.floor(Math.random()*liveStati.length);
+		lockStati[i]();
+	} else if (client.twitch.liveStatus) {
+		i = Math.floor(Math.random()*liveStati.length);
 		liveStati[i]();
 	} else {
-		var i = Math.floor(Math.random()*deadStati.length);
+		i = Math.floor(Math.random()*deadStati.length);
 		deadStati[i]();
 	}
 	
