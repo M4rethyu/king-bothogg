@@ -72,7 +72,8 @@ async function main() {
 	require("./modules/functions.js")(client); // Bind functions directly to client
 	
 	(async () => { client.twitch.liveStatus = await client.twitch.live("king_nidhogg") })(); // Initiate live status
-	
+	client.discord.lockdown = false;
+
 	client.getSummonerAccounts();
 	
 	client.config.hosted = client.checkHosted(); // Tests if this program is running on glitch

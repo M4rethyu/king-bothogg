@@ -36,6 +36,16 @@ module.exports = (client) => {
 	{
 		return client.discord.channels.get(client.discord.config.arrivalID[0]);
 	}
+	client.discord.raiderRole = () =>
+	{
+		let guild
+		let role
+		for (guild of client.discord.guilds) {
+			role = guild[1].roles.get(client.discord.config.raiderRoleID[0]);
+			if (role !== undefined) return role
+		}
+		return undefined
+	}
 	// Get and set cooldowns
 	client.discord.getCooldown = (functions, id) =>
 	{
