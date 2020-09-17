@@ -33,6 +33,15 @@ exports.run = async (client, message, arguments, options, permission) => {
 				message.channel.send("Lockdown is currently off.");
 			}
 			break;
+		case "list":
+			raiders = message.guild.members.filter(member => (member.roles.has(raiderRole.id)));
+			let s = []
+			for (raider of raiders) {
+				raider = raider[1];
+				s.push(raider.toString())
+			}
+			message.channel.send("Listing everyone with "+raiderRole+":\n"+s.join(", "));
+			break;
 		case "clear":
 			raiders = message.guild.members.filter(member => (member.roles.has(raiderRole.id)));
 			for (raider of raiders) {
@@ -68,7 +77,7 @@ exports.run = async (client, message, arguments, options, permission) => {
 			}
 			break;
 		default:
-			message.channel.send("'"+keyword+"' is an invald keyword. use on/off/status/clear/kick/ban");
+			message.channel.send("'"+keyword+"' is an invald keyword. use on/off/status/list/clear/kick/ban");
 	}
 
 	return;
@@ -82,7 +91,7 @@ exports.config = {
 		"keyword_w"
 	],
 	"usage" : [
-		"on/off/status/clear/kick/ban"
+		"on/off/status/list/clear/kick/ban"
 	],
 	"channels" : "spam",
 	"help" : "A tool to prevent raids"
