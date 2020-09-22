@@ -8,6 +8,10 @@ module.exports = (client) => {
 	{
 		return client.discord.channels.get(client.discord.config.logID[0]);
 	}
+	client.discord.logChannel2 = () =>
+	{
+		return client.discord.channels.get(client.discord.config.logID[1]);
+	}
 	client.discord.consoleChannel = () =>
 	{
 		return client.discord.channels.get(client.discord.config.consoleID[0]);
@@ -35,6 +39,17 @@ module.exports = (client) => {
 	client.discord.arrivalChannel = () =>
 	{
 		return client.discord.channels.get(client.discord.config.arrivalID[0]);
+	}
+	client.discord.log = {};
+	client.discord.log.new = (message) => {
+		let logChannel = client.discord.logChannel2()
+		logChannel.send({
+			"embed": {
+				"description": message.channel+", "+message.author+": "+message.content,
+				"color": message.member.displayColor
+			}
+		})
+
 	}
 	client.discord.raiderRole = () =>
 	{

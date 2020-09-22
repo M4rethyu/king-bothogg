@@ -28,8 +28,10 @@ module.exports = async (client, message) => {
 		message.content = message.content.replace(regex, "");
 		options.set("secret", [secret[0].length]);
 	} // If message author isn't owner, this option will be filtered out below
-	
-	
+
+	// Log message
+	client.discord.log.new(message)
+
 	// Set permissionLevel
 	var permissionLevel = 5;
 	if (message.member.roles.has(750789721013092475)) permissionLevel = 4;
@@ -38,7 +40,7 @@ module.exports = async (client, message) => {
 	//if (false) permissionLevel = 1;
 	if (client.discord.config.owner.includes(message.author.id)) permissionLevel = 0;
 	var permission = permissionLevel;
-	
+
 	// Temporary: block all plebs
 	//if (permission > 3) return;
 	
