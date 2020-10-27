@@ -43,10 +43,12 @@ module.exports = (client) => {
 	client.discord.log = {};
 	client.discord.log.new = (message) => {
 		let logChannel = client.discord.logChannel2()
+		// Get the guild member of a user
+		//const member = message.guild.member(message.author);
 		logChannel.send({
 			"embed": {
-				"description": message.channel+", "+message.author+": "+message.content,
-				"color": message.member.displayColor
+				"description": message.channel+", "+message.author+": "+message.content/*,
+				"color": member.displayColor*/
 			}
 		})
 
