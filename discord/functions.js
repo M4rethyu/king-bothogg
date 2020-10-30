@@ -47,8 +47,8 @@ module.exports = (client) => {
 		//const member = message.guild.member(message.author);
 		logChannel.send({
 			"embed": {
-				"description": message.channel+", "+message.author+": "+message.content/*,
-				"color": member.displayColor*/
+				"description": message.channel+", "+message.author+": "+message.content,
+				"color": message.member.displayColor
 			}
 		})
 
