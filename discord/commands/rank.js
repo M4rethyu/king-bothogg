@@ -40,8 +40,11 @@ exports.run = async (client, message, arguments, options, permission) => {
 	
 	if (!(target.id == message.author.id) && permission > 3) {
 		if (!silent) channel.send(message.author + ", you don't have permission to assign ranks to others");
+		return false;
 	}
-	
+
+	console.log(target)
+
 	if (target.roles.find(r => r.id == rank.roleID)) {
 		target.removeRole(role)
 			.then(
