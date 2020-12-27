@@ -28,9 +28,13 @@ exports.run = async (client, message, arguments, options, permission) => {
                 s += reaction.emoji + " : " + users.join(", ") + "\n";
             }
         }
-        message.channel.send(s);
+        await message.channel.send({
+            "embed": {
+                "description": s
+            }
+        })
     } else {
-        message.channel.send("Couldn't find requested message in this server");
+        await message.channel.send("Couldn't find requested message in this server");
     }
 
 };
