@@ -1,7 +1,9 @@
 exports.run = async (client, message, arguments, options, permission) => {
 	const channel = message.channel;
 
-	silent = (options.get("s")?true:false);
+	const silent = (options.get("s")?true:false);
+
+	const reactions = (options.get("r")?true:false);
 
 	if (arguments.rank == null) {
 		if (!silent) channel.send(message.author + ", please specify a rank");
@@ -26,11 +28,27 @@ exports.run = async (client, message, arguments, options, permission) => {
 
 	const role = message.guild.roles.find(r => r.id == rank.roleID);
 	if (!role) {
-		if (!silent) channel.send(message.author + ", this rank's role doesn't exist. Please ping a mod, if you think this is unintended");
+		if (!silent) channel.send(message.author + ", this rank's role doesn't exist");
 		return false;
 	}
 
-	if (!silent) channel.send(role + ", you have been summoned by " + message.author);
+	if (!silent) {
+		if (reactions) {
+			let m = await channel.send(role + ", you have been summoned by " + message.author + ". Use reactions to indicate how many minutes you'll take to get ready");
+			try {
+				await m.react("0️⃣")
+				await m.react("5️⃣")
+				await m.react("🔟")
+			} catch (e) {
+				console.error(e)
+			}
+
+
+		} else {
+			channel.send(role + ", you have been summoned by " + message.author);
+		}
+
+	}
 
 	return true;
 };
