@@ -102,7 +102,7 @@ module.exports = (client) => {
 	// Resolve non-specific objects
 	client.resolveNumber = (message, string) => { // Resolve number (integer)
 		
-		const regex = /^([-0-9]+)/; // Pattern a word has
+		const regex = /^([-0-9]+)/; // Pattern a number has
 		string = string.trim();
 		var res = regex.exec(string);
 		
@@ -113,6 +113,19 @@ module.exports = (client) => {
 		else string = string.replace(regex, "");
 		
 		return [string, number];
+	}
+	client.resolveID = (message, string) => { // Resolve word
+
+		const regex = /^([0-9]+)/; // Pattern an ID has
+		string = string.trim();
+		var res = regex.exec(string);
+
+		if (res == null) return [string, null];
+
+		word = res[1];
+		string = string.replace(regex, "");
+
+		return [string, word];
 	}
 	client.resolveWord = (message, string) => { // Resolve word
 		
@@ -161,6 +174,10 @@ module.exports = (client) => {
 		"w" : {
 			"name" : "word", // Get a word
 			"function" : client.resolveWord
+		},
+		"id" : {
+			"name" : "ID", // Get an ID
+			"function" : client.resolveID
 		}
 	};
 	

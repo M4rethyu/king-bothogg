@@ -267,7 +267,7 @@ module.exports = async (client, message) => {
 				functions.run(client, message, arguments, options, permission);
 				client.discord.setCooldown(functions, id);
 				
-			// Don't stop checking once one responses was triggered (no "break;")
+			// Don't stop checking once one response was triggered (no "break;")
 		}
 	}
 	

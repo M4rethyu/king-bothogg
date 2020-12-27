@@ -36,11 +36,11 @@ exports.run = async (client, message, arguments, options, permission) => {
 		if (reactions) {
 			let m = await channel.send(role + ", you have been summoned by " + message.author + ". Use reactions to indicate how many minutes you'll take to get ready");
 			try {
-				await m.react("0️⃣")
-				await m.react("5️⃣")
-				await m.react("🔟")
+				await m.react("0️⃣");
+				await m.react("5️⃣");
+				await m.react("🔟");
 			} catch (e) {
-				console.error(e)
+				console.error(e);
 			}
 
 
