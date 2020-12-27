@@ -21,7 +21,12 @@ exports.run = async (client, message, arguments, options, permission) => {
         let s = "";
 
         for (const reaction of m.reactions.array()) {
-            s += reaction.emoji + " : " + reaction.users.array().join(", ") + "\n";
+            let users = reaction.users.filter(u => {
+                return u.id !== client.discord.user.id
+            }).array()
+            if (users.length > 0) {
+                s += reaction.emoji + " : " + users.join(", ") + "\n";
+            }
         }
         message.channel.send(s);
     } else {
