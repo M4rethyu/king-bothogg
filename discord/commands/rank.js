@@ -43,8 +43,6 @@ exports.run = async (client, message, arguments, options, permission) => {
 		return false;
 	}
 
-	console.log(target)
-
 	if (target.roles.find(r => r.id == rank.roleID)) {
 		target.removeRole(role)
 			.then(
