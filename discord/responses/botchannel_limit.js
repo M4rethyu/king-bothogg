@@ -13,9 +13,11 @@ exports.run = async (client, message, arguments, options, permission) => {
 
 	await voicechannel.setUserLimit(limit);
 
-	limit = ((limit === 0)?("unbegrenzt"):(limit));
-
-	controlchannel.send(`${message.author}` + ", das Nutzerlimit für den Channel **" + voicechannel.name + "** wurde auf " + limit + " geändert");
+	if (limit === 0) {
+		controlchannel.send(`${message.author}` + ", the userlimit for your channel has been set to " + limit);
+	} else {
+		controlchannel.send(`${message.author}` + ", the userlimit for your channel has been removed");
+	}
 	return true;
 };
 

@@ -54,7 +54,7 @@ exports.run = async (client, message, arguments, options, permission) => {
             let id = chan.id;
             var role = message.guild.roles.find(testedrole => testedrole.name === "@everyone");
             var mod_role = message.guild.roles.get("211329653250588672");
-            var overrides = [{type:'user', id:client.user.id, allowed:0x400}, {type:'role', id:role.id, denied:0x400}, {type:'user', id:user.id, allowed:0x400}]
+            var overrides = [{type:'user', id:client.discord.user.id, allowed:0x400}, {type:'role', id:role.id, denied:0x400}, {type:'user', id:user.id, allowed:0x400}]
             if (mod_role) {
                 overrides.concat({type:'role', id:mod_role.id, allowed:0x400})
             }
