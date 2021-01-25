@@ -3,6 +3,11 @@
 const fetch = require("node-fetch");
 
 module.exports = (client) => {
+	// The server
+	client.discord.mainServer = () =>
+	{
+		return client.discord.guilds.get(client.discord.config.serverID);
+	}
 	// Special channels
 	client.discord.logChannel = () =>
 	{
@@ -39,6 +44,10 @@ module.exports = (client) => {
 	client.discord.arrivalChannel = () =>
 	{
 		return client.discord.channels.get(client.discord.config.arrivalID[0]);
+	}
+	client.discord.gameChannel = () =>
+	{
+		return client.discord.channels.get(client.discord.config.gameChannelID[0]);
 	}
 	client.discord.log = {};
 	client.discord.log.new = (message) => {
@@ -96,7 +105,106 @@ module.exports = (client) => {
 			functions.lastUsed[id] = (new Date()).getTime();
 		}
 	}
-	
+
+	// game channel functions
+	client.discord.getGamesCategory = (server) =>
+	{
+		for (var i = 0; i < server.channels.array().length; i++) {
+			var currentchannel = server.channels.array()[i];
+			if (currentchannel.name.includes("BOT-VOICECHANNELS")) {
+				return currentchannel;
+			}
+		}
+	}
+	client.discord.updateGamesCategory = (server) =>
+	{
+		let category = client.discord.getGamesCategory(server);
+
+		let createdchannels = server.channels.filter(chan => chan.name.includes("[botchannel]"));
+		category.setName("BOT-VOICECHANNELS (" + createdchannels.size + "/10)");
+
+	}
+	client.discord.makeVoiceChannel = async (server, name, limit) =>
+	{
+		let category = client.discord.getGamesCategory(server);
+
+		let createdchannel;
+		await server.createChannel(name + " [botchannel]", "voice").then(
+			(chan) => {
+				chan.setParent(category.id);
+				if (limit >= 0 && limit < 100) {
+					chan.setUserLimit(limit);
+				}
+				createdchannel = chan;
+			}
+		).catch(console.error);
+		setTimeout(function() {client.discord.updateGamesCategory(server);}, 1000);
+		console.log("done creating voicechannel " + createdchannel.name + " and returning it to command");
+		return createdchannel;
+	}
+	client.discord.makeTextChannel = async (server, name, desc, overrides) =>
+	{
+		try{
+			let category = client.discord.getGamesCategory(server);
+			let createdchannel;
+			await server.createChannel(name, "text", (overrides)?(overrides):(null)).then(
+				(chan) => {
+					chan.setParent(category.id);
+					chan.setTopic(desc);
+					createdchannel = chan;
+				}
+			).catch(console.error);
+			console.log("done creating voicechannel " + createdchannel.name + " and returning it to command");
+			return createdchannel;
+		}catch(err){console.log(err);}
+	}
+	client.discord.getGamesChannels = (server) =>
+	{
+		var channels = server.channels.array();
+		var botchannels = [];
+		for (var i = 0; i < channels.length; i++) {
+			var currentchannel = channels[i];
+			if (currentchannel.name.includes("-botchannel")) {
+
+				var nameparts = currentchannel.name.split("-");
+				let voicechannel = server.channels.get(nameparts[nameparts.length - 2]);
+
+				if (voicechannel === undefined) {
+					currentchannel.delete();
+					console.log("deleted controlchannel that had no voicechannel");
+				} else {
+					if (voicechannel.name.includes("[botchannel]")) {
+						botchannels.push([currentchannel, voicechannel]);
+					} else {
+						console.log("voicechannel with id " + voicechannel.id + "doesn't have tag [botchannel]");
+						botchannels.push([currentchannel, voicechannel]);
+					}
+				}
+			}
+		}
+		return botchannels;
+	}
+	client.discord.updateGamesChannels = (server) =>
+	{
+		//Get active and inactive channels in arrays
+		let channels = client.discord.getGamesChannels(server);
+
+		//Going through active channels
+		var n = 0; //keep track of how many channels get deleted
+		for (var i = 0; i < channels.length; i++) {
+			var currentchannel = channels[i][1];
+			if (currentchannel.members.size === 0) {
+				//Channel is empty: Delete
+				currentchannel.delete();
+				channels[i][0].delete();
+				n++;
+			}
+			//Channel currently used: Don't take any action
+		}
+		console.log("deleted " + n + " channels in server " + server);
+		setTimeout(function() {client.discord.updateGamesCategory(server);}, 1000);
+	}
+
 	// Resolve discord-objects
 	client.discord.resolveChannel = (message, string) => { // Resolve Discord channel
 		const guild = message.guild;

@@ -154,6 +154,7 @@ module.exports = async (client, message) => {
 				"log" : client.discord.config.logID,
 				"console" : client.discord.config.consoleID,
 				"spam" : client.discord.config.spamID,
+				"game" : client.discord.config.gameChannelID,
 				"ask" : client.discord.config.askID,
 				"cult" : client.discord.config.cultID,
 				"pummel" : client.discord.config.pummelID,
@@ -163,6 +164,8 @@ module.exports = async (client, message) => {
 			for (const category of functions.config.channels.split(/\s+/)) {
 				if (Object.keys(categories).includes(category)) {
 					channels = channels.concat(categories[category]) // Add channels of all categories in config
+				} else if (category === "controlchannel") {
+					channels = channels.concat(client.discord.getGamesChannels(guild).map(c => c[0].id))
 				} else {
 					client.log("warn", (command?"command":"response") + name + " has channel limitation " + category + " which doesn't exist.") // Debug help
 				}
