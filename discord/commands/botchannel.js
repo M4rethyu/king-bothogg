@@ -55,7 +55,6 @@ exports.run = async (client, message, arguments, options, permission) => {
             var role = message.guild.roles.find(testedrole => testedrole.name === "@everyone");
             var mod_role = message.guild.roles.get("211329653250588672");
             var overrides = [{type:'role', id:role.id, denied:0x400}, {type:'user', id:user.id, allowed:0x400}]
-            console.log(mod_role)
             if (mod_role) {
                 overrides.concat({type:'role', id:mod_role.id, allowed:0x400})
             }
