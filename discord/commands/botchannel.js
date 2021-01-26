@@ -70,6 +70,7 @@ exports.run = async (client, message, arguments, options, permission) => {
         }
     );
 
+    message.delete();
     return;
 };
 
