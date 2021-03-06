@@ -95,8 +95,8 @@ async function main() {
     app.listen(process.env.PORT);
     setInterval(() => {
       console.log("i'm pinging myself")
-      console.log(`https://king-bothogg-1--m4rethyu.repl.co/`);
-      http.get(`https://king-bothogg-1--m4rethyu.repl.co/`);
+      console.log(`http://king-bothogg-1--m4rethyu.repl.co/`);
+      http.get(`http://king-bothogg-1--m4rethyu.repl.co/`);
     }, 20000);
 	}
 	
