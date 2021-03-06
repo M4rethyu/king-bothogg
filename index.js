@@ -94,17 +94,16 @@ async function main() {
 		});
 		app.listen(process.env.PORT);
 		*/
-		/*
+
 		http.createServer((req, res) => {
-			res.end()
-		}).listen(process.env);
+			console.log("received reqest: '" + req + "'");
+			res.end();
+		}).listen(3000);
 		setInterval(() => {
 		  console.log("i'm pinging myself")
 		  console.log(`http://king-bothogg-1--m4rethyu.repl.co/`);
 		  http.get(`http://king-bothogg-1--m4rethyu.repl.co/`);
-		}, 20000);
-		*/
-		console.log(process.env)
+		}, 200000);
 	}
 	
 	
