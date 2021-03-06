@@ -78,26 +78,33 @@ async function main() {
 	
 	client.config.hosted = client.checkHosted(); // Tests if this program is running on glitch
 	if (client.config.hosted) {
-    console.log("i'm being hosted")
-    
-    const http = require('http');
-    const express = require('express');
-    const app = express();
-		
+		console.log("i'm being hosted")
+
+		const http = require('http');
+		//const express = require('express');
+		//const app = express();
+
 		if (!(process.env.RUN == "true")) {
-      return
+			return
 		}
-    
-    app.get("/", (request, response) => {
-      console.log(Date.now() + " Ping Received");
-      response.sendStatus(200);
-    });
-    app.listen(process.env.PORT);
-    setInterval(() => {
-      console.log("i'm pinging myself")
-      console.log(`http://king-bothogg-1--m4rethyu.repl.co/`);
-      http.get(`http://king-bothogg-1--m4rethyu.repl.co/`);
-    }, 20000);
+		/*
+		app.get("/", (request, response) => {
+		  console.log(Date.now() + " Ping Received");
+		  response.sendStatus(200);
+		});
+		app.listen(process.env.PORT);
+		*/
+		/*
+		http.createServer((req, res) => {
+			res.end()
+		}).listen(process.env);
+		setInterval(() => {
+		  console.log("i'm pinging myself")
+		  console.log(`http://king-bothogg-1--m4rethyu.repl.co/`);
+		  http.get(`http://king-bothogg-1--m4rethyu.repl.co/`);
+		}, 20000);
+		*/
+		console.log(process.env)
 	}
 	
 	
